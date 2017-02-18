@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../../../../Desktop/union4.png</file>
+        <file>../../../../Desktop/controladorFlujo1.png</file>
+        <file>../../../../Desktop/tuberiaUnion2.png</file>
+        <file>../../../../Desktop/tuberiaVertical.jpg</file>
+        <file>../../../../Desktop/tuberiaHorizontal.jpg</file>
+        <file>../../../../Desktop/tuberiaUnion3.png</file>
+        <file>../../../../Desktop/tuberiaUnion2 copy.png</file>
+        <file>../../../../Desktop/quirema.png</file>
+        <file>../../../../Desktop/tuberiaUnion4 copy.png</file>
+        <file>../../../../Desktop/tuberiaUnion4.png</file>
+        <file>../../../../Desktop/tuberiaUnion4 copy 2.png</file>
+        <file>../../../../Desktop/horno.png</file>
+        <file>../../../../Desktop/cilindro.png</file>
+        <file>../../../../Desktop/saturador.png</file>
+        <file>../../../../Desktop/battery.png</file>
+        <file>../../../../Desktop/valve.png</file>
+        <file>../../../../Desktop/flecha.png</file>
+        <file>../../../../Desktop/line.png</file>
+        <file>../../../../Desktop/line copy.png</file>
+    </qresource>
+</RCC>
