@@ -337,15 +337,72 @@ class Ui_MainWindow(object):
         pass
 
     def actualizaValoresTimer(self):
+        self.lecturaDatosPID_PLC = modbusClass.modbus()
+        self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
+        # Actualiza valor pid
         try:
-            self.lecturaDatosPID_PLC = modbusClass.modbus()
-            self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
-            #Buttons
             self.buttonTiempoMuestreo.setText(str(self.datosPID_PLC[0]))
-            
         except:
-            print("error actualizacion pid")
-            
+            pass
+
+        try:
+            self.buttonGanProporcional.setText(str(self.datosPID_PLC[1]))
+        except:
+            pass
+
+        try:
+            self.buttonGanIntegral.setText(str(self.datosPID_PLC[2]))
+        except:
+            pass
+
+        try:
+            self.buttonGanDerivativa.setText(str(self.datosPID_PLC[3]))
+        except:
+            pass
+        try:
+            self.buttonDireccionControl.setText(str(self.datosPID_PLC[4]))
+        except:
+            pass
+        try:
+            self.buttonRangoToleranciaError.setText(str(self.datosPID_PLC[5]))
+        except:
+            pass
+        try:
+            self.buttonLimiteSuperiorSalida.setText(str(self.datosPID_PLC[6]))
+        except:
+            pass
+        try:
+            self.buttonLimiteInferiorSalida.setText(str(self.datosPID_PLC[7]))
+        except:
+            pass
+        try:
+            self.buttonLimiteSuperiorIntegral.setText(str(self.datosPID_PLC[8]))
+        except:
+            pass
+        try:
+            self.buttonLimiteInferiorIntegral.setText(str(self.datosPID_PLC[9]))
+        except:
+            pass
+        try:
+            self.buttonValIntegralAcumulado.setText(str(self.datosPID_PLC[10]))
+        except:
+            pass
+        try:
+            self.buttonPVAnterior.setText(str(self.datosPID_PLC[11]))
+        except:
+            pass
+        try:
+            self.buttonSetValue.setText(str(self.datosPID_PLC[12]))
+        except:
+            pass
+        try:    
+            self.buttonPresentValue.setText(str(self.datosPID_PLC[13]))
+        except:
+            pass
+        try:
+            self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
+        except:
+            pass    
         threading.Timer(1.0, self.actualizaValoresTimer).start()
 
 
