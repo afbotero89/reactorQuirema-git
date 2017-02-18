@@ -14,6 +14,7 @@ import Home
 import calculadora
 import sqlite3
 import dbSQLClass
+import threading
 
 
 
@@ -228,6 +229,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.actualizaValoresTimer()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("Parametros PID", "Parametros PID"))
@@ -332,6 +335,33 @@ class Ui_MainWindow(object):
     def reloadMainWindow(self):
         #Buttons
         pass
+
+    def actualizaValoresTimer(self):
+        try:
+            self.lecturaDatosPID_PLC = modbusClass.modbus()
+            self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
+            #Buttons
+            self.buttonTiempoMuestreo.setText(_translate("MainWindow", str(self.datosPID_PLC[0])))
+            self.buttonGanProporcional.setText(_translate("MainWindow", str(self.datosPID_PLC[1])))
+            self.buttonGanIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[2])))
+            self.buttonGanDerivativa.setText(_translate("MainWindow", str(self.datosPID_PLC[3])))
+            self.buttonDireccionControl.setText(_translate("MainWindow", str(self.datosPID_PLC[4])))
+            self.buttonRangoToleranciaError.setText(_translate("MainWindow", str(self.datosPID_PLC[5])))
+            self.buttonLimiteSuperiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[6])))
+            self.buttonLimiteInferiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[7])))
+            self.buttonLimiteSuperiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[8])))
+            self.buttonLimiteInferiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[9])))
+            self.buttonValIntegralAcumulado.setText(_translate("MainWindow", str(self.datosPID_PLC[10])))
+            self.buttonPVAnterior.setText(_translate("MainWindow", str(self.datosPID_PLC[11])))
+            self.buttonSetValue.setText(_translate("MainWindow", str(self.datosPID_PLC[12])))
+            self.buttonPresentValue.setText(_translate("MainWindow", str(self.datosPID_PLC[13])))
+            self.buttonGPWM.setText(_translate("MainWindow", str(self.datosPID_PLC[14])))
+            
+        except:
+            print("error actualizacion pid")
+            
+        threading.Timer(0.5, self.actualizaValoresTimer).start()
+
 
 if __name__ == "__main__":
     import sys
