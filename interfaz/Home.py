@@ -37,6 +37,14 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setStyleSheet(buttonStyle)
 
+        self.pushButtonIcon = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonIcon.setGeometry(QtCore.QRect(130, 105, 100, 70))
+        self.pushButtonIcon.setObjectName("pushButton")
+
+        rMyIcon = QtGui.QPixmap("../images/quirema.png")
+        self.pushButtonIcon.setIconSize(QtCore.QSize(70,70))
+        self.pushButtonIcon.setIcon(QtGui.QIcon(rMyIcon))
+
         self.pushButton_2 = QtWidgets.QPushButton(self.centralWidget)
         self.pushButton_2.setGeometry(QtCore.QRect(410, 100, 271, 80))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -129,7 +137,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("Control PLC", "Control PLC"))
-        self.pushButton.setText(_translate("MainWindow", "PID"))
+        self.pushButton.setText(_translate("MainWindow", "              PID"))
         self.pushButton_2.setText(_translate("MainWindow", "Escalado"))
         self.pushButton_3.setText(_translate("MainWindow", "Alarmas"))
         self.pushButton_4.setText(_translate("MainWindow", "Recetas"))

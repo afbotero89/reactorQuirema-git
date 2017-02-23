@@ -318,10 +318,12 @@ class Ui_MainWindow(object):
     def back(self):
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
         self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
+        self.t.cancel()
 
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
+        self.t.cancel()
 
     def displayCalculadora(self, parametroPIDSeleccionado):
         if parametroPIDSeleccionado == 'play':
@@ -331,6 +333,7 @@ class Ui_MainWindow(object):
             self.calculadora = calculadora.Ui_MainWindow()
             self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector)
             MainWindow.show()
+        
 
     def reloadMainWindow(self):
         #Buttons
@@ -403,7 +406,8 @@ class Ui_MainWindow(object):
             self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
         except:
             pass    
-        threading.Timer(1.0, self.actualizaValoresTimer).start()
+        self.t = threading.Timer(1.0, self.actualizaValoresTimer)
+        self.t.start()
 
 
 if __name__ == "__main__":
