@@ -49,7 +49,6 @@ class modbus:
 	def readRegisterHorno1(self, horno_manta_seleccionada):
 		print("horno=",horno_manta_seleccionada)
 		try:
-			
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1
 			elif(horno_manta_seleccionada=='horno2'):
@@ -100,56 +99,55 @@ class modbus:
 	###################################################		
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
 
-                print('horno seleccionadoX=',horno_mantaSeleccionada)
-                if (horno_mantaSeleccionada=='horno1'):
-                        vectorRegistros = self.vectorRegistrosHorno1
-                elif(horno_mantaSeleccionada=='horno2'):
-                        vectorRegistros = self.vectorRegistrosHorno2
-                elif(horno_mantaSeleccionada=='horno3'):
-                        vectorRegistros = self.vectorRegistrosHorno3
-                elif(horno_mantaSeleccionada=='horno4'):
-                        vectorRegistros = self.vectorRegistrosHorno4
+		try:
+			print('horno seleccionadoX=',horno_mantaSeleccionada)
+			if (horno_mantaSeleccionada=='horno1'):
+			        vectorRegistros = self.vectorRegistrosHorno1
+			elif(horno_mantaSeleccionada=='horno2'):
+			        vectorRegistros = self.vectorRegistrosHorno2
+			elif(horno_mantaSeleccionada=='horno3'):
+			        vectorRegistros = self.vectorRegistrosHorno3
+			elif(horno_mantaSeleccionada=='horno4'):
+			        vectorRegistros = self.vectorRegistrosHorno4
 
-                if variablePID == 'tiempoMuestreo':
-                        registro = vectorRegistros[0]
-                elif variablePID == 'gananciaProporcional':
-                        registro = vectorRegistros[1]
-                elif variablePID == 'gananciaIntegral':
-                        registro = vectorRegistros[2]
-                elif variablePID == 'gananciaDerivativa':
-                        registro = vectorRegistros[3]
-                elif variablePID == 'direccionControl':
-                        registro = vectorRegistros[4]
-                elif variablePID == 'RangoToleranciaError':
-                        registro = vectorRegistros[5]
-                elif variablePID == 'limiteSuperiorSalida':
-                        registro = vectorRegistros[6]
-                elif variablePID == 'limiteInferiorSalida':
-                        registro = vectorRegistros[7]
-                elif variablePID == 'LimiteSuperiorIntegral':
-                        registro = vectorRegistros[8]
-                elif variablePID == 'limiteInferiorIntegral':
-                        registro = vectorRegistros[9]
-                elif variablePID == 'valorIntegralAcumulado':
-                        registro = vectorRegistros[10]	
-                elif variablePID == 'PVAnterior':
-                        registro = vectorRegistros[11]
-                elif variablePID == 'setValue':
-                        registro = vectorRegistros[12]
-                elif variablePID == 'presentValue':
-                        registro = vectorRegistros[13]
-                elif variablePID == 'gpwm':
-                        registro = vectorRegistros[14]
+			if variablePID == 'tiempoMuestreo':
+			        registro = vectorRegistros[0]
+			elif variablePID == 'gananciaProporcional':
+			        registro = vectorRegistros[1]
+			elif variablePID == 'gananciaIntegral':
+			        registro = vectorRegistros[2]
+			elif variablePID == 'gananciaDerivativa':
+			        registro = vectorRegistros[3]
+			elif variablePID == 'direccionControl':
+			        registro = vectorRegistros[4]
+			elif variablePID == 'RangoToleranciaError':
+			        registro = vectorRegistros[5]
+			elif variablePID == 'limiteSuperiorSalida':
+			        registro = vectorRegistros[6]
+			elif variablePID == 'limiteInferiorSalida':
+			        registro = vectorRegistros[7]
+			elif variablePID == 'LimiteSuperiorIntegral':
+			        registro = vectorRegistros[8]
+			elif variablePID == 'limiteInferiorIntegral':
+			        registro = vectorRegistros[9]
+			elif variablePID == 'valorIntegralAcumulado':
+			        registro = vectorRegistros[10]	
+			elif variablePID == 'PVAnterior':
+			        registro = vectorRegistros[11]
+			elif variablePID == 'setValue':
+			        registro = vectorRegistros[12]
+			elif variablePID == 'presentValue':
+			        registro = vectorRegistros[13]
+			elif variablePID == 'gpwm':
+			        registro = vectorRegistros[14]
 
-                self.instrument.write_register(registro,valorPID,1)
-		
-
-
-
+			self.instrument.write_register(registro,valorPID,1)
+		except:
+			print("error de escritura")
 	
-	###################################################
-	### Hornos Escritura de datos, vista variables PID
-	###################################################	
+	######################################################
+	### Hornos Escritura de datos, vista variables PID ###
+	######################################################	
 	def read_variablesVistaReactor(self):
 		try:
 			setValue_Horno1 = self.instrument.read_register(self.vectorRegistrosHorno1[12],1)
@@ -175,7 +173,7 @@ class modbus:
                                 setValue_Horno4,
                                 presentValue_Horno4)
 		except:
-			return ('--','--')
+			return ('--','--','--','--','--','--','--','--')
 
 
 	################################################

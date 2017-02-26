@@ -329,6 +329,7 @@ class Ui_MainWindow(object):
         if parametroPIDSeleccionado == 'play':
             pass
         else:
+            self.MainWindow.enabled(False);
             MainWindow = QtWidgets.QMainWindow()
             self.calculadora = calculadora.Ui_MainWindow()
             self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector)

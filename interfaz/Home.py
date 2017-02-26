@@ -10,7 +10,7 @@ sys.path.append('../DB_SQL')
 import dbSQLClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters 
-import UI_Alarms
+import alarmsMainWindow
 import calculadora
 import reactorMainWindow
 
@@ -156,7 +156,7 @@ class Ui_MainWindow(object):
         self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
 
     def alarms(self):
-        self.alarms = UI_Alarms.Ui_MainWindow_Alarms()
+        self.alarms = alarmsMainWindow.Ui_MainWindow()
         self.alarms.setupUi(self.MainWindow)
 
     def recetas(self):
