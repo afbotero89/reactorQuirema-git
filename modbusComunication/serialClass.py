@@ -132,7 +132,7 @@ class modbus:
 			startBit = ':'  #Bit de inicio
 			stopbits = '\r\n' #Bis de stop
 			prefijo = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
-			sufijo = '000B' #Numero de registros a leer, 11 en este caso
+			sufijo = '000D' #Numero de registros a leer, 11 en este caso
 
 			###### leyendo 11 registros 000B registros #######
 			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
@@ -159,7 +159,7 @@ class modbus:
 
 			time.sleep(0.1)
 
-			tiempoMuestreo = self.s.readline()
+			tiempoMuestreo = self.s.readline()   # lee serial
 			try:
 				# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
 
@@ -171,12 +171,12 @@ class modbus:
 
 				# Agrupo lista en grupos de cuatro
 
-			
-				for i in range(23):
+				print(registros, "longitud vector = ", len(registros))
+				for i in range(26):
 					self.registrosPIDHornosLectura.append(registros[i*2] + registros[i*2 + 1])
 
 
-				for i in range(11):
+				for i in range(13):
 					self.registrosHorno.append(self.registrosPIDHornosLectura[i*2] + self.registrosPIDHornosLectura[i*2 + 1])
 
 				hora = time.strftime("%H:%M:%S")
@@ -192,7 +192,7 @@ class modbus:
 						int(self.registrosHorno[8],16),
 						int(self.registrosHorno[9],16),
 						int(self.registrosHorno[10],16),
-						tiempoMuestreo,
+						int(self.registrosHorno[12],16),
 						tiempoMuestreo,
 						tiempoMuestreo,
 						tiempoMuestreo)
@@ -272,7 +272,7 @@ class modbus:
 				checkSum = '0' + checkSum  # El check sum debe ir en dos bytes (ej: si es F, debe convertirse en 0F)
 
 			modbusCommand = startBit + modbusCommand + checkSum + stopbits
-			print(modbusCommand)
+			
 			self.s.write(bytes(modbusCommand,'UTF-8'))
 			#self.instrument.write_register(registro,valorPID,1)
 		#except:
