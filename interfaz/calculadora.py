@@ -13,7 +13,7 @@ import sqlite3
 import reactorMainWindow
 import sys
 sys.path.append('../modbusComunication')
-import modbusClass
+import serialClass
 
 
 class Ui_MainWindow(object):
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.setValueString = ""
         self.variablePIDSeleccionada = variablePIDSeleccionada
         self.horno_manta_seleccionada = horno_manta_seleccionada
-        self.instanciaModbus = modbusClass.modbus()
+        self.instanciaModbus = serialClass.modbus()
         self.sectionVector = sectionVector
 
         MainWindow.setObjectName("MainWindow")
@@ -324,7 +324,7 @@ class Ui_MainWindow(object):
                 self.setValueString = self.setValueString + id_button
                 self.label.setText(str(self.setValueString))
             if (id_button=="OK"):
-                self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
+                self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
 
                 self.MainWindow.close()
                 self.setPID_parameters = setPID_parameters.Ui_MainWindow()

@@ -132,75 +132,72 @@ class modbus:
 			startBit = ':'  #Bit de inicio
 			stopbits = '\r\n' #Bis de stop
 			prefijo = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
-			sufijo = '0001' #Numero de registros a leer
+			sufijo = '000B' #Numero de registros a leer, 11 en este caso
 
-			###### leyendo uno por uno registros #######
+			###### leyendo 11 registros 000B registros #######
+			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
+			registro = (vectorRegistros[0].split('x')[1]).upper()     
 			
-			#for i in range(15):
-				#print(vectorRegistros[i])
-			#	comandoModbus = prefijo + str(vectorRegistros[i-1].split('x')[1]) + sufijo
-			#	vectorModbus = list(comandoModbus)
-			#	checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
-			#	checkSum = hex(checkSum).split('x')[1]
-			#	completeModbusCommand = startBit + comandoModbus + checkSum + stopbits
-				#print(completeModbusCommand.upper())
-			#	self.s.write(bytes(completeModbusCommand.upper(),'UTF-8'))  #Deben pasarse todos los caracteres en minuscula a mayuscula
-			#	time.sleep(0.1)
-			#	tiempoMuestreo = self.s.read(14)
-			#	self.registrosPIDHornosLectura.append(tiempoMuestreo)
-			modbusCommand = '0103119A000B'
+			modbusCommand = prefijo + registro + sufijo
+
+			#print(modbusCommand)
 
 			vectorModbus = list(modbusCommand)
 
-			checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
-			
-			checkSum = hex(checkSum).split('x')[1]
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(vectorModbus)
 
-			self.s.write(bytes(':0103119A000B' + checkSum.upper() + '\r\n','UTF-8'))
+			# if el checksum es solo un dato ej: A, debe completarse 0A, debe ir en dos bits
+			if len(checkSum) == 1:
+
+				self.s.write(bytes(startBit + modbusCommand + '0' + checkSum.upper() + '\r\n','UTF-8'))
+
+			elif len(checkSum) == 2:
+
+				self.s.write(bytes(startBit + modbusCommand + checkSum.upper() + '\r\n','UTF-8'))
+
 
 			time.sleep(0.1)
 
-			tiempoMuestreo = self.s.read(53)
+			tiempoMuestreo = self.s.readline()
+			try:
+				# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
 
-			tiempoMuestreo = str(tiempoMuestreo).split(':')[1]
+				tiempoMuestreo = str(tiempoMuestreo).split(':')[1]
 
-			registros = list(tiempoMuestreo)
+				registros = list(tiempoMuestreo)
 
-			registros = registros[6::]
+				registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 
-			print(len(registros))
+				# Agrupo lista en grupos de cuatro
 
-			for i in range(23):
-				self.registrosPIDHornosLectura.append(registros[i*2] + registros[i*2 + 1])
+			
+				for i in range(23):
+					self.registrosPIDHornosLectura.append(registros[i*2] + registros[i*2 + 1])
 
-			print(len(self.registrosPIDHornosLectura))
 
-			for i in range(11):
-				self.registrosHorno.append(self.registrosPIDHornosLectura[i*2] + self.registrosPIDHornosLectura[i*2 + 1])
+				for i in range(11):
+					self.registrosHorno.append(self.registrosPIDHornosLectura[i*2] + self.registrosPIDHornosLectura[i*2 + 1])
 
-			print(registros)
+				hora = time.strftime("%H:%M:%S")
 
-			print(self.registrosHorno)
-
-			hora = time.strftime("%H:%M:%S")
-
-			print(hora)
-
-			return (int(self.registrosHorno[0],16),
-					int(self.registrosHorno[1],16),
-					int(self.registrosHorno[2],16),
-					int(self.registrosHorno[3],16),
-					int(self.registrosHorno[4],16),
-					int(self.registrosHorno[5],16),
-					int(self.registrosHorno[6],16),
-					int(self.registrosHorno[7],16),
-					int(self.registrosHorno[8],16),
-					int(self.registrosHorno[9],16),
-					int(self.registrosHorno[10],16),
-					tiempoMuestreo,
-					tiempoMuestreo,
-					tiempoMuestreo,
-					tiempoMuestreo)
+				return (int(self.registrosHorno[0],16),
+						int(self.registrosHorno[1],16),
+						int(self.registrosHorno[2],16),
+						int(self.registrosHorno[3],16),
+						int(self.registrosHorno[4],16),
+						int(self.registrosHorno[5],16),
+						int(self.registrosHorno[6],16),
+						int(self.registrosHorno[7],16),
+						int(self.registrosHorno[8],16),
+						int(self.registrosHorno[9],16),
+						int(self.registrosHorno[10],16),
+						tiempoMuestreo,
+						tiempoMuestreo,
+						tiempoMuestreo,
+						tiempoMuestreo)
+			except:
+				return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 			
 		#except:
 			
@@ -211,16 +208,16 @@ class modbus:
 	###################################################		
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
 
-		try:
-			print('horno seleccionadoX=',horno_mantaSeleccionada)
+		#try:
+			#print('horno seleccionadoX=',horno_mantaSeleccionada)
 			if (horno_mantaSeleccionada=='horno1'):
-			        vectorRegistros = self.vectorRegistrosHorno1
+			        vectorRegistros = self.vectorRegistrosHorno1_Hex
 			elif(horno_mantaSeleccionada=='horno2'):
-			        vectorRegistros = self.vectorRegistrosHorno2
+			        vectorRegistros = self.vectorRegistrosHorno2_Hex
 			elif(horno_mantaSeleccionada=='horno3'):
-			        vectorRegistros = self.vectorRegistrosHorno3
+			        vectorRegistros = self.vectorRegistrosHorno3_Hex
 			elif(horno_mantaSeleccionada=='horno4'):
-			        vectorRegistros = self.vectorRegistrosHorno4
+			        vectorRegistros = self.vectorRegistrosHorno4_Hex
 
 			if variablePID == 'tiempoMuestreo':
 			        registro = vectorRegistros[0]
@@ -252,10 +249,34 @@ class modbus:
 			        registro = vectorRegistros[13]
 			elif variablePID == 'gpwm':
 			        registro = vectorRegistros[14]
+			
+			startBit = ':'
+			stopbits = '\r\n'
+			prefijo = '0106'   
+			registro = (registro.split('x')[1]).upper()
+			setValue = hex(int(valorPID)).split('x')[1].upper()
+			if len(setValue) == 1:
+				setValue = '000' + setValue
+			elif len(setValue) == 2:
+				setValue = '00' + setValue
+			elif len(setValue) == 3:
+				setValue = '0' + setValue
 
-			self.instrument.write_register(registro,valorPID,1)
-		except:
-			print("error de escritura")
+			modbusCommand = prefijo + registro + setValue 
+			
+			vectorModbus = list(modbusCommand)
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(vectorModbus)
+
+			if len(checkSum)==1:
+				checkSum = '0' + checkSum  # El check sum debe ir en dos bytes (ej: si es F, debe convertirse en 0F)
+
+			modbusCommand = startBit + modbusCommand + checkSum + stopbits
+			print(modbusCommand)
+			self.s.write(bytes(modbusCommand,'UTF-8'))
+			#self.instrument.write_register(registro,valorPID,1)
+		#except:
+			#print("error de escritura")
 	
 	######################################################
 	### Hornos Escritura de datos, vista variables PID ###
@@ -320,9 +341,14 @@ class modbus:
 		except:
 			print('error en la escritura de datos en plc')
 
-	def checkSumCalculation(modbusCommand):
-		modbusCommand = ':0103119A000150\r\n'
-		vectorModbus = list(modbusCommand)[1:len(modbusCommand)-2]
+	def checkSumCalculation(self,vectorModbus):
+		#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
 		checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
-		return modbusCommand
-		print(modbusCommand)
+		if checkSum < 0:
+			checkSum = checkSum + 255 + 1
+
+		checkSum = hex(checkSum).split('x')[1]  #split('x') porque el retorno de convertir un int a un hex es 0x0A, queda (0,0A)
+		#print(checkSum.upper())
+		#Cuando el numero hexadecimal contiene letras ej: 0x0A, python retorna 0a, se debe volver mayuscula
+		
+		return checkSum.upper() 
