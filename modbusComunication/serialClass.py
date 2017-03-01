@@ -1,11 +1,12 @@
 #Listar puertos mac, ls /dev/tty.*
 #Check sum modbus protocolo (FF-suma-1), FF es 2^8 ---> complemento  a 2 
 import serial
+import time
 
 class modbus:
 	def __init__(self):
 		try:
-			self.s = serial.Serial('/dev/ttyUSB0',9600)
+			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
 			self.s.bytesize = 7
 			self.s.parity = serial.PARITY_EVEN
 			self.s.stopbits = 1
@@ -106,7 +107,10 @@ class modbus:
 											  hex(self.vectorRegistrosHorno4[12]),
 											  hex(self.vectorRegistrosHorno4[13]),
 											  hex(self.vectorRegistrosHorno4[14])]
-			print("init serial")
+
+			self.registrosPIDHornosLectura = []
+			self.registrosHorno = []
+
 		except:
 			print("error en la conexion con el plc")
 
@@ -114,8 +118,8 @@ class modbus:
 	### Hornos lecturas de datos, vista variables PID
 	################################################
 	def readRegisterHorno1(self, horno_manta_seleccionada):
-		print("horno=",horno_manta_seleccionada)
-		try:
+		#print("horno=",horno_manta_seleccionada)
+		#try:
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1_Hex
 			elif(horno_manta_seleccionada=='horno2'):
@@ -125,58 +129,82 @@ class modbus:
 			elif(horno_manta_seleccionada=='horno4'):
 				vectorRegistros = self.vectorRegistrosHorno4_Hex
 
-			prefijo = ':0103'
-			sufijo = '000150\r\n'
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[0].split('x')[1]) + sufijo,'UTF-8'))
-			tiempoMuestreo = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[1].split('x')[1]) + sufijo,'UTF-8'))
-			gananciaProporcional = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[2].split('x')[1]) + sufijo,'UTF-8'))
-			gananciaIntegral = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[3].split('x')[1]) + sufijo,'UTF-8'))
-			gananciaDerivativa = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[4].split('x')[1]) + sufijo,'UTF-8'))
-			direccionDeControl = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[5].split('x')[1]) + sufijo,'UTF-8'))
-			rangoToleranciaError = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[6].split('x')[1]) + sufijo,'UTF-8'))
-			limiteSuperiorSalida = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[7].split('x')[1]) + sufijo,'UTF-8'))
-			limiteInferiorSalida = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[8].split('x')[1]) + sufijo,'UTF-8'))
-			limiteSuperiorIntegral = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[9].split('x')[1]) + sufijo,'UTF-8'))
-			limiteInferiorIntegral = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[10].split('x')[1]) + sufijo,'UTF-8'))
-			valorIntegralAcumulado = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[11].split('x')[1]) + sufijo,'UTF-8'))
-			PVAnterior = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[12].split('x')[1]) + sufijo,'UTF-8'))
-			setValue = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[13].split('x')[1]) + sufijo,'UTF-8'))
-			presentValue = self.s.read(14)
-			self.s.write(bytes(prefijo + str(self.vectorRegistros[14].split('x')[1]) + sufijo,'UTF-8'))
-			GPWMValue = self.s.read(14)
+			startBit = ':'  #Bit de inicio
+			stopbits = '\r\n' #Bis de stop
+			prefijo = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
+			sufijo = '0001' #Numero de registros a leer
 
-			return (tiempoMuestreo,
-					gananciaProporcional,
-					gananciaIntegral,
-					gananciaDerivativa,
-					direccionDeControl,
-					rangoToleranciaError,
-					limiteSuperiorSalida,
-					limiteInferiorSalida,
-					limiteSuperiorIntegral,
-					limiteInferiorIntegral,
-					valorIntegralAcumulado,
-					PVAnterior,
-					setValue,
-					presentValue,
-					GPWMValue)
+			###### leyendo uno por uno registros #######
 			
-		except:
+			#for i in range(15):
+				#print(vectorRegistros[i])
+			#	comandoModbus = prefijo + str(vectorRegistros[i-1].split('x')[1]) + sufijo
+			#	vectorModbus = list(comandoModbus)
+			#	checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
+			#	checkSum = hex(checkSum).split('x')[1]
+			#	completeModbusCommand = startBit + comandoModbus + checkSum + stopbits
+				#print(completeModbusCommand.upper())
+			#	self.s.write(bytes(completeModbusCommand.upper(),'UTF-8'))  #Deben pasarse todos los caracteres en minuscula a mayuscula
+			#	time.sleep(0.1)
+			#	tiempoMuestreo = self.s.read(14)
+			#	self.registrosPIDHornosLectura.append(tiempoMuestreo)
+			modbusCommand = '0103119A000B'
+
+			vectorModbus = list(modbusCommand)
+
+			checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
 			
-			return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
+			checkSum = hex(checkSum).split('x')[1]
+
+			self.s.write(bytes(':0103119A000B' + checkSum.upper() + '\r\n','UTF-8'))
+
+			time.sleep(0.1)
+
+			tiempoMuestreo = self.s.read(53)
+
+			tiempoMuestreo = str(tiempoMuestreo).split(':')[1]
+
+			registros = list(tiempoMuestreo)
+
+			registros = registros[6::]
+
+			print(len(registros))
+
+			for i in range(23):
+				self.registrosPIDHornosLectura.append(registros[i*2] + registros[i*2 + 1])
+
+			print(len(self.registrosPIDHornosLectura))
+
+			for i in range(11):
+				self.registrosHorno.append(self.registrosPIDHornosLectura[i*2] + self.registrosPIDHornosLectura[i*2 + 1])
+
+			print(registros)
+
+			print(self.registrosHorno)
+
+			hora = time.strftime("%H:%M:%S")
+
+			print(hora)
+
+			return (int(self.registrosHorno[0],16),
+					int(self.registrosHorno[1],16),
+					int(self.registrosHorno[2],16),
+					int(self.registrosHorno[3],16),
+					int(self.registrosHorno[4],16),
+					int(self.registrosHorno[5],16),
+					int(self.registrosHorno[6],16),
+					int(self.registrosHorno[7],16),
+					int(self.registrosHorno[8],16),
+					int(self.registrosHorno[9],16),
+					int(self.registrosHorno[10],16),
+					tiempoMuestreo,
+					tiempoMuestreo,
+					tiempoMuestreo,
+					tiempoMuestreo)
+			
+		#except:
+			
+			#return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 
 	###################################################
 	### Hornos Escritura de datos, vista variables PID

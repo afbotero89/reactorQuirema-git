@@ -6,7 +6,7 @@ import serial
 class modbus:
 	def __init__(self):
 		try:
-			self.instrument = minimalmodbus.Instrument('/dev/ttyUSB0',1,minimalmodbus.MODE_ASCII)
+			self.instrument = minimalmodbus.Instrument('/dev/tty.wchusbserial1410',1,minimalmodbus.MODE_ASCII)
 			self.instrument.serial.baudrate = 9600
 			self.instrument.serial.bytesize = 7
 			self.instrument.serial.parity = serial.PARITY_EVEN

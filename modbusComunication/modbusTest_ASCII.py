@@ -2,7 +2,7 @@
 #Check sum modbus protocolo (FF-suma-1), FF es 2^8 ---> complemento  a 2 
 import minimalmodbus
 import serial
-instrument = minimalmodbus.Instrument('/dev/ttyUSB0',1,minimalmodbus.MODE_ASCII)
+instrument = minimalmodbus.Instrument('/dev/tty.wchusbserial1410',1,minimalmodbus.MODE_ASCII)
 instrument.serial.baudrate = 9600
 instrument.serial.bytesize = 7
 instrument.serial.parity = serial.PARITY_EVEN

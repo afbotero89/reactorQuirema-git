@@ -5,9 +5,10 @@
 # Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
+
 import sys
 sys.path.append('../modbusComunication')
-import modbusClass
+import serialClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters
 import Home
@@ -27,8 +28,8 @@ class Ui_MainWindow(object):
         self.horno_manta_seleccionada = horno_manta_seleccionada
         self.sectionVector = sectionVector
 
-        self.lecturaDatosPID_PLC = modbusClass.modbus()
-        self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
+        #self.lecturaDatosPID_PLC = serialClass.modbus()
+        #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
 
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
@@ -251,21 +252,22 @@ class Ui_MainWindow(object):
         self.labelGPWM.setText(_translate("MainWindow", "GPWM"))
 
         #Buttons
-        self.buttonTiempoMuestreo.setText(_translate("MainWindow", str(self.datosPID_PLC[0])))
-        self.buttonGanProporcional.setText(_translate("MainWindow", str(self.datosPID_PLC[1])))
-        self.buttonGanIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[2])))
-        self.buttonGanDerivativa.setText(_translate("MainWindow", str(self.datosPID_PLC[3])))
-        self.buttonDireccionControl.setText(_translate("MainWindow", str(self.datosPID_PLC[4])))
-        self.buttonRangoToleranciaError.setText(_translate("MainWindow", str(self.datosPID_PLC[5])))
-        self.buttonLimiteSuperiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[6])))
-        self.buttonLimiteInferiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[7])))
-        self.buttonLimiteSuperiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[8])))
-        self.buttonLimiteInferiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[9])))
-        self.buttonValIntegralAcumulado.setText(_translate("MainWindow", str(self.datosPID_PLC[10])))
-        self.buttonPVAnterior.setText(_translate("MainWindow", str(self.datosPID_PLC[11])))
-        self.buttonSetValue.setText(_translate("MainWindow", str(self.datosPID_PLC[12])))
-        self.buttonPresentValue.setText(_translate("MainWindow", str(self.datosPID_PLC[13])))
-        self.buttonGPWM.setText(_translate("MainWindow", str(self.datosPID_PLC[14])))
+
+        #self.buttonTiempoMuestreo.setText(_translate("MainWindow", str(self.datosPID_PLC[0])))
+        #self.buttonGanProporcional.setText(_translate("MainWindow", str(self.datosPID_PLC[1])))
+        #self.buttonGanIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[2])))
+        #self.buttonGanDerivativa.setText(_translate("MainWindow", str(self.datosPID_PLC[3])))
+        #self.buttonDireccionControl.setText(_translate("MainWindow", str(self.datosPID_PLC[4])))
+        #self.buttonRangoToleranciaError.setText(_translate("MainWindow", str(self.datosPID_PLC[5])))
+        #self.buttonLimiteSuperiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[6])))
+        #self.buttonLimiteInferiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[7])))
+        #self.buttonLimiteSuperiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[8])))
+        #self.buttonLimiteInferiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[9])))
+        #self.buttonValIntegralAcumulado.setText(_translate("MainWindow", str(self.datosPID_PLC[10])))
+        #self.buttonPVAnterior.setText(_translate("MainWindow", str(self.datosPID_PLC[11])))
+        #self.buttonSetValue.setText(_translate("MainWindow", str(self.datosPID_PLC[12])))
+        #self.buttonPresentValue.setText(_translate("MainWindow", str(self.datosPID_PLC[13])))
+        #self.buttonGPWM.setText(_translate("MainWindow", str(self.datosPID_PLC[14])))
 
         self.label_4.setText(_translate("MainWindow", "Auto ajuste PID"))
         self.label_6.setText(_translate("MainWindow", "SV:"))
@@ -341,7 +343,7 @@ class Ui_MainWindow(object):
         pass
 
     def actualizaValoresTimer(self):
-        self.lecturaDatosPID_PLC = modbusClass.modbus()
+        self.lecturaDatosPID_PLC = serialClass.modbus()
         self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
         # Actualiza valor pid
         try:
@@ -407,7 +409,7 @@ class Ui_MainWindow(object):
             self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
         except:
             pass    
-        self.t = threading.Timer(1.0, self.actualizaValoresTimer)
+        self.t = threading.Timer(1, self.actualizaValoresTimer)
         self.t.start()
 
 
