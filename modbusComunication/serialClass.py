@@ -119,7 +119,7 @@ class modbus:
 	################################################
 	def readRegisterHorno1(self, horno_manta_seleccionada):
 		#print("horno=",horno_manta_seleccionada)
-		#try:
+		try:
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1_Hex
 			elif(horno_manta_seleccionada=='horno2'):
@@ -199,16 +199,16 @@ class modbus:
 			except:
 				return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 			
-		#except:
+		except:
 			
-			#return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
+			return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 
 	###################################################
 	### Hornos Escritura de datos, vista variables PID
 	###################################################		
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
 
-		#try:
+		try:
 			#print('horno seleccionadoX=',horno_mantaSeleccionada)
 			if (horno_mantaSeleccionada=='horno1'):
 			        vectorRegistros = self.vectorRegistrosHorno1_Hex
@@ -275,8 +275,8 @@ class modbus:
 			
 			self.s.write(bytes(modbusCommand,'UTF-8'))
 			#self.instrument.write_register(registro,valorPID,1)
-		#except:
-			#print("error de escritura")
+		except:
+			print("error de escritura")
 	
 	######################################################
 	### Hornos Escritura de datos, vista variables PID ###

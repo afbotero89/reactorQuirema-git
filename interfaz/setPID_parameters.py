@@ -19,14 +19,15 @@ import threading
 
 
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector):
-
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
         self.horno_manta_seleccionada = horno_manta_seleccionada
         self.sectionVector = sectionVector
+        self.contador = 0
 
         #self.lecturaDatosPID_PLC = serialClass.modbus()
         #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
@@ -331,16 +332,12 @@ class Ui_MainWindow(object):
         if parametroPIDSeleccionado == 'play':
             pass
         else:
-            
+            self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
             self.calculadora = calculadora.Ui_MainWindow()
-            self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector)
+            self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
             MainWindow.show()
         
-
-    def reloadMainWindow(self):
-        #Buttons
-        pass
 
     def actualizaValoresTimer(self):
         self.lecturaDatosPID_PLC = serialClass.modbus()
@@ -410,6 +407,7 @@ class Ui_MainWindow(object):
             self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
         except:
             pass    
+
         self.t = threading.Timer(1, self.actualizaValoresTimer)
         self.t.start()
 

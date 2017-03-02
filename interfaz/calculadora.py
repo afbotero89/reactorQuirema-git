@@ -17,7 +17,9 @@ import serialClass
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector):
+    def setupUi(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow):
+        self.pidWindow = pidWindow
+        
         MainWindow.setStyleSheet('QMainWindow{background-color: white; border:2px solid black;}')
         self.MainWindow = MainWindow
         self.setValueString = ""
@@ -328,9 +330,7 @@ class Ui_MainWindow(object):
 
                 self.MainWindow.close()
                 self.setPID_parameters = setPID_parameters.Ui_MainWindow()
-                self.setPID_parameters.reloadMainWindow()
-                #self.setPID_parameters = setPID_parameters.Ui_MainWindow()
-                #self.setPID_parameters.setupUi(self.MainWindow, self.horno_manta_seleccionada, self.sectionVector)
+                self.pidWindow.setEnabled(True)
         
         # Si el usuario selecciona Reactor
         elif(self.sectionVector[5] == True):
