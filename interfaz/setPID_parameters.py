@@ -12,7 +12,7 @@ import serialClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters
 import Home
-import calculadora
+import calculadora1
 import sqlite3
 import dbSQLClass
 import threading
@@ -334,7 +334,7 @@ class Ui_MainWindow(object):
         else:
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
-            self.calculadora = calculadora.Ui_MainWindow()
+            self.calculadora = calculadora1.Ui_MainWindow()
             self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
             MainWindow.show()
         
