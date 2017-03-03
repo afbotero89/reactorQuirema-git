@@ -8,11 +8,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
-import calculadora
+import calculadora1
 #import dbSQLClass
 import sys
 sys.path.append('../modbusComunication')
-import modbusClass
+import serialClass
+import threading
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector):
@@ -23,9 +24,8 @@ class Ui_MainWindow(object):
 
         #self.instanciaSQLDB = dbSQLClass.DataBaseQueries()
         #self.variablesHornos = self.instanciaSQLDB.get_hornos_Data()
-        self.instanciaModbus = modbusClass.modbus()
-        self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
-        print(self.variablesPIDReactor)
+        #self.instanciaModbus = serialClass.modbus()
+        #self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -757,8 +757,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quirema"))
         self.label.setText(_translate("MainWindow", "                   Quirema                                     Reactor"))
-        self.pushButton.setText(_translate("MainWindow", str(self.variablesPIDReactor[0])))
-        self.pushButton_2.setText(_translate("MainWindow", str(self.variablesPIDReactor[1])))
         self.pushButton_3.setText(_translate("MainWindow", "--"))
         self.pushButton_4.setText(_translate("MainWindow", "--"))
         self.label_8.setText(_translate("MainWindow", "SV:"))
@@ -767,8 +765,6 @@ class Ui_MainWindow(object):
         self.label_11.setText(_translate("MainWindow", "X:"))
         self.label_12.setText(_translate("MainWindow", "PV:"))
         self.label_13.setText(_translate("MainWindow", "X:"))
-        self.pushButton_5.setText(_translate("MainWindow", str(self.variablesPIDReactor[2])))
-        self.pushButton_6.setText(_translate("MainWindow", str(self.variablesPIDReactor[3])))
         self.pushButton_7.setText(_translate("MainWindow", "--"))
         self.pushButton_8.setText(_translate("MainWindow", "--"))
         self.label_14.setText(_translate("MainWindow", "SV:"))
@@ -776,15 +772,14 @@ class Ui_MainWindow(object):
         self.label_16.setText(_translate("MainWindow", "X:"))
         self.label_17.setText(_translate("MainWindow", "PV:"))
         self.label_18.setText(_translate("MainWindow", "R:"))
-        self.pushButton_9.setText(_translate("MainWindow", str(self.variablesPIDReactor[4])))
+        
         self.label_19.setText(_translate("MainWindow", "SV:"))
-        self.pushButton_10.setText(_translate("MainWindow", str(self.variablesPIDReactor[5])))
+        
         self.pushButton_11.setText(_translate("MainWindow", "--"))
         self.pushButton_12.setText(_translate("MainWindow", "--"))
         self.label_20.setText(_translate("MainWindow", "PV:"))
         self.label_21.setText(_translate("MainWindow", "R:"))
-        self.pushButton_13.setText(_translate("MainWindow", str(self.variablesPIDReactor[6])))
-        self.pushButton_14.setText(_translate("MainWindow", str(self.variablesPIDReactor[7])))
+        
         self.pushButton_15.setText(_translate("MainWindow", "--"))
         self.pushButton_16.setText(_translate("MainWindow", "--"))
         self.label_22.setText(_translate("MainWindow", "X:"))
@@ -826,6 +821,7 @@ class Ui_MainWindow(object):
         self.pushButtonPlay.setText(_translate("MainWindow", "Play"))
 
         self.actionButtons()
+        self.actualizaValoresPIDTimer()
 
     def actionButtons(self):
         self.pushButton_33.clicked.connect(self.home)
@@ -858,15 +854,33 @@ class Ui_MainWindow(object):
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
+        self.t.cancel()
     #Variable del horno (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
     def setValuesHorno(self, variable, hornoSeleccionado):
         MainWindow = QtWidgets.QMainWindow()
-        self.calculadora = calculadora.Ui_MainWindow()
-        self.calculadora.setupUi(MainWindow, variable, hornoSeleccionado, self.sectionVector)
+        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora.setupUi(MainWindow, variable, hornoSeleccionado, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
     def playHornos(self):  
         self.instanciaModbus.write_variablesHornos(self.variablesHornos)
+
+    def actualizaValoresPIDTimer(self):
+        print('actualiza valores timer')
+        self.instanciaModbus = serialClass.modbus()
+        self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
+
+        self.pushButton.setText('1')
+        self.pushButton_2.setText('2')
+        self.pushButton_5.setText('3')
+        self.pushButton_6.setText('4')
+        self.pushButton_9.setText('5')
+        self.pushButton_10.setText('6')
+        self.pushButton_13.setText('7')
+        self.pushButton_14.setText('8')
+
+        self.t = threading.Timer(1, self.actualizaValoresPIDTimer)
+        self.t.start()        
         
 if __name__ == "__main__":
     import sys

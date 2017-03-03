@@ -110,6 +110,7 @@ class modbus:
 
 			self.registrosPIDHornosLectura = []
 			self.registrosHorno = []
+			self.registros_SetPresent_Value_Hornos = []
 
 		except:
 			print("error en la conexion con el plc")
@@ -217,7 +218,7 @@ class modbus:
 				registros_GPWM = list(registros_GPWM)
 				registros_GPWM = registros_GPWM[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 				registros_GPWM = registros_GPWM[0] + registros_GPWM[1] + registros_GPWM[2] + registros_GPWM[3]	
-				print(registros_GPWM)
+				
 				# Agrupo lista en grupos de cuatro
 
 				#print(registros, "longitud vector = ", len(registros))
@@ -230,7 +231,7 @@ class modbus:
 
 				hora = time.strftime("%H:%M:%S")
 
-				print(hora)
+				#print(hora)
 
 				return (int(self.registrosHorno[0],16),
 						int(self.registrosHorno[1],16),
@@ -334,28 +335,54 @@ class modbus:
 	######################################################	
 	def read_variablesVistaReactor(self):
 		try:
-			setValue_Horno1 = self.instrument.read_register(self.vectorRegistrosHorno1[12],1)
-			presentValue_Horno1 = self.instrument.read_register(self.vectorRegistrosHorno1[13],1)
 
-			setValue_Horno2 = self.instrument.read_register(self.vectorRegistrosHorno2[12],1)
-			presentValue_Horno2 = self.instrument.read_register(self.vectorRegistrosHorno2[13],1)
+			#Lee set_value_present_value
+			for i in range(4):
+				if i == 0:
+					registro = self.vectorRegistrosHorno1_Hex[13]
+				elif i == 1:
+					registro = self.vectorRegistrosHorno2_Hex[13]
+				elif i == 2:
+					registro = self.vectorRegistrosHorno3_Hex[13]
+				elif i == 3:
+					registro = self.vectorRegistrosHorno4_Hex[13]
 
-			setValue_Horno3 = self.instrument.read_register(self.vectorRegistrosHorno3[12],1)
-			presentValue_Horno3 = self.instrument.read_register(self.vectorRegistrosHorno3[13],1)
+				registro_SV_PV = (registro.split('x')[1]).upper()
+				startBit = ':'
+				prefijo = '0103'  
+				sufijo_SV_PV = '0002'
+				modbusCommand_SV_PV = prefijo + registro_SV_PV + sufijo_SV_PV
+				vectorModbus_SV_PV = list(modbusCommand_SV_PV)
+				checksum_SV_PV = self.checkSumCalculation(vectorModbus_SV_PV)
 
-			setValue_Horno4 = self.instrument.read_register(self.vectorRegistrosHorno4[12],1)
-			presentValue_Horno4 = self.instrument.read_register(self.vectorRegistrosHorno4[13],1)
-		
-			#rampa_Horno1 = self.instrument.read_register(self.vectorRegistrosHorno1[13],1)
-			#X_Horno1 = self.instrument.read_register(self.vectorRegistrosHorno1[13],1)
-			return (setValue_Horno1,
-                                presentValue_Horno1,
-                                setValue_Horno2,
-                                presentValue_Horno2,
-                                setValue_Horno3,
-                                presentValue_Horno3,
-                                setValue_Horno4,
-                                presentValue_Horno4)
+				if len(checksum_SV_PV) == 1:
+
+					self.s.write(bytes(startBit + modbusCommand_SV_PV + '0' + checksum_SV_PV.upper() + '\r\n','UTF-8'))
+				elif len(checksum_SV_PV) == 2:
+
+					self.s.write(bytes(startBit + modbusCommand_SV_PV + checksum_SV_PV.upper() + '\r\n','UTF-8'))
+
+				variablePID_SV_PV =  self.s.readline()   # lee serial
+
+				#### Set value-present value
+				registros_SV_PV = str(variablePID_SV_PV).split(':')[1]
+				registros_SV_PV = list(registros_SV_PV)
+				registros_SV_PV = registros_SV_PV[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+
+				setValueHorno = registros_SV_PV[0] + registros_SV_PV[1] + registros_SV_PV[2] + registros_SV_PV[3]
+				presentValueHorno = registros_SV_PV[4] + registros_SV_PV[5] + registros_SV_PV[6] + registros_SV_PV[7]
+
+				self.registros_SetPresent_Value_Hornos.append(setValueHorno)
+				self.registros_SetPresent_Value_Hornos.append(presentValueHorno)
+				
+			return (int(self.registros_SetPresent_Value_Hornos[0],16),
+                    int(self.registros_SetPresent_Value_Hornos[1],16),
+                    int(self.registros_SetPresent_Value_Hornos[2],16),
+                    int(self.registros_SetPresent_Value_Hornos[3],16),
+                    int(self.registros_SetPresent_Value_Hornos[4],16),
+                    int(self.registros_SetPresent_Value_Hornos[5],16),
+                    int(self.registros_SetPresent_Value_Hornos[6],16),
+                    int(self.registros_SetPresent_Value_Hornos[7],16))
 		except:
 			return ('--','--','--','--','--','--','--','--')
 
