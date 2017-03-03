@@ -159,19 +159,68 @@ class modbus:
 
 			time.sleep(0.1)
 
-			tiempoMuestreo = self.s.readline()   # lee serial
+			variablesPID_4506_4518 = self.s.readline()   # lee serial
+
+			#Lee set_value_present_value
+			registro_SV_PV = (vectorRegistros[13].split('x')[1]).upper() 
+			sufijo_SV_PV = '0002'
+			modbusCommand_SV_PV = prefijo + registro_SV_PV + sufijo_SV_PV
+			vectorModbus_SV_PV = list(modbusCommand_SV_PV)
+			checksum_SV_PV = self.checkSumCalculation(vectorModbus_SV_PV)
+
+			#Lee GPWM
+			registro_GPWM = (vectorRegistros[14].split('x')[1]).upper() 
+			sufijo_GPWM = '0001'
+			modbusCommand_GPWM = prefijo + registro_GPWM + sufijo_GPWM
+			vectorModbus_GPWM = list(modbusCommand_GPWM)
+			checksum_GPWM = self.checkSumCalculation(vectorModbus_GPWM)
+
+			if len(checksum_SV_PV) == 1:
+
+				self.s.write(bytes(startBit + modbusCommand_SV_PV + '0' + checksum_SV_PV.upper() + '\r\n','UTF-8'))
+
+			elif len(checksum_SV_PV) == 2:
+
+				self.s.write(bytes(startBit + modbusCommand_SV_PV + checksum_SV_PV.upper() + '\r\n','UTF-8'))
+
+
+			variablePID_SV_PV =  self.s.readline()   # lee serial
+
+			if len(checksum_GPWM) == 1:
+
+				self.s.write(bytes(startBit + modbusCommand_GPWM + '0' + checksum_GPWM.upper() + '\r\n','UTF-8'))
+
+			elif len(checksum_GPWM) == 2:
+
+				self.s.write(bytes(startBit + modbusCommand_GPWM + checksum_GPWM.upper() + '\r\n','UTF-8'))
+
+			
+			variablePID_GPWM = self.s.readline()   # lee serial
+
 			try:
 				# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
 
-				tiempoMuestreo = str(tiempoMuestreo).split(':')[1]
+				variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
 
-				registros = list(tiempoMuestreo)
+				registros = list(variablesPID_4506_4518)
 
 				registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 
+				#### Set value-present value
+				registros_SV_PV = str(variablePID_SV_PV).split(':')[1]
+				registros_SV_PV = list(registros_SV_PV)
+				registros_SV_PV = registros_SV_PV[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+				setValueHorno = registros_SV_PV[0] + registros_SV_PV[1] + registros_SV_PV[2] + registros_SV_PV[3]
+				presentValueHorno = registros_SV_PV[4] + registros_SV_PV[5] + registros_SV_PV[6] + registros_SV_PV[7]
+				
+				registros_GPWM = str(variablePID_GPWM).split(':')[1]
+				registros_GPWM = list(registros_GPWM)
+				registros_GPWM = registros_GPWM[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+				registros_GPWM = registros_GPWM[0] + registros_GPWM[1] + registros_GPWM[2] + registros_GPWM[3]	
+				print(registros_GPWM)
 				# Agrupo lista en grupos de cuatro
 
-				print(registros, "longitud vector = ", len(registros))
+				#print(registros, "longitud vector = ", len(registros))
 				for i in range(26):
 					self.registrosPIDHornosLectura.append(registros[i*2] + registros[i*2 + 1])
 
@@ -180,6 +229,8 @@ class modbus:
 					self.registrosHorno.append(self.registrosPIDHornosLectura[i*2] + self.registrosPIDHornosLectura[i*2 + 1])
 
 				hora = time.strftime("%H:%M:%S")
+
+				print(hora)
 
 				return (int(self.registrosHorno[0],16),
 						int(self.registrosHorno[1],16),
@@ -193,9 +244,9 @@ class modbus:
 						int(self.registrosHorno[9],16),
 						int(self.registrosHorno[10],16),
 						int(self.registrosHorno[12],16),
-						tiempoMuestreo,
-						tiempoMuestreo,
-						tiempoMuestreo)
+						int(presentValueHorno,16),
+						int(setValueHorno,16),
+						int(registros_GPWM,16))
 			except:
 				return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 			
