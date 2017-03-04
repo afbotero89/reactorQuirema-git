@@ -315,7 +315,7 @@ class modbus:
 			        registro = vectorRegistros[14]
 			elif variablePID == 'rampa':
 					registro = registroRampa
-			print(registro)
+
 			startBit = ':'
 			stopbits = '\r\n'
 			prefijo = '0106'   
@@ -346,12 +346,15 @@ class modbus:
 			if (modbusCommand == respuestaPLC):
 				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
 			else:
+				time.sleep(0.2)
 				self.s.write(modbusCommand)
 				
 			print('respuestaPLC', respuestaPLC)
 			print('escrito',modbusCommand)
 			#self.instrument.write_register(registro,valorPID,1)
 		except:
+			time.sleep(0.2)
+			self.s.write(modbusCommand)
 			print("error de escritura")
 	
 	######################################################
@@ -421,7 +424,7 @@ class modbus:
 				
 			return (self.registros_SetPresent_Value_Hornos)
 		except:
-			self.read_variablesVistaReactor()
+			#self.read_variablesVistaReactor()
 			return ['0','0','0','0','0','0','0','0','0','0','0','0']
 
 

@@ -365,21 +365,39 @@ class Ui_MainWindow(object):
     def setValue(self, id_button):
         # Si el usuario selecciono los parametros PID
         if(self.sectionVector[0] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != ">" and id_button != "<":
+            if id_button != "OK" and id_button != "AC" and id_button != "<":
                 self.setValueString = self.setValueString + id_button
                 self.label.setText(str(self.setValueString))
+            
+            if(id_button == "AC"):
+                self.setValueString = ""
+                self.label.setText(str(self.setValueString))
+
+            if (id_button == "<"):
+                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+                self.label.setText(str(self.setValueString))
+
             if (id_button=="OK"):
                 self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
 
                 self.MainWindow.close()
                 self.setPID_parameters = setPID_parameters.Ui_MainWindow()
                 self.pidWindow.setEnabled(True)
-        
+            
         # Si el usuario selecciona Reactor
         elif(self.sectionVector[5] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != ">" and id_button != "<":
+            if id_button != "OK" and id_button != "AC" and id_button != "<":
                 self.setValueString = self.setValueString + id_button
                 self.label.setText(str(self.setValueString))
+
+            if(id_button == "AC"):
+                self.setValueString = ""
+                self.label.setText(str(self.setValueString))
+                
+            if (id_button == "<"):
+                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+                self.label.setText(str(self.setValueString))
+
             if (id_button=="OK"):
                 #try:
                 self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
