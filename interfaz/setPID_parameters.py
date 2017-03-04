@@ -16,6 +16,7 @@ import calculadora1
 import sqlite3
 import dbSQLClass
 import threading
+import time
 
 
 
@@ -125,6 +126,11 @@ class Ui_MainWindow(object):
         self.labelGPWM.setObjectName("label_17")
 
         # Buttons variables PID
+        self.buttonTime= QtWidgets.QPushButton(self.centralWidget)
+        self.buttonTime.setGeometry(QtCore.QRect(700, 80, 90, 40))
+        self.buttonTime.setObjectName("pushButtonTime")
+        self.buttonTime.setStyleSheet("background-color:#2F4F4F; color: white")
+
         self.buttonTiempoMuestreo = QtWidgets.QPushButton(self.centralWidget)
         self.buttonTiempoMuestreo.setGeometry(QtCore.QRect(30, 150, 81, 41))
         self.buttonTiempoMuestreo.setObjectName("pushButton")
@@ -407,7 +413,9 @@ class Ui_MainWindow(object):
             self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
         except:
             pass    
-
+        hora = time.strftime("%H:%M:%S")
+        self.buttonTime.setText(hora)
+        self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
         self.t = threading.Timer(1, self.actualizaValoresTimer)
         self.t.start()
 

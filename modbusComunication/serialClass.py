@@ -152,18 +152,23 @@ class modbus:
 
 			# if el checksum es solo un dato ej: A, debe completarse 0A, debe ir en dos bits
 			if len(checkSum) == 1:
-
-				self.s.write(bytes(startBit + modbusCommand + '0' + checkSum.upper() + '\r\n','UTF-8'))
-
+				comandoModbus = startBit + modbusCommand + '0' + checkSum.upper() + '\r\n'
+				
 			elif len(checkSum) == 2:
+				comandoModbus = startBit + modbusCommand + checkSum.upper() + '\r\n'
 
-				self.s.write(bytes(startBit + modbusCommand + checkSum.upper() + '\r\n','UTF-8'))
-
-
+			self.s.write(bytes(comandoModbus,'UTF-8'))	
 			time.sleep(0.1)
 
 			variablesPID_4506_4518 = self.s.readline()   # lee serial
 
+			if len(variablesPID_4506_4518) < 60:
+				self.s.write(bytes(comandoModbus,'UTF-8'))	
+				variablesPID_4506_4518 = self.s.readline()   # lee serial
+
+			print('leido', variablesPID_4506_4518, len(variablesPID_4506_4518))
+			print('escrito', comandoModbus, len(comandoModbus))
+			
 			#Lee set_value_present_value
 			registro_SV_PV = (vectorRegistros[13].split('x')[1]).upper() 
 			sufijo_SV_PV = '0002'
@@ -251,10 +256,11 @@ class modbus:
 						int(setValueHorno,16),
 						int(registros_GPWM,16))
 			except:
+				#self.readRegisterHorno1(horno_manta_seleccionada)
 				return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 			
 		except:
-			
+			#self.readRegisterHorno1(horno_manta_seleccionada)
 			return ('--','--','--','--','--','--','--','--','--','--','--','--','--','--','--')
 
 	###################################################
@@ -266,12 +272,16 @@ class modbus:
 			#print('horno seleccionadoX=',horno_mantaSeleccionada)
 			if (horno_mantaSeleccionada=='horno1'):
 			        vectorRegistros = self.vectorRegistrosHorno1_Hex
+			        registroRampa = '0x' + self.registrosRampasHornos_Hex[0]
 			elif(horno_mantaSeleccionada=='horno2'):
 			        vectorRegistros = self.vectorRegistrosHorno2_Hex
+			        registroRampa = '0x' + self.registrosRampasHornos_Hex[1]
 			elif(horno_mantaSeleccionada=='horno3'):
 			        vectorRegistros = self.vectorRegistrosHorno3_Hex
+			        registroRampa = '0x' + self.registrosRampasHornos_Hex[2]
 			elif(horno_mantaSeleccionada=='horno4'):
 			        vectorRegistros = self.vectorRegistrosHorno4_Hex
+			        registroRampa = '0x' + self.registrosRampasHornos_Hex[3]
 
 			if variablePID == 'tiempoMuestreo':
 			        registro = vectorRegistros[0]
@@ -303,7 +313,9 @@ class modbus:
 			        registro = vectorRegistros[13]
 			elif variablePID == 'gpwm':
 			        registro = vectorRegistros[14]
-			
+			elif variablePID == 'rampa':
+					registro = registroRampa
+			print(registro)
 			startBit = ':'
 			stopbits = '\r\n'
 			prefijo = '0106'   
@@ -325,9 +337,19 @@ class modbus:
 			if len(checkSum)==1:
 				checkSum = '0' + checkSum  # El check sum debe ir en dos bytes (ej: si es F, debe convertirse en 0F)
 
-			modbusCommand = startBit + modbusCommand + checkSum + stopbits
+			modbusCommand = bytes(startBit + modbusCommand + checkSum + stopbits, 'UTF-8')
 			
-			self.s.write(bytes(modbusCommand,'UTF-8'))
+			self.s.write(modbusCommand)
+			time.sleep(0.1)
+			respuestaPLC = self.s.readline()
+			
+			if (modbusCommand == respuestaPLC):
+				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
+			else:
+				self.s.write(modbusCommand)
+				
+			print('respuestaPLC', respuestaPLC)
+			print('escrito',modbusCommand)
 			#self.instrument.write_register(registro,valorPID,1)
 		except:
 			print("error de escritura")
@@ -338,7 +360,9 @@ class modbus:
 	def read_variablesVistaReactor(self):
 		try:
 			#Lee set_value_present_value
+
 			for i in range(4):
+				registrosRampa = self.registrosRampasHornos_Hex[i]
 				if i == 0:
 					registro = self.vectorRegistrosHorno1_Hex[13]
 				elif i == 1:
@@ -351,19 +375,36 @@ class modbus:
 				registro_SV_PV = (registro.split('x')[1]).upper()
 				startBit = ':'
 				prefijo = '0103'  
-				sufijo_SV_PV = '0002'
+				sufijo_SV_PV = '0002'  #Numero de registros para leer
+				sufijoRampa = '0001'
+
 				modbusCommand_SV_PV = prefijo + registro_SV_PV + sufijo_SV_PV
 				vectorModbus_SV_PV = list(modbusCommand_SV_PV)
 				checksum_SV_PV = self.checkSumCalculation(vectorModbus_SV_PV)
 
-				if len(checksum_SV_PV) == 1:
+				comandoModbus_Rampa = prefijo + registrosRampa + sufijoRampa
+				vectorModbus_Rampa = list(comandoModbus_Rampa)
+				checksum_Rampa = self.checkSumCalculation(vectorModbus_Rampa)
 
+				if len(checksum_SV_PV) == 1:
 					self.s.write(bytes(startBit + modbusCommand_SV_PV + '0' + checksum_SV_PV.upper() + '\r\n','UTF-8'))
 				elif len(checksum_SV_PV) == 2:
-
 					self.s.write(bytes(startBit + modbusCommand_SV_PV + checksum_SV_PV.upper() + '\r\n','UTF-8'))
 
-				variablePID_SV_PV =  self.s.readline()   # lee serial
+				variablePID_SV_PV =  self.s.readline()   # lee serial sv-presentValue
+
+				if len(checksum_Rampa) == 1:
+					self.s.write(bytes(startBit + comandoModbus_Rampa + '0' + checksum_Rampa.upper() + '\r\n','UTF-8'))
+				elif len(checksum_SV_PV) == 2:
+					self.s.write(bytes(startBit + comandoModbus_Rampa + checksum_Rampa.upper() + '\r\n','UTF-8'))
+
+				variablePID_rampa =  self.s.readline()   # lee serial rampa
+
+				registroRampa =  str(variablePID_rampa).split(':')[1]
+				registroRampa = list(registroRampa)
+				registroRampa = registroRampa[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+
+				rampa = registroRampa[0] + registroRampa[1] + registroRampa[2] + registroRampa[3]
 
 				#### Set value-present value
 				registros_SV_PV = str(variablePID_SV_PV).split(':')[1]
@@ -375,18 +416,13 @@ class modbus:
 
 				self.registros_SetPresent_Value_Hornos.append(setValueHorno)
 				self.registros_SetPresent_Value_Hornos.append(presentValueHorno)
+				self.registros_SetPresent_Value_Hornos.append(rampa)
 			
 				
-			return (int(self.registros_SetPresent_Value_Hornos[0],16),
-                    int(self.registros_SetPresent_Value_Hornos[1],16),
-                    int(self.registros_SetPresent_Value_Hornos[2],16),
-                    int(self.registros_SetPresent_Value_Hornos[3],16),
-                    int(self.registros_SetPresent_Value_Hornos[4],16),
-                    int(self.registros_SetPresent_Value_Hornos[5],16),
-                    int(self.registros_SetPresent_Value_Hornos[6],16),
-                    int(self.registros_SetPresent_Value_Hornos[7],16))
+			return (self.registros_SetPresent_Value_Hornos)
 		except:
-			return ('--','--','--','--','--','--','--','--')
+			self.read_variablesVistaReactor()
+			return ['0','0','0','0','0','0','0','0','0','0','0','0']
 
 
 	################################################
@@ -396,6 +432,7 @@ class modbus:
 		
 		try:
 			# Horno 1
+
 			self.instrument.write_register(1556,variablesHornos[0][1],1)
 			self.instrument.write_register(1556,variablesHornos[0][2],1)
 			self.instrument.write_register(1556,variablesHornos[0][3],1)

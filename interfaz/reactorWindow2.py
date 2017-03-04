@@ -7202,24 +7202,24 @@ class Ui_MainWindow(object):
         self.actualizaValoresPIDTimer()
 
     def actionButtons(self):
-        #self.pushButton_33.clicked.connect(self.home)
+        self.pushButton_33.clicked.connect(self.home)
         self.pushButton_SV1.clicked.connect(lambda: self.setValuesHorno('setValue','horno1'))
         self.pushButton_PV1.clicked.connect(lambda: self.setValuesHorno('presentValue','horno1'))
-        self.pushButton_R1.clicked.connect(lambda: self.setValuesHorno('R','horno1'))
+        self.pushButton_R1.clicked.connect(lambda: self.setValuesHorno('rampa','horno1'))
         self.pushButton_X1.clicked.connect(lambda: self.setValuesHorno('X','horno1'))
 
         self.pushButton_X2.clicked.connect(lambda: self.setValuesHorno('X','horno2'))
         self.pushButton_PV2.clicked.connect(lambda: self.setValuesHorno('presentValue','horno2'))
         self.pushButton_SV2.clicked.connect(lambda: self.setValuesHorno('setValue','horno2'))
-        self.pushButton_R2.clicked.connect(lambda: self.setValuesHorno('R','horno2'))
+        self.pushButton_R2.clicked.connect(lambda: self.setValuesHorno('rampa','horno2'))
 
         self.pushButton_PV3.clicked.connect(lambda: self.setValuesHorno('presentValue','horno3'))
         self.pushButton_SV3.clicked.connect(lambda: self.setValuesHorno('setValue','horno3'))
         self.pushButton_X3.clicked.connect(lambda: self.setValuesHorno('X','horno3'))
-        self.pushButton_R3.clicked.connect(lambda: self.setValuesHorno('R','horno3'))
+        self.pushButton_R3.clicked.connect(lambda: self.setValuesHorno('rampa','horno3'))
 
         self.pushButton_PV4.clicked.connect(lambda: self.setValuesHorno('presentValue','horno4'))
-        self.pushButton_R4.clicked.connect(lambda: self.setValuesHorno('R','horno4'))
+        self.pushButton_R4.clicked.connect(lambda: self.setValuesHorno('rampa','horno4'))
         self.pushButton_SV4.clicked.connect(lambda: self.setValuesHorno('setValue','horno4'))
         self.pushButton_X4.clicked.connect(lambda: self.setValuesHorno('X','horno4'))
 
@@ -7231,6 +7231,7 @@ class Ui_MainWindow(object):
         self.t.cancel()
     #Variable del horno (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
     def setValuesHorno(self, variable, hornoSeleccionado):
+        self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora1.Ui_MainWindow()
         self.calculadora.setupUi(MainWindow, variable, hornoSeleccionado, self.sectionVector, self.MainWindow)
@@ -7240,18 +7241,36 @@ class Ui_MainWindow(object):
         self.instanciaModbus.write_variablesHornos(self.variablesHornos)
 
     def actualizaValoresPIDTimer(self):
-        print('actualiza valores timer')
         self.instanciaModbus = serialClass.modbus()
         self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
 
-        self.pushButton_SV1.setText(str(self.variablesPIDReactor[0]))
-        self.pushButton_PV1.setText(str(self.variablesPIDReactor[1]))
-        self.pushButton_SV2.setText(str(self.variablesPIDReactor[2]))
-        self.pushButton_PV2.setText(str(self.variablesPIDReactor[3]))
-        self.pushButton_SV3.setText(str(self.variablesPIDReactor[4]))
-        self.pushButton_PV3.setText(str(self.variablesPIDReactor[5]))
-        self.pushButton_SV4.setText(str(self.variablesPIDReactor[6]))
-        self.pushButton_PV4.setText(str(self.variablesPIDReactor[7]))
+        try:
+            self.pushButton_SV1.setText(str(int(self.variablesPIDReactor[1],16)))
+            self.pushButton_PV1.setText(str(int(self.variablesPIDReactor[0],16)))
+            self.pushButton_R1.setText(str(int(self.variablesPIDReactor[2],16)))
+        except:
+            pass
+
+        try:
+            self.pushButton_SV2.setText(str(int(self.variablesPIDReactor[4],16)))
+            self.pushButton_PV2.setText(str(int(self.variablesPIDReactor[3],16)))
+            self.pushButton_R2.setText(str(int(self.variablesPIDReactor[5],16)))
+        except:
+            pass
+
+        try:
+            self.pushButton_SV3.setText(str(int(self.variablesPIDReactor[7],16)))
+            self.pushButton_PV3.setText(str(int(self.variablesPIDReactor[6],16)))
+            self.pushButton_R3.setText(str(int(self.variablesPIDReactor[8],16)))
+        except:
+            pass
+
+        try:
+            self.pushButton_SV4.setText(str(int(self.variablesPIDReactor[10],16)))
+            self.pushButton_PV4.setText(str(int(self.variablesPIDReactor[9],16)))
+            self.pushButton_R4.setText(str(int(self.variablesPIDReactor[11],16)))
+        except:
+            pass
 
         self.t = threading.Timer(1, self.actualizaValoresPIDTimer)
         self.t.start()        

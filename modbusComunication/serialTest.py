@@ -27,7 +27,9 @@ s.stopbits = 1
 #s.write(bytes(':010611C2004E2' + 'FF' + '\r\n','UTF-8'))
 #tiempoMuestreo = s.read(11)
 #print(tiempoMuestreo)
-
-s.write(bytes(':0106119A004FFF\r\n','UTF-8'))
+comando = bytes(':0106119A004FF2\r\n','UTF-8')
+s.write(comando)
 lectura = s.readline()
-print(lectura)
+print(lectura, comando)
+if (lectura==comando):
+	print('iguales')
