@@ -7,11 +7,21 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import Home
+import calculadora1
+#import dbSQLClass
+import sys
+sys.path.append('../modbusComunication')
+import serialClass
+import threading
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, sectionVector):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
+        self.MainWindow = MainWindow
+        self.sectionVector = sectionVector
+
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -162,7 +172,7 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralWidget)
         self.label_2.setGeometry(QtCore.QRect(750, 0, 51, 31))
         self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("../../images/quirema.png"))
+        self.label_2.setPixmap(QtGui.QPixmap("../images/quirema.png"))
         self.label_2.setScaledContents(True)
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(self.centralWidget)
@@ -174,7 +184,7 @@ class Ui_MainWindow(object):
         self.label_4.setGeometry(QtCore.QRect(630, 160, 41, 31))
         self.label_4.setStyleSheet("")
         self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap("../../images/trapezoide.png"))
+        self.label_4.setPixmap(QtGui.QPixmap("../images/trapezoide.png"))
         self.label_4.setScaledContents(True)
         self.label_4.setObjectName("label_4")
         self.label_5 = QtWidgets.QLabel(self.centralWidget)
@@ -1183,7 +1193,7 @@ class Ui_MainWindow(object):
         self.label_25.setGeometry(QtCore.QRect(380, 190, 211, 161))
         self.label_25.setStyleSheet("")
         self.label_25.setText("")
-        self.label_25.setPixmap(QtGui.QPixmap("../../images/valve.png"))
+        self.label_25.setPixmap(QtGui.QPixmap("../images/valve.png"))
         self.label_25.setScaledContents(True)
         self.label_25.setObjectName("label_25")
         self.label_26 = QtWidgets.QLabel(self.centralWidget)
@@ -6998,25 +7008,25 @@ class Ui_MainWindow(object):
         self.label_46 = QtWidgets.QLabel(self.centralWidget)
         self.label_46.setGeometry(QtCore.QRect(360, 360, 21, 21))
         self.label_46.setText("")
-        self.label_46.setPixmap(QtGui.QPixmap("../../images/cruceLineaHorizontal.png"))
+        self.label_46.setPixmap(QtGui.QPixmap("../images/cruceLineaHorizontal.png"))
         self.label_46.setScaledContents(True)
         self.label_46.setObjectName("label_46")
         self.label_47 = QtWidgets.QLabel(self.centralWidget)
         self.label_47.setGeometry(QtCore.QRect(400, 200, 21, 21))
         self.label_47.setText("")
-        self.label_47.setPixmap(QtGui.QPixmap("../../images/cruceLineaVertical.png"))
+        self.label_47.setPixmap(QtGui.QPixmap("../images/cruceLineaVertical.png"))
         self.label_47.setScaledContents(True)
         self.label_47.setObjectName("label_47")
         self.label_48 = QtWidgets.QLabel(self.centralWidget)
         self.label_48.setGeometry(QtCore.QRect(360, 220, 21, 21))
         self.label_48.setText("")
-        self.label_48.setPixmap(QtGui.QPixmap("../../images/cruceLineaVertical.png"))
+        self.label_48.setPixmap(QtGui.QPixmap("../images/cruceLineaVertical.png"))
         self.label_48.setScaledContents(True)
         self.label_48.setObjectName("label_48")
         self.label_49 = QtWidgets.QLabel(self.centralWidget)
         self.label_49.setGeometry(QtCore.QRect(290, 240, 21, 21))
         self.label_49.setText("")
-        self.label_49.setPixmap(QtGui.QPixmap("../../images/cruceLineaVertical.png"))
+        self.label_49.setPixmap(QtGui.QPixmap("../images/cruceLineaVertical.png"))
         self.label_49.setScaledContents(True)
         self.label_49.setObjectName("label_49")
         self.label_50 = QtWidgets.QLabel(self.centralWidget)
@@ -7187,6 +7197,65 @@ class Ui_MainWindow(object):
         self.label_54.setText(_translate("MainWindow", "PV:"))
         self.label_55.setText(_translate("MainWindow", "mL/min"))
         self.label_56.setText(_translate("MainWindow", "C"))
+
+        self.actionButtons()
+        self.actualizaValoresPIDTimer()
+
+    def actionButtons(self):
+        #self.pushButton_33.clicked.connect(self.home)
+        self.pushButton_SV1.clicked.connect(lambda: self.setValuesHorno('setValue','horno1'))
+        self.pushButton_PV1.clicked.connect(lambda: self.setValuesHorno('presentValue','horno1'))
+        self.pushButton_R1.clicked.connect(lambda: self.setValuesHorno('R','horno1'))
+        self.pushButton_X1.clicked.connect(lambda: self.setValuesHorno('X','horno1'))
+
+        self.pushButton_X2.clicked.connect(lambda: self.setValuesHorno('X','horno2'))
+        self.pushButton_PV2.clicked.connect(lambda: self.setValuesHorno('presentValue','horno2'))
+        self.pushButton_SV2.clicked.connect(lambda: self.setValuesHorno('setValue','horno2'))
+        self.pushButton_R2.clicked.connect(lambda: self.setValuesHorno('R','horno2'))
+
+        self.pushButton_PV3.clicked.connect(lambda: self.setValuesHorno('presentValue','horno3'))
+        self.pushButton_SV3.clicked.connect(lambda: self.setValuesHorno('setValue','horno3'))
+        self.pushButton_X3.clicked.connect(lambda: self.setValuesHorno('X','horno3'))
+        self.pushButton_R3.clicked.connect(lambda: self.setValuesHorno('R','horno3'))
+
+        self.pushButton_PV4.clicked.connect(lambda: self.setValuesHorno('presentValue','horno4'))
+        self.pushButton_R4.clicked.connect(lambda: self.setValuesHorno('R','horno4'))
+        self.pushButton_SV4.clicked.connect(lambda: self.setValuesHorno('setValue','horno4'))
+        self.pushButton_X4.clicked.connect(lambda: self.setValuesHorno('X','horno4'))
+
+        self.playButton.clicked.connect(self.playHornos)
+
+    def home(self):
+        self.home = Home.Ui_MainWindow()
+        self.home.setupUi(self.MainWindow)
+        self.t.cancel()
+    #Variable del horno (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
+    def setValuesHorno(self, variable, hornoSeleccionado):
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora.setupUi(MainWindow, variable, hornoSeleccionado, self.sectionVector, self.MainWindow)
+        MainWindow.show()
+
+    def playHornos(self):  
+        self.instanciaModbus.write_variablesHornos(self.variablesHornos)
+
+    def actualizaValoresPIDTimer(self):
+        print('actualiza valores timer')
+        self.instanciaModbus = serialClass.modbus()
+        self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
+
+        self.pushButton_SV1.setText(str(self.variablesPIDReactor[0]))
+        self.pushButton_PV1.setText(str(self.variablesPIDReactor[1]))
+        self.pushButton_SV2.setText(str(self.variablesPIDReactor[2]))
+        self.pushButton_PV2.setText(str(self.variablesPIDReactor[3]))
+        self.pushButton_SV3.setText(str(self.variablesPIDReactor[4]))
+        self.pushButton_PV3.setText(str(self.variablesPIDReactor[5]))
+        self.pushButton_SV4.setText(str(self.variablesPIDReactor[6]))
+        self.pushButton_PV4.setText(str(self.variablesPIDReactor[7]))
+
+        self.t = threading.Timer(1, self.actualizaValoresPIDTimer)
+        self.t.start()        
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

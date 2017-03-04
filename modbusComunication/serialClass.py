@@ -44,6 +44,8 @@ class modbus:
 			self.vectorRegistrosHorno3 = [pidH3, pidH3 + 1, pidH3 + 2, pidH3 + 3, pidH3 + 4, pidH3 + 5, pidH3 + 6, pidH3 + 7, pidH3 + 8, pidH3 + 9, pidH3 + 10, pidH3 + 12, 4145, 4144, 4532]
 			self.vectorRegistrosHorno4 = [pidH4, pidH4 + 1, pidH4 + 2, pidH4 + 3, pidH4 + 4, pidH4 + 5, pidH4 + 6, pidH4 + 7, pidH4 + 8, pidH4 + 9, pidH4 + 10, pidH4 + 12, 4155, 4154, 4596]
 			
+			self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
+
 			self.vectorRegistrosHorno1_Hex = [hex(self.vectorRegistrosHorno1[0]),
 											  hex(self.vectorRegistrosHorno1[1]),
 											  hex(self.vectorRegistrosHorno1[2]),
@@ -335,7 +337,6 @@ class modbus:
 	######################################################	
 	def read_variablesVistaReactor(self):
 		try:
-
 			#Lee set_value_present_value
 			for i in range(4):
 				if i == 0:
@@ -374,6 +375,7 @@ class modbus:
 
 				self.registros_SetPresent_Value_Hornos.append(setValueHorno)
 				self.registros_SetPresent_Value_Hornos.append(presentValueHorno)
+			
 				
 			return (int(self.registros_SetPresent_Value_Hornos[0],16),
                     int(self.registros_SetPresent_Value_Hornos[1],16),

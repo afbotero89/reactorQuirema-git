@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters 
 import alarmsMainWindow
 import calculadora
-import reactorMainWindow
+import reactorWindow2
 
 
 class Ui_MainWindow(object):
@@ -167,7 +167,7 @@ class Ui_MainWindow(object):
     def rectorMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,False,False,False,False,True]
-        self.reactor = reactorMainWindow.Ui_MainWindow()
+        self.reactor = reactorWindow2.Ui_MainWindow()
         self.reactor.setupUi(self.MainWindow, self.sectionVector)
        
         
