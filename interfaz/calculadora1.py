@@ -9,8 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import setPID_parameters
 import sqlite3
-#import dbSQLClass
-import reactorMainWindow
 import sys
 sys.path.append('../modbusComunication')
 import serialClass

@@ -11,7 +11,6 @@ import dbSQLClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters 
 import alarmsMainWindow
-import calculadora
 import reactorWindow2
 
 
