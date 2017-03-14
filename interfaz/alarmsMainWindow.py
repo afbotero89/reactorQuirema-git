@@ -158,7 +158,7 @@ class Ui_MainWindow(object):
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.label = QtWidgets.QLabel(self.centralWidget)
-        self.label.setGeometry(QtCore.QRect(0, 0, 801, 91))
+        self.label.setGeometry(QtCore.QRect(0, 0, 801, 71))
         font = QtGui.QFont()
         font.setPointSize(21)
         self.label.setFont(font)
@@ -170,7 +170,7 @@ class Ui_MainWindow(object):
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(self.centralWidget)
-        self.label_3.setGeometry(QtCore.QRect(660, 0, 141, 81))
+        self.label_3.setGeometry(QtCore.QRect(660, 0, 131, 71))
         self.label_3.setText("")
         self.label_3.setPixmap(QtGui.QPixmap("../images/quirema.png"))
         self.label_3.setScaledContents(True)
@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.label_16.setObjectName("label_16")
 
         self.pushButtonHome = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonHome.setGeometry(QtCore.QRect(0, 10, 71, 71))
+        self.pushButtonHome.setGeometry(QtCore.QRect(0, 0, 71, 71))
         self.pushButtonHome.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
         self.pushButtonHome.setIcon(QtGui.QIcon('../images/home.png'))
         self.pushButtonHome.setIconSize(QtCore.QSize(31,31))
@@ -321,7 +321,7 @@ class Ui_MainWindow(object):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora1.Ui_MainWindow()
-        parametroPIDSeleccionado = "nil"
+        parametroPIDSeleccionado = "tempHorno1"
         self.horno_manta_seleccionada = "nil"
         self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
         MainWindow.show()
