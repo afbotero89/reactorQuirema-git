@@ -28,6 +28,8 @@ class Ui_MainWindow(object):
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(221, 351)
+        MainWindow.closeEvent = self.closeEvent
+
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -404,6 +406,10 @@ class Ui_MainWindow(object):
                 hornoSeleccionado = self.horno_manta_seleccionada
                 self.MainWindow.close()
                 self.pidWindow.setEnabled(True)
+
+    def closeEvent(self, event):
+        self.MainWindow.close()
+        self.pidWindow.setEnabled(True)
 
 if __name__ == "__main__":
     import sys
