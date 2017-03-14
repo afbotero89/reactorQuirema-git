@@ -406,6 +406,26 @@ class Ui_MainWindow(object):
                 hornoSeleccionado = self.horno_manta_seleccionada
                 self.MainWindow.close()
                 self.pidWindow.setEnabled(True)
+                
+        # Si el usuario selecciona configuracion de alarmas
+        elif(self.sectionVector[2] == True):
+            if id_button != "OK" and id_button != "AC" and id_button != "<":
+                self.setValueString = self.setValueString + id_button
+                self.label.setText(str(self.setValueString))
+
+            if(id_button == "AC"):
+                self.setValueString = ""
+                self.label.setText(str(self.setValueString))
+                
+            if (id_button == "<"):
+                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+                self.label.setText(str(self.setValueString))
+
+            if (id_button=="OK"):
+
+                self.MainWindow.close()
+                self.pidWindow.setEnabled(True)
+
 
     def closeEvent(self, event):
         self.MainWindow.close()

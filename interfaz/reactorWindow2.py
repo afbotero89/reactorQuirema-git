@@ -3310,9 +3310,7 @@ class Ui_MainWindow(object):
         self.line_21.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_21.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_21.setObjectName("line_21")
-        self.pushButton_33 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_33.setGeometry(QtCore.QRect(0, 0, 71, 32))
-        self.pushButton_33.setObjectName("pushButton_33")
+
         self.line_22 = QtWidgets.QFrame(self.centralWidget)
         self.line_22.setGeometry(QtCore.QRect(230, 410, 421, 20))
         palette = QtGui.QPalette()
@@ -7115,6 +7113,12 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
 
+        self.pushButtonHome = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonHome.setGeometry(QtCore.QRect(10, 0, 31, 31))
+        self.pushButtonHome.setStyleSheet("background-color: #D0D0D0; color:white; font-size: 22pt;")
+        self.pushButtonHome.setIcon(QtGui.QIcon('../images/home.png'))
+        self.pushButtonHome.setIconSize(QtCore.QSize(21,21))
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -7179,7 +7183,6 @@ class Ui_MainWindow(object):
         self.label_44.setText(_translate("MainWindow", "Ar"))
         self.pushButton_SV_flujo1.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_PV_flujo1.setText(_translate("MainWindow", "0000.0"))
-        self.pushButton_33.setText(_translate("MainWindow", "Home"))
         self.playButton.setText(_translate("MainWindow", "Play"))
         self.label_51.setText(_translate("MainWindow", "SV:"))
         self.label_52.setText(_translate("MainWindow", "PV:"))
@@ -7202,7 +7205,7 @@ class Ui_MainWindow(object):
         self.actualizaValoresPIDTimer()
 
     def actionButtons(self):
-        self.pushButton_33.clicked.connect(self.home)
+        self.pushButtonHome.clicked.connect(self.home)
         self.pushButton_SV1.clicked.connect(lambda: self.setValuesHorno('setValue','horno1'))
         self.pushButton_PV1.clicked.connect(lambda: self.setValuesHorno('presentValue','horno1'))
         self.pushButton_R1.clicked.connect(lambda: self.setValuesHorno('rampa','horno1'))

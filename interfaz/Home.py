@@ -120,8 +120,9 @@ class Ui_MainWindow(object):
         self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
 
     def alarms(self):
+        self.sectionVector = [False,False,True,False,False,False]
         self.alarms = alarmsMainWindow.Ui_MainWindow()
-        self.alarms.setupUi(self.MainWindow)
+        self.alarms.setupUi(self.MainWindow, self.sectionVector)
 
     def recetas(self):
         print('recetas')

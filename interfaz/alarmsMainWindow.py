@@ -8,14 +8,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
+import calculadora1
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, sectionVector):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
+        self.MainWindow = MainWindow
+        self.sectionVector = sectionVector
 
         self.MainWindow = MainWindow
-
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -260,9 +262,13 @@ class Ui_MainWindow(object):
         self.label_16.setGeometry(QtCore.QRect(580, 340, 71, 31))
         self.label_16.setStyleSheet("font-size: 18pt;color:white")
         self.label_16.setObjectName("label_16")
-        self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(0, 0, 81, 81))
-        self.pushButton.setObjectName("pushButton")
+
+        self.pushButtonHome = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonHome.setGeometry(QtCore.QRect(0, 10, 71, 71))
+        self.pushButtonHome.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
+        self.pushButtonHome.setIcon(QtGui.QIcon('../images/home.png'))
+        self.pushButtonHome.setIconSize(QtCore.QSize(31,31))
+
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 800, 22))
@@ -277,9 +283,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.actionButtons()
 
-        self.pushButton.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
-        self.pushButton.setIcon(QtGui.QIcon('../images/home.png'))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -303,7 +308,24 @@ class Ui_MainWindow(object):
         self.labelCelsiusHorno2.setText(_translate("MainWindow", "Celsius"))
         self.labelCelsiusHorno3.setText(_translate("MainWindow", "Celsius"))
         self.label_16.setText(_translate("MainWindow", "Celsius"))
-        self.pushButton.clicked.connect(self.home)
+        
+    def actionButtons(self):
+        self.pushButtonHome.clicked.connect(self.home)
+        self.pushButtonManta.clicked.connect(self.setValuesCalculadora)
+        self.pushButtonHorno1.clicked.connect(self.setValuesCalculadora)
+        self.pushButtonHorno2.clicked.connect(self.setValuesCalculadora)
+        self.pushButtonHorno3.clicked.connect(self.setValuesCalculadora)
+        self.pushButtonHorno4.clicked.connect(self.setValuesCalculadora)
+
+    def setValuesCalculadora(self):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora1.Ui_MainWindow()
+        parametroPIDSeleccionado = "nil"
+        self.horno_manta_seleccionada = "nil"
+        self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
+        MainWindow.show()
+
 
     def home(self):
         self.home = Home.Ui_MainWindow()
