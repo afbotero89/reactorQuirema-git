@@ -14,12 +14,8 @@ import PID_parameters
 import Home
 import calculadora1
 import sqlite3
-import dbSQLClass
 import threading
 import time
-
-
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector):

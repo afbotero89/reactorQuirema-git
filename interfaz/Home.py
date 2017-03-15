@@ -6,8 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
-sys.path.append('../DB_SQL')
-import dbSQLClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters 
 import alarmsMainWindow
@@ -18,7 +16,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         #MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 255));")
-        dbSQLClass.DataBaseQueries()
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,False,False,False,False,False]
 

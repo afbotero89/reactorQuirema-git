@@ -12,6 +12,9 @@ import sqlite3
 import sys
 sys.path.append('../modbusComunication')
 import serialClass
+sys.path.append('../DB_SQL')
+import dbSQLClass
+
 import time
 
 class Ui_MainWindow(object):
@@ -27,8 +30,10 @@ class Ui_MainWindow(object):
     def setupUi_Alarmas(self, MainWindow, alarmaSeleccionada, buttonSelected, sectionVector, alarmWindow):
         self.alarmWindow = alarmWindow
         self.buttonSelected = buttonSelected
+        self.alarmaSeleccionada = alarmaSeleccionada
         MainWindow.closeEvent = self.closeEvent_AlarmWindow
         self.init_Interface(MainWindow, sectionVector)
+        self.instanciaBD_alarmas = dbSQLClass.DataBaseQueries()
 
     def init_Interface(self, MainWindow, sectionVector):
 
@@ -434,6 +439,7 @@ class Ui_MainWindow(object):
             if (id_button=="OK"):
                 self.MainWindow.close()
                 self.alarmWindow.setEnabled(True)
+                self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
                 self.buttonSelected.setText(self.setValueString)
 
 

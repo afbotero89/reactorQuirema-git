@@ -9,7 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
 import calculadora1
-#import dbSQLClass
 import sys
 sys.path.append('../modbusComunication')
 import serialClass

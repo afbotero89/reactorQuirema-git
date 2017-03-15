@@ -9,6 +9,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
 import calculadora1
+import sys
+sys.path.append('../DB_SQL')
+import dbSQLClass
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector):
@@ -16,6 +19,8 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
+        self.instanciaBD_alarmas = dbSQLClass.DataBaseQueries()
+        self.alarmasAlmacenadas = self.instanciaBD_alarmas.get_PID_Data()
 
         self.MainWindow = MainWindow
         palette = QtGui.QPalette()
@@ -298,11 +303,11 @@ class Ui_MainWindow(object):
         self.tempHorno2Label.setText(_translate("MainWindow", "Temperatura horno 2:"))
         self.tempHorno3Label.setText(_translate("MainWindow", "Temperatura horno 3:"))
         self.tempHorno4Label.setText(_translate("MainWindow", "Temperatura horno 4:"))
-        self.pushButtonManta.setText(_translate("MainWindow", "000.0"))
-        self.pushButtonHorno1.setText(_translate("MainWindow", "000.0"))
-        self.pushButtonHorno2.setText(_translate("MainWindow", "000.0"))
-        self.pushButtonHorno3.setText(_translate("MainWindow", "000.0"))
-        self.pushButtonHorno4.setText(_translate("MainWindow", "000.0"))
+        self.pushButtonManta.setText(_translate("MainWindow", self.alarmasAlmacenadas[1]))
+        self.pushButtonHorno1.setText(_translate("MainWindow", self.alarmasAlmacenadas[2]))
+        self.pushButtonHorno2.setText(_translate("MainWindow", self.alarmasAlmacenadas[3]))
+        self.pushButtonHorno3.setText(_translate("MainWindow", self.alarmasAlmacenadas[4]))
+        self.pushButtonHorno4.setText(_translate("MainWindow", self.alarmasAlmacenadas[5]))
         self.labelCelsiusMantas.setText(_translate("MainWindow", "Celsius"))
         self.labelCelsiusHorno1.setText(_translate("MainWindow", "Celsius"))
         self.labelCelsiusHorno2.setText(_translate("MainWindow", "Celsius"))
@@ -320,19 +325,23 @@ class Ui_MainWindow(object):
     def setValuesCalculadora(self, selectedButton):
         if selectedButton == "buttonMantas":
             button = self.pushButtonManta
+            alarmaSeleccionada = "tempMantas"
         elif selectedButton == "buttonHorno1":
             button = self.pushButtonHorno1
+            alarmaSeleccionada = "tempHorno1"
         elif selectedButton == "buttonHorno2":
             button = self.pushButtonHorno2
+            alarmaSeleccionada = "tempHorno2"
         elif selectedButton == "buttonHorno3":
             button = self.pushButtonHorno3
+            alarmaSeleccionada = "tempHorno3"
         elif selectedButton == "buttonHorno4":
             button = self.pushButtonHorno4
+            alarmaSeleccionada = "tempHorno4"
 
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora1.Ui_MainWindow()
-        alarmaSeleccionada = "horno1"
         self.calculadora.setupUi_Alarmas(MainWindow, alarmaSeleccionada, button, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
