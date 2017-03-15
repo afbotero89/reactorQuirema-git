@@ -311,19 +311,29 @@ class Ui_MainWindow(object):
         
     def actionButtons(self):
         self.pushButtonHome.clicked.connect(self.home)
-        self.pushButtonManta.clicked.connect(self.setValuesCalculadora)
-        self.pushButtonHorno1.clicked.connect(self.setValuesCalculadora)
-        self.pushButtonHorno2.clicked.connect(self.setValuesCalculadora)
-        self.pushButtonHorno3.clicked.connect(self.setValuesCalculadora)
-        self.pushButtonHorno4.clicked.connect(self.setValuesCalculadora)
+        self.pushButtonManta.clicked.connect(lambda: self.setValuesCalculadora("buttonMantas"))
+        self.pushButtonHorno1.clicked.connect(lambda: self.setValuesCalculadora("buttonHorno1"))
+        self.pushButtonHorno2.clicked.connect(lambda: self.setValuesCalculadora("buttonHorno2"))
+        self.pushButtonHorno3.clicked.connect(lambda: self.setValuesCalculadora("buttonHorno3"))
+        self.pushButtonHorno4.clicked.connect(lambda: self.setValuesCalculadora("buttonHorno4"))
 
-    def setValuesCalculadora(self):
+    def setValuesCalculadora(self, selectedButton):
+        if selectedButton == "buttonMantas":
+            button = self.pushButtonManta
+        elif selectedButton == "buttonHorno1":
+            button = self.pushButtonHorno1
+        elif selectedButton == "buttonHorno2":
+            button = self.pushButtonHorno2
+        elif selectedButton == "buttonHorno3":
+            button = self.pushButtonHorno3
+        elif selectedButton == "buttonHorno4":
+            button = self.pushButtonHorno4
+
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora1.Ui_MainWindow()
-        parametroPIDSeleccionado = "tempHorno1"
-        self.horno_manta_seleccionada = "nil"
-        self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
+        alarmaSeleccionada = "horno1"
+        self.calculadora.setupUi_Alarmas(MainWindow, alarmaSeleccionada, button, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
 

@@ -341,7 +341,7 @@ class Ui_MainWindow(object):
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
             self.calculadora = calculadora1.Ui_MainWindow()
-            self.calculadora.setupUi(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
+            self.calculadora.setupUi_PID_reactor(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
             MainWindow.show()
         
 

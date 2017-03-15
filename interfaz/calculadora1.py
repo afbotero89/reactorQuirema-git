@@ -15,20 +15,30 @@ import serialClass
 import time
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow):
+    def setupUi_PID_reactor(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow):
         self.pidWindow = pidWindow
-        
-        MainWindow.setStyleSheet('QMainWindow{background-color: white; border:2px solid black;}')
-        self.MainWindow = MainWindow
-        self.setValueString = ""
         self.variablePIDSeleccionada = variablePIDSeleccionada
         self.horno_manta_seleccionada = horno_manta_seleccionada
         self.instanciaModbus = serialClass.modbus()
-        self.sectionVector = sectionVector
+        MainWindow.closeEvent = self.closeEvent_PID_reactor
+        self.init_Interface(MainWindow, sectionVector)
 
+
+    def setupUi_Alarmas(self, MainWindow, alarmaSeleccionada, buttonSelected, sectionVector, alarmWindow):
+        self.alarmWindow = alarmWindow
+        self.buttonSelected = buttonSelected
+        MainWindow.closeEvent = self.closeEvent_AlarmWindow
+        self.init_Interface(MainWindow, sectionVector)
+
+    def init_Interface(self, MainWindow, sectionVector):
+
+        self.setValueString = ""
+        MainWindow.setStyleSheet('QMainWindow{background-color: white; border:2px solid black;}')
+        self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(221, 351)
-        MainWindow.closeEvent = self.closeEvent
+        
+        self.sectionVector = sectionVector
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -422,14 +432,18 @@ class Ui_MainWindow(object):
                 self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
-
                 self.MainWindow.close()
-                self.pidWindow.setEnabled(True)
+                self.alarmWindow.setEnabled(True)
+                self.buttonSelected.setText(self.setValueString)
 
 
-    def closeEvent(self, event):
+    def closeEvent_PID_reactor(self, event):
         self.MainWindow.close()
         self.pidWindow.setEnabled(True)
+
+    def closeEvent_AlarmWindow(self, event):
+        self.MainWindow.close()
+        self.alarmWindow.setEnabled(True)
 
 if __name__ == "__main__":
     import sys
