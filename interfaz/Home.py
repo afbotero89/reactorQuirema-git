@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QPoint
 import PID_parameters 
 import alarmsMainWindow
 import reactorWindow2
@@ -140,5 +141,7 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    qPoint = QPoint(0,-5)
+    MainWindow.move(qPoint)
     MainWindow.show()
     sys.exit(app.exec_())

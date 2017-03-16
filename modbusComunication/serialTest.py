@@ -19,7 +19,7 @@ checkSum = hex(checkSum).split('x')[1]
 #completeModbusCommand = startBit + modbusCommand + checkSum + stopbits
 #print(completeModbusCommand)
 
-s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
+s = serial.Serial('/dev/ttyUSB0',9600)
 s.bytesize = 7
 s.parity = serial.PARITY_EVEN
 s.stopbits = 1

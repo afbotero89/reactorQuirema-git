@@ -6,7 +6,7 @@ import time
 class modbus:
 	def __init__(self):
 		try:
-			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
+			self.s = serial.Serial('/dev/ttyUSB0',9600)
 			self.s.bytesize = 7
 			self.s.parity = serial.PARITY_EVEN
 			self.s.stopbits = 1

@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QPoint
 import setPID_parameters
 import sqlite3
 import sys
@@ -42,6 +43,9 @@ class Ui_MainWindow(object):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(221, 351)
+
+        qPoint = QPoint(300,60)
+        MainWindow.move(qPoint)
         
         self.sectionVector = sectionVector
 
