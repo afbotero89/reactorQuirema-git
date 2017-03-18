@@ -105,7 +105,7 @@ class Ui_MainWindow_PIDParameters(object):
         self.addAdditionalAttributes()
 
 
-        self.label.setStyleSheet("color: #0080FF; font-size: 18pt;")
+        self.label.setStyleSheet("color: white; font-size: 18pt;")
         self.pushButton.clicked.connect(lambda: self.setPID_parameters('horno1'))
         self.pushButton_2.clicked.connect(lambda: self.setPID_parameters('horno2'))
         self.pushButton_3.clicked.connect(lambda: self.setPID_parameters('horno3'))
@@ -118,7 +118,7 @@ class Ui_MainWindow_PIDParameters(object):
         self.pushButton0.clicked.connect(self.home)
 
     def addAdditionalAttributes(self):
-        buttonStyle = "background-color: #EFEFF4; border-style: outset; border-width: 2px; border-radius: 10px; border-color: #0080FF; padding: 6px; font-size: 25pt;"
+        buttonStyle = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); border-style: outset; border-width: 1px; border-radius: 10px; border-color: white; padding: 6px; font-size: 25pt;"
         self.pushButton.setStyleSheet(buttonStyle)
         self.pushButton_2.setStyleSheet(buttonStyle)
         self.pushButton_3.setStyleSheet(buttonStyle)

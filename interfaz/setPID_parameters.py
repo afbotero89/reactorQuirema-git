@@ -278,9 +278,9 @@ class Ui_MainWindow(object):
 
         #Styles
         styleLabels = "color:white; font-size: 12pt;"
-        styleLabelsTitles = "color: #0080FF; font-size: 12pt;"
+        styleLabelsTitles = "color: white; font-size: 12pt;"
 
-        self.label.setStyleSheet("color:#0080FF; font-size: 18pt;")
+        self.label.setStyleSheet("color:white; font-size: 18pt;")
         self.labelTiempoMuestreo.setStyleSheet(styleLabels)
         self.labelGanProporcional.setStyleSheet(styleLabels)
         
