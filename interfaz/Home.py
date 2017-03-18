@@ -11,7 +11,7 @@ from PyQt5.QtCore import QPoint
 import PID_parameters 
 import alarmsMainWindow
 import reactorWindow2
-
+import recetas
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -124,8 +124,8 @@ class Ui_MainWindow(object):
 
     def recetas(self):
         print('recetas')
-        #self.calculadora = calculadora.Ui_MainWindow()
-        #self.calculadora.setupUi(self.MainWindow)
+        self.recetas = recetas.Ui_MainWindow()
+        self.recetas.setupUi(self.MainWindow)
 
     def rectorMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
