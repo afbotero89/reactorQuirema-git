@@ -12,6 +12,7 @@ import PID_parameters
 import alarmsMainWindow
 import reactorWindow2
 import recetas
+import escalado
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -107,6 +108,7 @@ class Ui_MainWindow(object):
         self.pushButton_6.setText(_translate("MainWindow", "Reactor"))
 
         self.pushButton.clicked.connect(self.PIDInterface)
+        self.pushButton_2.clicked.connect(self.escaladoMainWindow)
         self.pushButton_3.clicked.connect(self.alarms)
         self.pushButton_4.clicked.connect(self.recetas)
         self.pushButton_6.clicked.connect(self.rectorMainWindow)
@@ -123,15 +125,21 @@ class Ui_MainWindow(object):
         self.alarms.setupUi(self.MainWindow, self.sectionVector)
 
     def recetas(self):
-        print('recetas')
+        self.sectionVector = [False,False,False,True,False,False]
         self.recetas = recetas.Ui_MainWindow()
-        self.recetas.setupUi(self.MainWindow)
+        self.recetas.setupUi(self.MainWindow, self.sectionVector)
 
     def rectorMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,False,False,False,False,True]
         self.reactor = reactorWindow2.Ui_MainWindow()
         self.reactor.setupUi(self.MainWindow, self.sectionVector)
+
+    def escaladoMainWindow(self):
+        # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
+        self.sectionVector = [False,True,False,False,False,False]
+        self.escalado = escalado.Ui_MainWindow()
+        self.escalado.setupUi(self.MainWindow)       
        
         
 if __name__ == "__main__":

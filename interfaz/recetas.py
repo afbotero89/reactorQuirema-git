@@ -8,10 +8,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
+import calculadora1
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, sectionVector):
         self.MainWindow = MainWindow
+        self.sectionVector = sectionVector
+        
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(800, 480)
@@ -528,7 +531,18 @@ class Ui_MainWindow(object):
         self.pushButton_TiempoR2.setText(_translate("MainWindow", "0.0"))
         self.label_Recetas.setText(_translate("MainWindow", "Recetas"))
         self.pushButton0.clicked.connect(self.home)
-        
+        self.eventButton()
+    
+    def eventButton(self):
+        self.pushButton_H1R1.clicked.connect(lambda: self.displayCalculadora('buttonID'))
+
+    def displayCalculadora(self, buttonID):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora.setupUi_recetas(MainWindow, self.sectionVector, self.MainWindow)
+        MainWindow.show()        
+
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)

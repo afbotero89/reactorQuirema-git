@@ -36,6 +36,12 @@ class Ui_MainWindow(object):
         self.init_Interface(MainWindow, sectionVector)
         self.instanciaBD_alarmas = dbSQLClass.DataBaseQueries()
 
+    def setupUi_recetas(self, MainWindow, sectionVector, resetasMainWindow):
+        self.resetasMainWindow = resetasMainWindow
+        MainWindow.closeEvent = self.closeEvent_recetas
+        self.init_Interface(MainWindow, sectionVector)
+
+
     def init_Interface(self, MainWindow, sectionVector):
 
         self.setValueString = ""
@@ -446,6 +452,25 @@ class Ui_MainWindow(object):
                 self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
                 self.buttonSelected.setText(self.setValueString)
 
+        # Si el usuario selecciona configuracion de resetas
+        elif(self.sectionVector[3] == True):
+            if id_button != "OK" and id_button != "AC" and id_button != "<":
+                self.setValueString = self.setValueString + id_button
+                self.label.setText(str(self.setValueString))
+
+            if(id_button == "AC"):
+                self.setValueString = ""
+                self.label.setText(str(self.setValueString))
+                
+            if (id_button == "<"):
+                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+                self.label.setText(str(self.setValueString))
+
+            if (id_button=="OK"):
+                self.MainWindow.close()
+                self.alarmWindow.setEnabled(True)
+                #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
+                self.buttonSelected.setText(self.setValueString)
 
     def closeEvent_PID_reactor(self, event):
         self.MainWindow.close()
@@ -454,6 +479,10 @@ class Ui_MainWindow(object):
     def closeEvent_AlarmWindow(self, event):
         self.MainWindow.close()
         self.alarmWindow.setEnabled(True)
+
+    def closeEvent_recetas(self, event):
+        self.MainWindow.close()
+        self.resetasMainWindow.setEnabled(True)       
 
 if __name__ == "__main__":
     import sys
