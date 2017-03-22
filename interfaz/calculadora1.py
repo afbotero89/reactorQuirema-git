@@ -41,6 +41,10 @@ class Ui_MainWindow(object):
         MainWindow.closeEvent = self.closeEvent_recetas
         self.init_Interface(MainWindow, sectionVector)
 
+    def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, escaladoMainWindow):
+        self.escaladoMainWindow = escaladoMainWindow
+        MainWindow.closeEvent = self.closeEvent_escalado
+        self.init_Interface(MainWindow, sectionVector)
 
     def init_Interface(self, MainWindow, sectionVector):
 
@@ -472,6 +476,25 @@ class Ui_MainWindow(object):
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
                 self.buttonSelected.setText(self.setValueString)
 
+        # Si el usuario selecciona configuracion de escalado
+        elif(self.sectionVector[1] == True):
+            if id_button != "OK" and id_button != "AC" and id_button != "<":
+                self.setValueString = self.setValueString + id_button
+                self.label.setText(str(self.setValueString))
+
+            if(id_button == "AC"):
+                self.setValueString = ""
+                self.label.setText(str(self.setValueString))
+                
+            if (id_button == "<"):
+                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+                self.label.setText(str(self.setValueString))
+
+            if (id_button=="OK"):
+                self.MainWindow.close()
+                self.escaladoMainWindow.setEnabled(True)
+                #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
+
     def closeEvent_PID_reactor(self, event):
         self.MainWindow.close()
         self.pidWindow.setEnabled(True)
@@ -482,7 +505,11 @@ class Ui_MainWindow(object):
 
     def closeEvent_recetas(self, event):
         self.MainWindow.close()
-        self.resetasMainWindow.setEnabled(True)       
+        self.resetasMainWindow.setEnabled(True) 
+
+    def closeEvent_escalado(self, event):
+        self.MainWindow.close()
+        self.escaladoMainWindow.setEnabled(True)      
 
 if __name__ == "__main__":
     import sys

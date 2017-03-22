@@ -8,10 +8,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
+import calculadora1
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, sectionVector):
         self.MainWindow = MainWindow
+        self.sectionVector = sectionVector
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
@@ -513,10 +515,18 @@ class Ui_MainWindow(object):
         self.pushButton_HOME.setIcon(QtGui.QIcon('../images/home.png'))
         self.pushButton_HOME.setIconSize(QtCore.QSize(31,31))
         self.pushButton_HOME.clicked.connect(self.home)
+        self.pushButton_XMAX_IN_1.clicked.connect(self.calculadora)
 
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
+
+    def calculadora(self):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora.setupUI_escalado(MainWindow, self.sectionVector, "controladorFlujo1", "IN", self.MainWindow)
+        MainWindow.show()        
 
 
 if __name__ == "__main__":

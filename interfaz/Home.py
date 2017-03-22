@@ -139,7 +139,7 @@ class Ui_MainWindow(object):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,True,False,False,False,False]
         self.escalado = escalado.Ui_MainWindow()
-        self.escalado.setupUi(self.MainWindow)       
+        self.escalado.setupUi(self.MainWindow, self.sectionVector)       
        
         
 if __name__ == "__main__":
