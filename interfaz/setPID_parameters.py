@@ -171,7 +171,7 @@ class Ui_MainWindow(object):
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
         self.playButton.setGeometry(QtCore.QRect(640, 300, 100, 100))
         self.playButton.setObjectName("playButton")
-        self.playButton.setStyleSheet("background-color: #444444; color:white; font-size: 22pt;")
+        self.playButton.setStyleSheet("background-color: #ffffff; color:white; font-size: 22pt; border-radius: 50px;")
         self.playButton.setIcon(QtGui.QIcon('../images/playButton.png'))
         self.playButton.setIconSize(QtCore.QSize(100,100))
 
@@ -332,7 +332,7 @@ class Ui_MainWindow(object):
 
     def displayCalculadora(self, parametroPIDSeleccionado):
         if parametroPIDSeleccionado == 'play':
-            pass
+            print("playButton")
         else:
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()

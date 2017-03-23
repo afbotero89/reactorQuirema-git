@@ -428,10 +428,10 @@ class Ui_MainWindow(object):
                 self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
-                #try:
-                self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
-                #except:
-                    #print("error escritura modbus 2")
+                try:
+                    self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
+                except:
+                    print("error escritura reactor")
                 hornoSeleccionado = self.horno_manta_seleccionada
                 self.MainWindow.close()
                 self.pidWindow.setEnabled(True)

@@ -7274,7 +7274,7 @@ class Ui_MainWindow(object):
         except:
             pass
 
-        self.t = threading.Timer(1, self.actualizaValoresPIDTimer)
+        self.t = threading.Timer(1.5, self.actualizaValoresPIDTimer)
         self.t.start()        
 
 if __name__ == "__main__":

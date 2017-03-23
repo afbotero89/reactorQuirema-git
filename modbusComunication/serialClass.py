@@ -6,7 +6,7 @@ import time
 class modbus:
 	def __init__(self):
 		try:
-			self.s = serial.Serial('/dev/ttyUSB0',9600)
+			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
 			self.s.bytesize = 7
 			self.s.parity = serial.PARITY_EVEN
 			self.s.stopbits = 1
@@ -354,7 +354,7 @@ class modbus:
 			#self.instrument.write_register(registro,valorPID,1)
 		except:
 			time.sleep(0.2)
-			self.s.write(modbusCommand)
+			#self.s.write(modbusCommand)
 			print("error de escritura")
 	
 	######################################################
@@ -402,6 +402,7 @@ class modbus:
 					self.s.write(bytes(startBit + comandoModbus_Rampa + checksum_Rampa.upper() + '\r\n','UTF-8'))
 
 				variablePID_rampa =  self.s.readline()   # lee serial rampa
+				print(variablePID_rampa)
 
 				registroRampa =  str(variablePID_rampa).split(':')[1]
 				registroRampa = list(registroRampa)
