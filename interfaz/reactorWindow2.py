@@ -7225,18 +7225,37 @@ class Ui_MainWindow(object):
         self.pushButton_SV4.clicked.connect(lambda: self.setValuesHorno('setValue','horno4'))
         self.pushButton_X4.clicked.connect(lambda: self.setValuesHorno('X','horno4'))
 
+        # Controladores de flujo
+        # MFC1
+        self.pushButton_SV_flujo1.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC1'))
+        self.pushButton_PV_flujo1.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC1'))
+
+        # MFC2
+        self.pushButton_SV_flujo2.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC2'))
+        self.pushButton_PV_flujo2.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC2'))
+
+        # MFC3
+        self.pushButton_SV_flujo3.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC3'))
+        self.pushButton_PV_flujo3.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC3'))
+
+        # MFC4
+        self.pushButton_SV_flujo4.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC4'))
+        self.pushButton_PV_flujo4.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC4'))
+
         self.playButton.clicked.connect(self.playHornos)
 
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
         self.t.cancel()
-    #Variable del horno (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
-    def setValuesHorno(self, variable, hornoSeleccionado):
+
+    #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
+    # Equipo seleccionado: Se refiere que selecciono el usuario para modificar (hornos o controladores de flujo(MFC))
+    def setValuesHorno(self, variable, equipoSeleccionado):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora1.Ui_MainWindow()
-        self.calculadora.setupUi_PID_reactor(MainWindow, variable, hornoSeleccionado, self.sectionVector, self.MainWindow)
+        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
     def playHornos(self):  
@@ -7245,32 +7264,46 @@ class Ui_MainWindow(object):
     def actualizaValoresPIDTimer(self):
         self.instanciaModbus = serialClass.modbus()
         self.variablesPIDReactor = self.instanciaModbus.read_variablesVistaReactor()
+        print(self.variablesPIDReactor)
 
         try:
-            self.pushButton_SV1.setText(str(int(self.variablesPIDReactor[1],16)))
-            self.pushButton_PV1.setText(str(int(self.variablesPIDReactor[0],16)))
-            self.pushButton_R1.setText(str(int(self.variablesPIDReactor[2],16)))
+            self.pushButton_PV1.setText(str(int(self.variablesPIDReactor[0][0],16)))
+            self.pushButton_SV1.setText(str(int(self.variablesPIDReactor[0][1],16)))
+            self.pushButton_R1.setText(str(int(self.variablesPIDReactor[0][2],16)))
         except:
             pass
 
         try:
-            self.pushButton_SV2.setText(str(int(self.variablesPIDReactor[4],16)))
-            self.pushButton_PV2.setText(str(int(self.variablesPIDReactor[3],16)))
-            self.pushButton_R2.setText(str(int(self.variablesPIDReactor[5],16)))
+            self.pushButton_PV2.setText(str(int(self.variablesPIDReactor[0][3],16)))
+            self.pushButton_SV2.setText(str(int(self.variablesPIDReactor[0][4],16)))
+            self.pushButton_R2.setText(str(int(self.variablesPIDReactor[0][5],16)))
         except:
             pass
 
         try:
-            self.pushButton_SV3.setText(str(int(self.variablesPIDReactor[7],16)))
-            self.pushButton_PV3.setText(str(int(self.variablesPIDReactor[6],16)))
-            self.pushButton_R3.setText(str(int(self.variablesPIDReactor[8],16)))
+            self.pushButton_PV3.setText(str(int(self.variablesPIDReactor[0][6],16)))
+            self.pushButton_SV3.setText(str(int(self.variablesPIDReactor[0][7],16)))
+            self.pushButton_R3.setText(str(int(self.variablesPIDReactor[0][8],16)))
         except:
             pass
 
         try:
-            self.pushButton_SV4.setText(str(int(self.variablesPIDReactor[10],16)))
-            self.pushButton_PV4.setText(str(int(self.variablesPIDReactor[9],16)))
-            self.pushButton_R4.setText(str(int(self.variablesPIDReactor[11],16)))
+            self.pushButton_PV4.setText(str(int(self.variablesPIDReactor[0][9],16)))
+            self.pushButton_SV4.setText(str(int(self.variablesPIDReactor[0][10],16)))
+            self.pushButton_R4.setText(str(int(self.variablesPIDReactor[0][11],16)))
+        except:
+            pass
+
+        try:
+            self.pushButton_SV_flujo1.setText(str(int(self.variablesPIDReactor[1][0],16)))  
+            self.pushButton_SV_flujo2.setText(str(int(self.variablesPIDReactor[1][1],16)))  
+            self.pushButton_SV_flujo3.setText(str(int(self.variablesPIDReactor[1][2],16)))  
+            self.pushButton_SV_flujo4.setText(str(int(self.variablesPIDReactor[1][3],16))) 
+
+            self.pushButton_PV_flujo1.setText(str(int(self.variablesPIDReactor[2][0],16)))  
+            self.pushButton_PV_flujo2.setText(str(int(self.variablesPIDReactor[2][1],16)))  
+            self.pushButton_PV_flujo3.setText(str(int(self.variablesPIDReactor[2][2],16)))  
+            self.pushButton_PV_flujo4.setText(str(int(self.variablesPIDReactor[2][3],16))) 
         except:
             pass
 

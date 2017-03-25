@@ -393,18 +393,19 @@ class Ui_MainWindow(object):
 
     def setValue(self, id_button):
         # Si el usuario selecciono los parametros PID
-        if(self.sectionVector[0] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != "<":
-                self.setValueString = self.setValueString + id_button
-                self.label.setText(str(self.setValueString))
-            
-            if(id_button == "AC"):
-                self.setValueString = ""
-                self.label.setText(str(self.setValueString))
+        if id_button != "OK" and id_button != "AC" and id_button != "<":
+            self.setValueString = self.setValueString + id_button
+            self.label.setText(str(self.setValueString))
+        
+        if(id_button == "AC"):
+            self.setValueString = ""
+            self.label.setText(str(self.setValueString))
 
-            if (id_button == "<"):
-                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
-                self.label.setText(str(self.setValueString))
+        if (id_button == "<"):
+            self.setValueString = self.setValueString[0:len(self.setValueString)-1]
+            self.label.setText(str(self.setValueString))
+
+        if(self.sectionVector[0] == True):
 
             if (id_button=="OK"):
                 self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
@@ -415,17 +416,6 @@ class Ui_MainWindow(object):
             
         # Si el usuario selecciona Reactor
         elif(self.sectionVector[5] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != "<":
-                self.setValueString = self.setValueString + id_button
-                self.label.setText(str(self.setValueString))
-
-            if(id_button == "AC"):
-                self.setValueString = ""
-                self.label.setText(str(self.setValueString))
-                
-            if (id_button == "<"):
-                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
-                self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
                 try:
@@ -438,17 +428,6 @@ class Ui_MainWindow(object):
                 
         # Si el usuario selecciona configuracion de alarmas
         elif(self.sectionVector[2] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != "<":
-                self.setValueString = self.setValueString + id_button
-                self.label.setText(str(self.setValueString))
-
-            if(id_button == "AC"):
-                self.setValueString = ""
-                self.label.setText(str(self.setValueString))
-                
-            if (id_button == "<"):
-                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
-                self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
                 self.MainWindow.close()
@@ -458,17 +437,6 @@ class Ui_MainWindow(object):
 
         # Si el usuario selecciona configuracion de resetas
         elif(self.sectionVector[3] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != "<":
-                self.setValueString = self.setValueString + id_button
-                self.label.setText(str(self.setValueString))
-
-            if(id_button == "AC"):
-                self.setValueString = ""
-                self.label.setText(str(self.setValueString))
-                
-            if (id_button == "<"):
-                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
-                self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
                 self.MainWindow.close()
@@ -478,17 +446,6 @@ class Ui_MainWindow(object):
 
         # Si el usuario selecciona configuracion de escalado
         elif(self.sectionVector[1] == True):
-            if id_button != "OK" and id_button != "AC" and id_button != "<":
-                self.setValueString = self.setValueString + id_button
-                self.label.setText(str(self.setValueString))
-
-            if(id_button == "AC"):
-                self.setValueString = ""
-                self.label.setText(str(self.setValueString))
-                
-            if (id_button == "<"):
-                self.setValueString = self.setValueString[0:len(self.setValueString)-1]
-                self.label.setText(str(self.setValueString))
 
             if (id_button=="OK"):
                 self.MainWindow.close()

@@ -47,11 +47,14 @@ class modbus:
 			self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
 
 			# Registros controladores de flujo masico (MFC: Mass flow controllers)
-			# Inicia a partir del registro 4098 (Dec) = 1002 (Hex)
-			self.registrosMFC_SV_Hex = ['1002','1003','1004','1005']
+			
+			# Set values inicia a partir del registro 4098 (Dec) = 1002 (Hex)
+			# Present values inician a partir del registro 4197 (Dec) = 1065 (Hex)
 
-			# Inicia a partir del registro 4197 (Dec) = 1065 (Hex)
-			self.registrosMFC_PV_Hex = ['1065','1066','1067','1068']
+			self.registrosMFC1_SV_PV = ['1002','1065']
+			self.registrosMFC2_SV_PV = ['1003','1066']
+			self.registrosMFC3_SV_PV = ['1004','1067']
+			self.registrosMFC4_SV_PV = ['1005','1068']
 
 			# Escalado inicia a partir del registro 4606 (Dec) = 11FE (Hex)
 			# In: Xmax, Xmin, Ymax, Ymin
@@ -134,6 +137,9 @@ class modbus:
 			self.registrosPIDHornosLectura = []
 			self.registrosHorno = []
 			self.registros_SetPresent_Value_Hornos = []
+			self.startBit = ':'
+			self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
+			self.stopbits = '\r\n' #Bis de stop
 
 		except:
 			print("error en la conexion con el plc")
@@ -153,30 +159,18 @@ class modbus:
 			elif(horno_manta_seleccionada=='horno4'):
 				vectorRegistros = self.vectorRegistrosHorno4_Hex
 
-			startBit = ':'  #Bit de inicio
-			stopbits = '\r\n' #Bis de stop
-			prefijo = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 			sufijo = '000D' #Numero de registros a leer, 11 en este caso
 
 			###### leyendo 11 registros 000B registros #######
 			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
 			registro = (vectorRegistros[0].split('x')[1]).upper()     
 			
-			modbusCommand = prefijo + registro + sufijo
-
-			#print(modbusCommand)
-
-			vectorModbus = list(modbusCommand)
+			modbusCommand = self.prefijo_lectura + registro + sufijo
 
 			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
-			checkSum = self.checkSumCalculation(vectorModbus)
+			checkSum = self.checkSumCalculation(modbusCommand)
 
-			# if el checksum es solo un dato ej: A, debe completarse 0A, debe ir en dos bits
-			if len(checkSum) == 1:
-				comandoModbus = startBit + modbusCommand + '0' + checkSum.upper() + '\r\n'
-				
-			elif len(checkSum) == 2:
-				comandoModbus = startBit + modbusCommand + checkSum.upper() + '\r\n'
+			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
 
 			self.s.write(bytes(comandoModbus,'UTF-8'))	
 			time.sleep(0.1)
@@ -193,35 +187,20 @@ class modbus:
 			#Lee set_value_present_value
 			registro_SV_PV = (vectorRegistros[13].split('x')[1]).upper() 
 			sufijo_SV_PV = '0002'
-			modbusCommand_SV_PV = prefijo + registro_SV_PV + sufijo_SV_PV
-			vectorModbus_SV_PV = list(modbusCommand_SV_PV)
-			checksum_SV_PV = self.checkSumCalculation(vectorModbus_SV_PV)
+			modbusCommand_SV_PV = self.prefijo_lectura + registro_SV_PV + sufijo_SV_PV
+			checksum_SV_PV = self.checkSumCalculation(modbusCommand_SV_PV)
 
 			#Lee GPWM
 			registro_GPWM = (vectorRegistros[14].split('x')[1]).upper() 
 			sufijo_GPWM = '0001'
-			modbusCommand_GPWM = prefijo + registro_GPWM + sufijo_GPWM
-			vectorModbus_GPWM = list(modbusCommand_GPWM)
-			checksum_GPWM = self.checkSumCalculation(vectorModbus_GPWM)
+			modbusCommand_GPWM = self.prefijo_lectura + registro_GPWM + sufijo_GPWM
+			checksum_GPWM = self.checkSumCalculation(modbusCommand_GPWM)
 
-			if len(checksum_SV_PV) == 1:
-
-				self.s.write(bytes(startBit + modbusCommand_SV_PV + '0' + checksum_SV_PV.upper() + '\r\n','UTF-8'))
-
-			elif len(checksum_SV_PV) == 2:
-
-				self.s.write(bytes(startBit + modbusCommand_SV_PV + checksum_SV_PV.upper() + '\r\n','UTF-8'))
-
+			self.s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
 
 			variablePID_SV_PV =  self.s.readline()   # lee serial
 
-			if len(checksum_GPWM) == 1:
-
-				self.s.write(bytes(startBit + modbusCommand_GPWM + '0' + checksum_GPWM.upper() + '\r\n','UTF-8'))
-
-			elif len(checksum_GPWM) == 2:
-
-				self.s.write(bytes(startBit + modbusCommand_GPWM + checksum_GPWM.upper() + '\r\n','UTF-8'))
+			self.s.write(bytes(self.startBit + modbusCommand_GPWM + checksum_GPWM + '\r\n','UTF-8'))
 
 			
 			variablePID_GPWM = self.s.readline()   # lee serial
@@ -290,7 +269,7 @@ class modbus:
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
 
 		try:
-			#print('horno seleccionadoX=',horno_mantaSeleccionada)
+			
 			if (horno_mantaSeleccionada=='horno1'):
 			        vectorRegistros = self.vectorRegistrosHorno1_Hex
 			        registroRampa = '0x' + self.registrosRampasHornos_Hex[0]
@@ -303,6 +282,14 @@ class modbus:
 			elif(horno_mantaSeleccionada=='horno4'):
 			        vectorRegistros = self.vectorRegistrosHorno4_Hex
 			        registroRampa = '0x' + self.registrosRampasHornos_Hex[3]
+			elif(horno_mantaSeleccionada=='MFC1'):
+					vectorRegistros=self.registrosMFC1_SV_PV
+			elif(horno_mantaSeleccionada=='MFC2'):
+					vectorRegistros=self.registrosMFC2_SV_PV
+			elif(horno_mantaSeleccionada=='MFC3'):
+					vectorRegistros=self.registrosMFC3_SV_PV
+			elif(horno_mantaSeleccionada=='MFC4'):
+					vectorRegistros=self.registrosMFC4_SV_PV
 
 			if variablePID == 'tiempoMuestreo':
 			        registro = vectorRegistros[0]
@@ -336,9 +323,12 @@ class modbus:
 			        registro = vectorRegistros[14]
 			elif variablePID == 'rampa':
 					registro = registroRampa
+			elif variablePID == 'setValue_MFC':
+					registro = '0x'+ vectorRegistros[0]
+			elif variablePID == 'presentValue_MFC':
+					registro = '0x'+ vectorRegistros[1]
 
-			startBit = ':'
-			stopbits = '\r\n'
+			print('registro!!!!!',registro)
 			prefijo = '0106'   
 			registro = (registro.split('x')[1]).upper()
 			setValue = hex(int(valorPID)).split('x')[1].upper()
@@ -350,15 +340,10 @@ class modbus:
 				setValue = '0' + setValue
 
 			modbusCommand = prefijo + registro + setValue 
-			
-			vectorModbus = list(modbusCommand)
 			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
-			checkSum = self.checkSumCalculation(vectorModbus)
+			checkSum = self.checkSumCalculation(modbusCommand)
 
-			if len(checkSum)==1:
-				checkSum = '0' + checkSum  # El check sum debe ir en dos bytes (ej: si es F, debe convertirse en 0F)
-
-			modbusCommand = bytes(startBit + modbusCommand + checkSum + stopbits, 'UTF-8')
+			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
 			
 			self.s.write(modbusCommand)
 			time.sleep(0.1)
@@ -382,9 +367,42 @@ class modbus:
 	### Hornos Escritura de datos, vista variables PID ###
 	######################################################	
 	def read_variablesVistaReactor(self):
+		# Read set values MFC (mass flow controller)
+		try:
+			comandoModbus_MFC_SV = self.prefijo_lectura + self.registrosMFC1_SV_PV[0] + '0004'
+			checksum_MFC_SV = self.checkSumCalculation(comandoModbus_MFC_SV)
+			self.s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
+			variablePID_MFC_SV =  self.s.readline()   # lee serial sv-presentValue
+
+			registros_MFC_SV =  str(variablePID_MFC_SV).split(':')[1]
+			registros_MFC_SV = list(registros_MFC_SV)
+			registros_MFC_SV = registros_MFC_SV[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			registros_MFC_SV = [registros_MFC_SV[0]+registros_MFC_SV[1]+registros_MFC_SV[2]+registros_MFC_SV[3],
+								registros_MFC_SV[4]+registros_MFC_SV[5]+registros_MFC_SV[6]+registros_MFC_SV[7],
+								registros_MFC_SV[8]+registros_MFC_SV[9]+registros_MFC_SV[10]+registros_MFC_SV[11],
+								registros_MFC_SV[12]+registros_MFC_SV[13]+registros_MFC_SV[14]+registros_MFC_SV[15]]
+		except:
+			registros_MFC_SV = ['1','1','1','1']
+
+		# Read present values MFC (mass flow controller)
+		try:
+			comandoModbus_MFC_PV = self.prefijo_lectura + self.registrosMFC1_SV_PV[1] + '0004'
+			checksum_MFC_PV = self.checkSumCalculation(comandoModbus_MFC_PV)
+			self.s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
+			variablePID_MFC_PV =  self.s.readline()   # lee serial sv-presentValue
+
+			registros_MFC_PV =  str(variablePID_MFC_PV).split(':')[1]
+			registros_MFC_PV = list(registros_MFC_PV)
+			registros_MFC_PV = registros_MFC_PV[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			registros_MFC_PV = [registros_MFC_PV[0]+registros_MFC_PV[1]+registros_MFC_PV[2]+registros_MFC_PV[3],
+								registros_MFC_PV[4]+registros_MFC_PV[5]+registros_MFC_PV[6]+registros_MFC_PV[7],
+								registros_MFC_PV[8]+registros_MFC_PV[9]+registros_MFC_PV[10]+registros_MFC_PV[11],
+								registros_MFC_PV[12]+registros_MFC_PV[13]+registros_MFC_PV[14]+registros_MFC_PV[15]]
+		except:
+			registros_MFC_PV = ['2','2','2','2']	
+
 		try:
 			#Lee set_value_present_value
-
 			for i in range(4):
 				registrosRampa = self.registrosRampasHornos_Hex[i]
 				if i == 0:
@@ -396,34 +414,24 @@ class modbus:
 				elif i == 3:
 					registro = self.vectorRegistrosHorno4_Hex[13]
 
-				registro_SV_PV = (registro.split('x')[1]).upper()
-				startBit = ':'
-				prefijo = '0103'  
+				registro_SV_PV = (registro.split('x')[1]).upper() 
 				sufijo_SV_PV = '0002'  #Numero de registros para leer
 				sufijoRampa = '0001'
 
-				modbusCommand_SV_PV = prefijo + registro_SV_PV + sufijo_SV_PV
-				vectorModbus_SV_PV = list(modbusCommand_SV_PV)
-				checksum_SV_PV = self.checkSumCalculation(vectorModbus_SV_PV)
+				modbusCommand_SV_PV = self.prefijo_lectura + registro_SV_PV + sufijo_SV_PV
+				checksum_SV_PV = self.checkSumCalculation(modbusCommand_SV_PV)
 
-				comandoModbus_Rampa = prefijo + registrosRampa + sufijoRampa
-				vectorModbus_Rampa = list(comandoModbus_Rampa)
-				checksum_Rampa = self.checkSumCalculation(vectorModbus_Rampa)
+				comandoModbus_Rampa = self.prefijo_lectura + registrosRampa + sufijoRampa
+				checksum_Rampa = self.checkSumCalculation(comandoModbus_Rampa)
 
-				if len(checksum_SV_PV) == 1:
-					self.s.write(bytes(startBit + modbusCommand_SV_PV + '0' + checksum_SV_PV.upper() + '\r\n','UTF-8'))
-				elif len(checksum_SV_PV) == 2:
-					self.s.write(bytes(startBit + modbusCommand_SV_PV + checksum_SV_PV.upper() + '\r\n','UTF-8'))
+				self.s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
 
 				variablePID_SV_PV =  self.s.readline()   # lee serial sv-presentValue
 
-				if len(checksum_Rampa) == 1:
-					self.s.write(bytes(startBit + comandoModbus_Rampa + '0' + checksum_Rampa.upper() + '\r\n','UTF-8'))
-				elif len(checksum_SV_PV) == 2:
-					self.s.write(bytes(startBit + comandoModbus_Rampa + checksum_Rampa.upper() + '\r\n','UTF-8'))
+				self.s.write(bytes(self.startBit + comandoModbus_Rampa + checksum_Rampa + '\r\n','UTF-8'))
 
 				variablePID_rampa =  self.s.readline()   # lee serial rampa
-				print(variablePID_rampa)
+				#print(variablePID_rampa)
 
 				registroRampa =  str(variablePID_rampa).split(':')[1]
 				registroRampa = list(registroRampa)
@@ -443,54 +451,25 @@ class modbus:
 				self.registros_SetPresent_Value_Hornos.append(presentValueHorno)
 				self.registros_SetPresent_Value_Hornos.append(rampa)
 			
-				
-			return (self.registros_SetPresent_Value_Hornos)
+			return (self.registros_SetPresent_Value_Hornos, registros_MFC_SV, registros_MFC_PV)
 		except:
 			#self.read_variablesVistaReactor()
 			return ['0','0','0','0','0','0','0','0','0','0','0','0']
 
 
-	################################################
-	### Lectura parametros de hornos(interfaz reactor): present value: PV, set value: SV, rampa: R, por definir: X: 
-	################################################	
-	def write_variablesHornos(self, variablesHornos):
-		
-		try:
-			# Horno 1
-
-			self.instrument.write_register(1556,variablesHornos[0][1],1)
-			self.instrument.write_register(1556,variablesHornos[0][2],1)
-			self.instrument.write_register(1556,variablesHornos[0][3],1)
-			self.instrument.write_register(1556,variablesHornos[0][4],1)
-
-			# Horno 2
-			self.instrument.write_register(1556,variablesHornos[1][1],1)
-			self.instrument.write_register(1556,variablesHornos[1][2],1)
-			self.instrument.write_register(1556,variablesHornos[1][3],1)
-			self.instrument.write_register(1556,variablesHornos[1][4],1)
-
-			# Horno 3
-			self.instrument.write_register(1556,variablesHornos[2][1],1)
-			self.instrument.write_register(1556,variablesHornos[2][2],1)
-			self.instrument.write_register(1556,variablesHornos[2][3],1)
-			self.instrument.write_register(1556,variablesHornos[2][4],1)
-
-			# Horno 4
-			self.instrument.write_register(1556,variablesHornos[3][1],1)
-			self.instrument.write_register(1556,variablesHornos[3][2],1)
-			self.instrument.write_register(1556,variablesHornos[3][3],1)
-			self.instrument.write_register(1556,variablesHornos[3][4],1)
-		except:
-			print('error en la escritura de datos en plc')
-
 	def checkSumCalculation(self,vectorModbus):
 		#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+		vectorModbus = list(vectorModbus)
+
 		checkSum = int('FF',16) - (int(vectorModbus[0] + vectorModbus[1],16) + int(vectorModbus[2] + vectorModbus[3],16) + int(vectorModbus[4] + vectorModbus[5],16) + int(vectorModbus[6] + vectorModbus[7],16) + int(vectorModbus[8] + vectorModbus[9],16) + int(vectorModbus[10] + vectorModbus[11],16)) + 1
 		if checkSum < 0:
 			checkSum = checkSum + 255 + 1
 
 		checkSum = hex(checkSum).split('x')[1]  #split('x') porque el retorno de convertir un int a un hex es 0x0A, queda (0,0A)
-		#print(checkSum.upper())
+		if len(checkSum) == 1:
+			checkSum = '0' + checkSum 
+		elif len(checkSum) == 2:
+			pass
 		#Cuando el numero hexadecimal contiene letras ej: 0x0A, python retorna 0a, se debe volver mayuscula
 		
 		return checkSum.upper() 
