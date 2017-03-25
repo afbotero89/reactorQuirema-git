@@ -46,6 +46,27 @@ class modbus:
 			
 			self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
 
+			# Registros controladores de flujo masico (MFC: Mass flow controllers)
+			# Inicia a partir del registro 4098 (Dec) = 1002 (Hex)
+			self.registrosMFC_SV_Hex = ['1002','1003','1004','1005']
+
+			# Inicia a partir del registro 4197 (Dec) = 1065 (Hex)
+			self.registrosMFC_PV_Hex = ['1065','1066','1067','1068']
+
+			# Escalado inicia a partir del registro 4606 (Dec) = 11FE (Hex)
+			# In: Xmax, Xmin, Ymax, Ymin
+			self.registrosMFC1_IN = ['11FE','11FF','1200','1201']
+			self.registrosMFC2_IN = ['1202','1203','1204','1205']
+			self.registrosMFC3_IN = ['1206','1207','1208','1209']
+			self.registrosMFC4_IN = ['120A','120B','120C','120D']
+
+			# Escalado inicia a partir del registro 4631 (Dec) = 1217 (Hex)
+			# Out: Xmax, Xmin, Ymax, Ymin
+			self.registrosMFC1_OUT = ['1217','1218','1219','121A']
+			self.registrosMFC2_OUT = ['121B','121C','121D','121E']
+			self.registrosMFC3_OUT = ['121F','1220','1221','1222']
+			self.registrosMFC4_OUT = ['1223','1224','1225','1226']
+
 			self.vectorRegistrosHorno1_Hex = [hex(self.vectorRegistrosHorno1[0]),
 											  hex(self.vectorRegistrosHorno1[1]),
 											  hex(self.vectorRegistrosHorno1[2]),
