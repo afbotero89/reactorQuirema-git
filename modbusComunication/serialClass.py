@@ -137,6 +137,8 @@ class modbus:
 			self.registrosPIDHornosLectura = []
 			self.registrosHorno = []
 			self.registros_SetPresent_Value_Hornos = []
+			self.registrosEscalado_IN = []
+			self.registrosEscalado_OUT = []
 			self.startBit = ':'
 			self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 			self.stopbits = '\r\n' #Bis de stop
@@ -456,6 +458,104 @@ class modbus:
 			#self.read_variablesVistaReactor()
 			return ['0','0','0','0','0','0','0','0','0','0','0','0']
 
+
+	def readVarialesVistaEscalado(self):
+		# Read values MFC (mass flow controller), escalado IN
+		try:
+			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0010'
+			checksum_MFC_IN = self.checkSumCalculation(comandoModbus_MFC_IN)
+			self.s.write(bytes(self.startBit + comandoModbus_MFC_IN + checksum_MFC_IN + '\r\n','UTF-8'))
+			variablePID_MFC_IN =  self.s.readline()   # lee serial sv-presentValue
+
+			registros_MFC_IN =  str(variablePID_MFC_IN).split(':')[1]
+			registros_MFC_IN = list(registros_MFC_IN)
+			registros_MFC_IN = registros_MFC_IN[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			for i in range(16):
+				registros_MFC = registros_MFC_IN[i*4]+registros_MFC_IN[(i*4) + 1]+registros_MFC_IN[(i*4) + 2]+registros_MFC_IN[(i*4) + 3]
+				self.registrosEscalado_IN.append(registros_MFC)
+		except:
+			self.registrosEscalado_IN = ['3','3','3','3','3','3','3','3','3','3','3','3','3','3','3','3']
+
+				# Read values MFC (mass flow controller), escalado OUT
+		try:
+			comandoModbus_MFC_OUT = self.prefijo_lectura + self.registrosMFC1_OUT[0] + '0010'
+			checksum_MFC_OUT = self.checkSumCalculation(comandoModbus_MFC_OUT)
+			self.s.write(bytes(self.startBit + comandoModbus_MFC_OUT + checksum_MFC_OUT + '\r\n','UTF-8'))
+			variablePID_MFC_OUT =  self.s.readline()   # lee serial sv-presentValue
+
+			registros_MFC_OUT =  str(variablePID_MFC_OUT).split(':')[1]
+			registros_MFC_OUT = list(registros_MFC_OUT)
+			registros_MFC_OUT = registros_MFC_OUT[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			for i in range(16):
+				registros_MFC = registros_MFC_OUT[i*4]+registros_MFC_OUT[(i*4) + 1]+registros_MFC_OUT[(i*4) + 2]+registros_MFC_OUT[(i*4) + 3]
+				self.registrosEscalado_OUT.append(registros_MFC)
+		except:
+			self.registrosEscalado_OUT = ['3','3','3','3','3','3','3','3','3','3','3','3','3','3','3','3']
+		
+		return (self.registrosEscalado_IN, self.registrosEscalado_OUT)
+	###################################################
+	### Hornos Escritura de datos, vista ESCALADO
+	###################################################		
+	def writeValues_Escalado(self, valorPID, MFC, IN_OUT, X_Y):
+			
+			# SI LA VARIABLE DE ENTRADA SELECCIONADA FUE IN
+			if (MFC=='MFC1' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC1_IN
+			if (MFC=='MFC2' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC2_IN			     
+			if (MFC=='MFC3' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC3_IN	
+			if (MFC=='MFC4' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC4_IN	
+
+			# SI LA VARIABLE DE ENTRADA SELECCIONADA FUE OUT
+			if (MFC=='MFC1' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC1_OUT
+			if (MFC=='MFC2' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC2_OUT			     
+			if (MFC=='MFC3' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC3_OUT
+			if (MFC=='MFC4' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC4_OUT
+
+			if X_Y == 'XMAX':
+			    registro = '0x' + vectorRegistros[0]
+			elif X_Y == 'XMIN':
+				registro = '0x' + vectorRegistros[1]
+			elif X_Y == 'YMAX':
+				registro = '0x' + vectorRegistros[2]
+			elif X_Y == 'YMIN':
+				registro = '0x' + vectorRegistros[3]
+
+			prefijo = '0106'   
+			registro = (registro.split('x')[1]).upper()
+			setValue = hex(int(valorPID)).split('x')[1].upper()
+			if len(setValue) == 1:
+				setValue = '000' + setValue
+			elif len(setValue) == 2:
+				setValue = '00' + setValue
+			elif len(setValue) == 3:
+				setValue = '0' + setValue
+
+			modbusCommand = prefijo + registro + setValue 
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
+			
+			self.s.write(modbusCommand)
+			time.sleep(0.1)
+			respuestaPLC = self.s.readline()
+			
+			if (modbusCommand == respuestaPLC):
+				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
+			else:
+				time.sleep(0.2)
+				self.s.write(modbusCommand)
+				
+			print('respuestaPLC', respuestaPLC)
+			print('escrito',modbusCommand)
+			#self.instrument.write_register(registro,valorPID,1)
 
 	def checkSumCalculation(self,vectorModbus):
 		#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1

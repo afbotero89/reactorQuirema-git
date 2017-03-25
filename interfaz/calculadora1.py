@@ -41,8 +41,14 @@ class Ui_MainWindow(object):
         MainWindow.closeEvent = self.closeEvent_recetas
         self.init_Interface(MainWindow, sectionVector)
 
-    def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, escaladoMainWindow):
+    def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, X_Y, escaladoMainWindow):
         self.escaladoMainWindow = escaladoMainWindow
+
+        self.instanciaModbus = serialClass.modbus()
+        self.controladorFlujo = controladorFlujo
+        self.IN_OUT = IN_OUT
+        self.X_Y = X_Y
+
         MainWindow.closeEvent = self.closeEvent_escalado
         self.init_Interface(MainWindow, sectionVector)
 
@@ -450,6 +456,7 @@ class Ui_MainWindow(object):
             if (id_button=="OK"):
                 self.MainWindow.close()
                 self.escaladoMainWindow.setEnabled(True)
+                self.instanciaModbus.writeValues_Escalado(float(self.setValueString), self.controladorFlujo, self.IN_OUT, self.X_Y)
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
 
     def closeEvent_PID_reactor(self, event):
