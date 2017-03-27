@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
-import calculadora1
+import calculadora2
 import sys
 sys.path.append('../DB_SQL')
 import dbSQLClass
@@ -341,7 +341,7 @@ class Ui_MainWindow(object):
 
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
-        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora = calculadora2.Ui_MainWindow()
         self.calculadora.setupUi_Alarmas(MainWindow, alarmaSeleccionada, button, self.sectionVector, self.MainWindow)
         MainWindow.show()
 

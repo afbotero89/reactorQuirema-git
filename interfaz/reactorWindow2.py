@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
-import calculadora1
+import calculadora2
 import sys
 sys.path.append('../modbusComunication')
 import serialClass
@@ -196,14 +196,14 @@ class Ui_MainWindow(object):
         self.label_6.setStyleSheet("background-color : qlineargradient(spread:pad, x1:1, y1:0.119318, x2:1, y2:1, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
         self.label_6.setText("")
         self.label_6.setObjectName("label_6")
-        self.label_7 = QtWidgets.QLabel(self.centralWidget)
-        self.label_7.setGeometry(QtCore.QRect(670, 200, 41, 41))
-        self.label_7.setStyleSheet("background-color :qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 51, 102, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"border-radius: 20px;\n"
-"qproperty-alignment: AlignCenter;color:black")
-        self.label_7.setObjectName("label_7")
-        self.line = QtWidgets.QFrame(self.centralWidget)
-        self.line.setGeometry(QtCore.QRect(650, 80, 41, 16))
+        #self.label_7 = QtWidgets.QLabel(self.centralWidget)
+        #self.label_7.setGeometry(QtCore.QRect(670, 200, 41, 41))
+        #self.label_7.setStyleSheet("background-color :qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 51, 102, 255), stop:1 rgba(255, 255, 255, 255));\n"
+#"border-radius: 20px;\n"
+#"qproperty-alignment: AlignCenter;color:black")
+        #self.label_7.setObjectName("label_7")
+        #self.line = QtWidgets.QFrame(self.centralWidget)
+        #self.line.setGeometry(QtCore.QRect(650, 80, 41, 16))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -340,12 +340,12 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        self.line.setPalette(palette)
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.line_2 = QtWidgets.QFrame(self.centralWidget)
-        self.line_2.setGeometry(QtCore.QRect(680, 90, 20, 111))
+        #self.line.setPalette(palette)
+        #self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        #self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        #self.line.setObjectName("line")
+        #self.line_2 = QtWidgets.QFrame(self.centralWidget)
+        #self.line_2.setGeometry(QtCore.QRect(680, 90, 20, 111))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -482,12 +482,12 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        self.line_2.setPalette(palette)
-        self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_2.setObjectName("line_2")
-        self.line_3 = QtWidgets.QFrame(self.centralWidget)
-        self.line_3.setGeometry(QtCore.QRect(680, 240, 20, 81))
+        #self.line_2.setPalette(palette)
+        #self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
+        #self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        #self.line_2.setObjectName("line_2")
+        #self.line_3 = QtWidgets.QFrame(self.centralWidget)
+        #self.line_3.setGeometry(QtCore.QRect(680, 240, 20, 81))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -624,12 +624,12 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        self.line_3.setPalette(palette)
-        self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.line_4 = QtWidgets.QFrame(self.centralWidget)
-        self.line_4.setGeometry(QtCore.QRect(650, 310, 41, 16))
+        #self.line_3.setPalette(palette)
+        #self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
+        #self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        #self.line_3.setObjectName("line_3")
+        #self.line_4 = QtWidgets.QFrame(self.centralWidget)
+        #self.line_4.setGeometry(QtCore.QRect(650, 310, 41, 16))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -766,10 +766,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        self.line_4.setPalette(palette)
-        self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_4.setObjectName("line_4")
+        #self.line_4.setPalette(palette)
+        #self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
+        #self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        #self.line_4.setObjectName("line_4")
         self.line_5 = QtWidgets.QFrame(self.centralWidget)
         self.line_5.setGeometry(QtCore.QRect(640, 340, 20, 81))
         palette = QtGui.QPalette()
@@ -7033,9 +7033,25 @@ class Ui_MainWindow(object):
         self.label_50.setScaledContents(True)
         self.label_50.setObjectName("label_50")
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
-        self.playButton.setGeometry(QtCore.QRect(660, 30, 41, 32))
+        self.playButton.setGeometry(QtCore.QRect(670, 290, 41, 32))
         self.playButton.setStyleSheet("color:black;")
         self.playButton.setObjectName("playButton")
+
+        self.playButton1 = QtWidgets.QPushButton(self.centralWidget)
+        self.playButton1.setGeometry(QtCore.QRect(670, 324, 41, 32))
+        self.playButton1.setStyleSheet("color:black;")
+        self.playButton1.setObjectName("playButton")
+
+        self.playButton2 = QtWidgets.QPushButton(self.centralWidget)
+        self.playButton2.setGeometry(QtCore.QRect(670, 358, 41, 32))
+        self.playButton2.setStyleSheet("color:black;")
+        self.playButton2.setObjectName("playButton")
+
+        self.playButton3 = QtWidgets.QPushButton(self.centralWidget)
+        self.playButton3.setGeometry(QtCore.QRect(670, 392, 41, 32))
+        self.playButton3.setStyleSheet("color:black;")
+        self.playButton3.setObjectName("playButton")        
+
         self.label_51 = QtWidgets.QLabel(self.centralWidget)
         self.label_51.setGeometry(QtCore.QRect(10, 40, 21, 16))
         self.label_51.setStyleSheet("color:white;")
@@ -7114,7 +7130,7 @@ class Ui_MainWindow(object):
 
         self.pushButtonHome = QtWidgets.QPushButton(self.centralWidget)
         self.pushButtonHome.setGeometry(QtCore.QRect(10, 0, 31, 31))
-        self.pushButtonHome.setStyleSheet("background-color: #D0D0D0; color:white; font-size: 22pt;")
+        self.pushButtonHome.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
         self.pushButtonHome.setIcon(QtGui.QIcon('../images/home.png'))
         self.pushButtonHome.setIconSize(QtCore.QSize(21,21))
 
@@ -7125,7 +7141,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quirema"))
         self.label.setText(_translate("MainWindow", "                   Quirema                                     Reactor"))
-        self.label_7.setText(_translate("MainWindow", "P"))
+        #self.label_7.setText(_translate("MainWindow", "P"))
         self.pushButton_SV1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_PV1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_R1.setText(_translate("MainWindow", "000.0"))
@@ -7182,7 +7198,10 @@ class Ui_MainWindow(object):
         self.label_44.setText(_translate("MainWindow", "Ar"))
         self.pushButton_SV_flujo1.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_PV_flujo1.setText(_translate("MainWindow", "0000.0"))
-        self.playButton.setText(_translate("MainWindow", "Play"))
+        self.playButton.setText(_translate("MainWindow", "Play 1"))
+        self.playButton1.setText(_translate("MainWindow", "Play 2"))
+        self.playButton2.setText(_translate("MainWindow", "Play 3"))
+        self.playButton3.setText(_translate("MainWindow", "Play 4"))
         self.label_51.setText(_translate("MainWindow", "SV:"))
         self.label_52.setText(_translate("MainWindow", "PV:"))
         self.pushButton_PV_flujo2.setText(_translate("MainWindow", "0000.0"))
@@ -7206,21 +7225,21 @@ class Ui_MainWindow(object):
     def actionButtons(self):
         self.pushButtonHome.clicked.connect(self.home)
         self.pushButton_SV1.clicked.connect(lambda: self.setValuesHorno('setValue','horno1'))
-        self.pushButton_PV1.clicked.connect(lambda: self.setValuesHorno('presentValue','horno1'))
+        #self.pushButton_PV1.clicked.connect(lambda: self.setValuesHorno('presentValue','horno1'))
         self.pushButton_R1.clicked.connect(lambda: self.setValuesHorno('rampa','horno1'))
         self.pushButton_X1.clicked.connect(lambda: self.setValuesHorno('X','horno1'))
 
         self.pushButton_X2.clicked.connect(lambda: self.setValuesHorno('X','horno2'))
-        self.pushButton_PV2.clicked.connect(lambda: self.setValuesHorno('presentValue','horno2'))
+        #self.pushButton_PV2.clicked.connect(lambda: self.setValuesHorno('presentValue','horno2'))
         self.pushButton_SV2.clicked.connect(lambda: self.setValuesHorno('setValue','horno2'))
         self.pushButton_R2.clicked.connect(lambda: self.setValuesHorno('rampa','horno2'))
 
-        self.pushButton_PV3.clicked.connect(lambda: self.setValuesHorno('presentValue','horno3'))
+        #self.pushButton_PV3.clicked.connect(lambda: self.setValuesHorno('presentValue','horno3'))
         self.pushButton_SV3.clicked.connect(lambda: self.setValuesHorno('setValue','horno3'))
         self.pushButton_X3.clicked.connect(lambda: self.setValuesHorno('X','horno3'))
         self.pushButton_R3.clicked.connect(lambda: self.setValuesHorno('rampa','horno3'))
 
-        self.pushButton_PV4.clicked.connect(lambda: self.setValuesHorno('presentValue','horno4'))
+        #self.pushButton_PV4.clicked.connect(lambda: self.setValuesHorno('presentValue','horno4'))
         self.pushButton_R4.clicked.connect(lambda: self.setValuesHorno('rampa','horno4'))
         self.pushButton_SV4.clicked.connect(lambda: self.setValuesHorno('setValue','horno4'))
         self.pushButton_X4.clicked.connect(lambda: self.setValuesHorno('X','horno4'))
@@ -7228,19 +7247,19 @@ class Ui_MainWindow(object):
         # Controladores de flujo
         # MFC1
         self.pushButton_SV_flujo1.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC1'))
-        self.pushButton_PV_flujo1.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC1'))
+        #self.pushButton_PV_flujo1.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC1'))
 
         # MFC2
         self.pushButton_SV_flujo2.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC2'))
-        self.pushButton_PV_flujo2.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC2'))
+        #self.pushButton_PV_flujo2.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC2'))
 
         # MFC3
         self.pushButton_SV_flujo3.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC3'))
-        self.pushButton_PV_flujo3.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC3'))
+        #self.pushButton_PV_flujo3.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC3'))
 
         # MFC4
         self.pushButton_SV_flujo4.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC4'))
-        self.pushButton_PV_flujo4.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC4'))
+        #self.pushButton_PV_flujo4.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC4'))
 
         self.playButton.clicked.connect(self.playHornos)
 
@@ -7254,12 +7273,13 @@ class Ui_MainWindow(object):
     def setValuesHorno(self, variable, equipoSeleccionado):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
-        self.calculadora = calculadora1.Ui_MainWindow()
+        self.calculadora = calculadora2.Ui_MainWindow()
         self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
     def playHornos(self):  
-        self.instanciaModbus.write_variablesHornos(self.variablesHornos)
+        print('start hornos')
+        #self.instanciaModbus.write_variablesHornos(self.variablesHornos)
 
     def actualizaValoresPIDTimer(self):
         self.instanciaModbus = serialClass.modbus()

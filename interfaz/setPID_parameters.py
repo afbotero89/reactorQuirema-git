@@ -12,7 +12,7 @@ import serialClass
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PID_parameters
 import Home
-import calculadora1
+import calculadora2
 import sqlite3
 import threading
 import time
@@ -171,7 +171,7 @@ class Ui_MainWindow(object):
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
         self.playButton.setGeometry(QtCore.QRect(640, 300, 100, 100))
         self.playButton.setObjectName("playButton")
-        self.playButton.setStyleSheet("background-color: #ffffff; color:white; font-size: 22pt; border-radius: 50px;")
+        self.playButton.setStyleSheet("background-color: #444444; color:white; font-size: 22pt;")
         self.playButton.setIcon(QtGui.QIcon('../images/playButton.png'))
         self.playButton.setIconSize(QtCore.QSize(100,100))
 
@@ -316,7 +316,7 @@ class Ui_MainWindow(object):
         self.buttonValIntegralAcumulado.clicked.connect(lambda: self.displayCalculadora('valorIntegralAcumulado'))
         self.buttonPVAnterior.clicked.connect(lambda: self.displayCalculadora('PVAnterior'))
         self.buttonSetValue.clicked.connect(lambda: self.displayCalculadora('setValue'))
-        self.buttonPresentValue.clicked.connect(lambda: self.displayCalculadora('presentValue'))
+        #self.buttonPresentValue.clicked.connect(lambda: self.displayCalculadora('presentValue'))
         self.buttonGPWM.clicked.connect(lambda: self.displayCalculadora('gpwm'))
         self.playButton.clicked.connect(lambda: self.displayCalculadora('play'))
 
@@ -336,14 +336,14 @@ class Ui_MainWindow(object):
         else:
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
-            self.calculadora = calculadora1.Ui_MainWindow()
+            self.calculadora = calculadora2.Ui_MainWindow()
             self.calculadora.setupUi_PID_reactor(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
             MainWindow.show()
         
 
     def actualizaValoresTimer(self):
         self.lecturaDatosPID_PLC = serialClass.modbus()
-        self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
+        self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
         # Actualiza valor pid
 
         try:
@@ -411,7 +411,7 @@ class Ui_MainWindow(object):
             pass    
         hora = time.strftime("%H:%M:%S")
         self.buttonTime.setText(hora)
-        self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
+        
         self.t = threading.Timer(1, self.actualizaValoresTimer)
         self.t.start()
 
