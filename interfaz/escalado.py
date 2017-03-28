@@ -576,9 +576,10 @@ class Ui_MainWindow(object):
     def actualizaValoresPIDTimer(self):
         self.instanciaModbus = serialClass.modbus()
         self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
-        print('variables_OUT!!!',self.variablesPIDEscalado[1])
+        
 
         try:
+            print('variables_OUT!!!',self.variablesPIDEscalado[1])
             # IN:
             self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][0],16)))
             self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][1],16)))

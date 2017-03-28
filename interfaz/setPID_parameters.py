@@ -16,6 +16,7 @@ import calculadora2
 import sqlite3
 import threading
 import time
+import serialClass
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector):
@@ -25,6 +26,7 @@ class Ui_MainWindow(object):
         self.horno_manta_seleccionada = horno_manta_seleccionada
         self.sectionVector = sectionVector
         self.contador = 0
+        self.instanciaModbus = serialClass.modbus()
 
         #self.lecturaDatosPID_PLC = serialClass.modbus()
         #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
@@ -332,7 +334,7 @@ class Ui_MainWindow(object):
 
     def displayCalculadora(self, parametroPIDSeleccionado):
         if parametroPIDSeleccionado == 'play':
-            print("playButton")
+            self.instanciaModbus.startHorno_vistaPID(self.horno_manta_seleccionada)
         else:
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
@@ -344,6 +346,7 @@ class Ui_MainWindow(object):
     def actualizaValoresTimer(self):
         self.lecturaDatosPID_PLC = serialClass.modbus()
         self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
+        self.datosPID_PLC_SV_PV_GPWM = self.lecturaDatosPID_PLC.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
         # Actualiza valor pid
 
         try:
@@ -398,15 +401,15 @@ class Ui_MainWindow(object):
         except:
             pass
         try:
-            self.buttonSetValue.setText(str(self.datosPID_PLC[12]))
+            self.buttonSetValue.setText(str(self.datosPID_PLC_SV_PV_GPWM[0]))
         except:
             pass
         try:    
-            self.buttonPresentValue.setText(str(self.datosPID_PLC[13]))
+            self.buttonPresentValue.setText(str(self.datosPID_PLC_SV_PV_GPWM[1]))
         except:
             pass
         try:
-            self.buttonGPWM.setText(str(self.datosPID_PLC[14]))
+            self.buttonGPWM.setText(str(self.datosPID_PLC_SV_PV_GPWM[2]))
         except:
             pass    
         hora = time.strftime("%H:%M:%S")
