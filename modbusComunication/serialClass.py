@@ -5,7 +5,7 @@ import time
 
 class modbus:
 	def __init__(self):
-		try:
+		
 			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
 			self.s.bytesize = 7
 			self.s.parity = serial.PARITY_EVEN
@@ -144,8 +144,7 @@ class modbus:
 			self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 			self.stopbits = '\r\n' #Bis de stop
 
-		except:
-			print("error en la conexion con el plc")
+
 
 	################################################
 	### Hornos lecturas de datos, vista variables PID
@@ -153,30 +152,31 @@ class modbus:
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
 		#print("horno=",horno_manta_seleccionada)
 		self.registrosHorno = []
-
-		if (horno_manta_seleccionada=='horno1'):
-			vectorRegistros = self.vectorRegistrosHorno1_Hex
-		elif(horno_manta_seleccionada=='horno2'):
-			vectorRegistros = self.vectorRegistrosHorno2_Hex
-		elif(horno_manta_seleccionada=='horno3'):
-			vectorRegistros = self.vectorRegistrosHorno3_Hex
-		elif(horno_manta_seleccionada=='horno4'):
-			vectorRegistros = self.vectorRegistrosHorno4_Hex
-
-		sufijo = '000D' #Numero de registros a leer, 11 en este caso
-
-		###### leyendo 11 registros 000B registros #######
-		#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
-		registro = (vectorRegistros[0].split('x')[1]).upper()     
-		
-		modbusCommand = self.prefijo_lectura + registro + sufijo
-
-		#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
-		checkSum = self.checkSumCalculation(modbusCommand)
-
-		comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
-
 		try:
+
+			if (horno_manta_seleccionada=='horno1'):
+				vectorRegistros = self.vectorRegistrosHorno1_Hex
+			elif(horno_manta_seleccionada=='horno2'):
+				vectorRegistros = self.vectorRegistrosHorno2_Hex
+			elif(horno_manta_seleccionada=='horno3'):
+				vectorRegistros = self.vectorRegistrosHorno3_Hex
+			elif(horno_manta_seleccionada=='horno4'):
+				vectorRegistros = self.vectorRegistrosHorno4_Hex
+
+			sufijo = '000D' #Numero de registros a leer, 11 en este caso
+
+			###### leyendo 11 registros 000B registros #######
+			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
+			registro = (vectorRegistros[0].split('x')[1]).upper()     
+			
+			modbusCommand = self.prefijo_lectura + registro + sufijo
+
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
+
+		
 			self.s.write(bytes(comandoModbus,'UTF-8'))	
 			time.sleep(0.1)
 
@@ -333,7 +333,6 @@ class modbus:
 			elif variablePID == 'presentValue_MFC':
 					registro = '0x'+ vectorRegistros[1]
 
-			print('registro!!!!!',registro)
 			prefijo = '0106'   
 			registro = (registro.split('x')[1]).upper()
 			setValue = hex(int(valorPID)).split('x')[1].upper()
@@ -360,8 +359,9 @@ class modbus:
 				time.sleep(0.2)
 				self.s.write(modbusCommand)
 				
-			print('respuestaPLC', respuestaPLC)
 			print('escrito',modbusCommand)
+			print('respuestaPLC', respuestaPLC)
+			
 			#self.instrument.write_register(registro,valorPID,1)
 		except:
 			#time.sleep(0.2)
@@ -379,7 +379,7 @@ class modbus:
 		try:
 			#Lee set_value_present_value
 			for i in range(4):
-				time.sleep(0.01)
+				time.sleep(0.1)
 				if i == 0:
 					registro = self.vectorRegistrosHorno1_Hex[13]
 				elif i == 1:
@@ -613,7 +613,7 @@ class modbus:
 			pass
 
 
-	def startHorno_reactor(self, hornoSeleccionado):
+	def startHorno_reactor(self, hornoSeleccionado, playButtonSelected):
 		print(hornoSeleccionado)
 		if(hornoSeleccionado=='horno1'):
 			
@@ -623,6 +623,7 @@ class modbus:
 			lectura = self.s.readline()
 			if (lectura==comando):
 				print('iguales')
+				playButtonSelected.setStyleSheet('background:red;color:white')
 		elif(hornoSeleccionado=='horno2'):
 			checkSum = self.checkSumCalculation('0105080DFF00')
 			comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
@@ -630,6 +631,8 @@ class modbus:
 			lectura = self.s.readline()
 			if (lectura==comando):
 				print('iguales')
+				playButtonSelected.setStyleSheet('background:red;color:white')
+				
 		elif(hornoSeleccionado=='horno3'):
 			checkSum = self.checkSumCalculation('0105080FFF00')
 			comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
@@ -637,6 +640,8 @@ class modbus:
 			lectura = self.s.readline()
 			if (lectura==comando):
 				print('iguales')
+				playButtonSelected.setStyleSheet('background:red;color:white')
+				
 		elif(hornoSeleccionado=='horno4'):
 			checkSum = self.checkSumCalculation('01050811FF00')
 			comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
@@ -644,6 +649,8 @@ class modbus:
 			lectura = self.s.readline()
 			if (lectura==comando):
 				print('iguales')
+				playButtonSelected.setStyleSheet('background:red;color:white')
+				
 		
 	def startHorno_vistaPID(self, hornoSeleccionado):
 		print(hornoSeleccionado)

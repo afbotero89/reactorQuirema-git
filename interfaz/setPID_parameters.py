@@ -27,6 +27,7 @@ class Ui_MainWindow(object):
         self.sectionVector = sectionVector
         self.contador = 0
         self.instanciaModbus = serialClass.modbus()
+        self.lecturaDatosPID_PLC = serialClass.modbus()
 
         #self.lecturaDatosPID_PLC = serialClass.modbus()
         #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
@@ -344,7 +345,7 @@ class Ui_MainWindow(object):
         
 
     def actualizaValoresTimer(self):
-        self.lecturaDatosPID_PLC = serialClass.modbus()
+        
         self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
         self.datosPID_PLC_SV_PV_GPWM = self.lecturaDatosPID_PLC.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
         # Actualiza valor pid
@@ -413,8 +414,10 @@ class Ui_MainWindow(object):
         except:
             pass    
         hora = time.strftime("%H:%M:%S")
-        self.buttonTime.setText(hora)
-        
+        try:
+            self.buttonTime.setText(hora)
+        except:
+            pass
         self.t = threading.Timer(1, self.actualizaValoresTimer)
         self.t.start()
 
