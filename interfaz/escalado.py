@@ -564,7 +564,7 @@ class Ui_MainWindow(object):
     def home(self):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
-        self.t.cancel()
+        self.v.cancel()
 
     def displayCalculadora(self, MFC, IN_OUT, X_Y):
         self.MainWindow.setEnabled(False)
@@ -625,8 +625,8 @@ class Ui_MainWindow(object):
         except:
             pass
 
-        self.t = threading.Timer(1.5, self.actualizaValoresPIDTimer)
-        self.t.start() 
+        self.v = threading.Timer(1.5, self.actualizaValoresPIDTimer)
+        self.v.start() 
 
 if __name__ == "__main__":
     import sys

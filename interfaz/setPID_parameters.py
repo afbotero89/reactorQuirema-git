@@ -324,14 +324,17 @@ class Ui_MainWindow(object):
         self.playButton.clicked.connect(lambda: self.displayCalculadora('play'))
 
     def back(self):
+        self.t.cancel()
+        self.instanciaModbus.closePort()
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
         self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
-        self.t.cancel()
 
     def home(self):
+        self.t.cancel()
+        self.instanciaModbus.closePort()        
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
-        self.t.cancel()
+
 
     def displayCalculadora(self, parametroPIDSeleccionado):
         if parametroPIDSeleccionado == 'play':
@@ -345,7 +348,7 @@ class Ui_MainWindow(object):
         
 
     def actualizaValoresTimer(self):
-        
+
         self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
         self.datosPID_PLC_SV_PV_GPWM = self.lecturaDatosPID_PLC.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
         # Actualiza valor pid
@@ -419,6 +422,7 @@ class Ui_MainWindow(object):
         except:
             pass
         self.t = threading.Timer(1, self.actualizaValoresTimer)
+        self.t.name = 'threadPIDWindow'
         self.t.start()
 
 

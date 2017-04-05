@@ -27,7 +27,6 @@ class Ui_MainWindow(object):
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("  " + horno_manta_seleccionada + "\n" + "  " + "Variable PID: " + variablePIDSeleccionada)
 
-
     def setupUi_Alarmas(self, MainWindow, alarmaSeleccionada, buttonSelected, sectionVector, alarmWindow):
         self.alarmWindow = alarmWindow
         self.buttonSelected = buttonSelected
@@ -452,9 +451,9 @@ class Ui_MainWindow(object):
 
             if (id_button=="OK"):
                 self.MainWindow.close()
-                self.alarmWindow.setEnabled(True)
+                self.resetasMainWindow.setEnabled(True)
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
-                self.buttonSelected.setText(self.setValueString)
+                #self.buttonSelected.setText(self.setValueString)
 
         # Si el usuario selecciona configuracion de escalado
         elif(self.sectionVector[1] == True):

@@ -11,7 +11,7 @@ from PyQt5.QtCore import QPoint
 import PID_parameters 
 import alarmsMainWindow
 import reactorWindow2
-import recetas
+import recetas1
 import escalado
 
 class Ui_MainWindow(object):
@@ -126,7 +126,7 @@ class Ui_MainWindow(object):
 
     def recetas(self):
         self.sectionVector = [False,False,False,True,False,False]
-        self.recetas = recetas.Ui_MainWindow()
+        self.recetas = recetas1.Ui_MainWindow()
         self.recetas.setupUi(self.MainWindow, self.sectionVector)
 
     def rectorMainWindow(self):
