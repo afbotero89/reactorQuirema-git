@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
         self.instanciaModbus = serialClass.modbus()
         self.lecturaDatosPID_PLC = serialClass.modbus()
         self.flag_DesactivaVista = False
+        self.playHornos_flag = False
         
         #self.lecturaDatosPID_PLC = serialClass.modbus()
         #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
@@ -173,11 +174,11 @@ class Ui_MainWindow(object):
         self.buttonGPWM.setObjectName("pushButton_13")
 
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
-        self.playButton.setGeometry(QtCore.QRect(640, 300, 100, 100))
+        self.playButton.setGeometry(QtCore.QRect(640, 300, 80, 80))
         self.playButton.setObjectName("playButton")
-        self.playButton.setStyleSheet("background-color: #444444; color:white; font-size: 22pt;")
-        self.playButton.setIcon(QtGui.QIcon('../images/playButton.png'))
-        self.playButton.setIconSize(QtCore.QSize(100,100))
+        self.playButton.setStyleSheet("background-color: black; color:white; font-size: 22pt;")
+        self.playButton.setIcon(QtGui.QIcon('../images/play-button.png'))
+        self.playButton.setIconSize(QtCore.QSize(60,60))
 
         self.label_4 = QtWidgets.QLabel(self.centralWidget)
         self.label_4.setGeometry(QtCore.QRect(630, 170, 131, 41))
@@ -325,7 +326,7 @@ class Ui_MainWindow(object):
         self.buttonSetValue.clicked.connect(lambda: self.displayCalculadora('setValue'))
         #self.buttonPresentValue.clicked.connect(lambda: self.displayCalculadora('presentValue'))
         self.buttonGPWM.clicked.connect(lambda: self.displayCalculadora('gpwm'))
-        self.playButton.clicked.connect(lambda: self.displayCalculadora('play'))
+        self.playButton.clicked.connect(lambda: self.playHornos(self.playButton))
 
     def back(self):
         self.t.cancel()
@@ -341,10 +342,15 @@ class Ui_MainWindow(object):
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
 
+    def playHornos(self, playButtonSelected):
+        self.playHornos_flag = True 
+        self.hornoSeleccionado_start = self.horno_manta_seleccionada
+        self.playButtonSelected_start = playButtonSelected
+
     def displayCalculadora(self, parametroPIDSeleccionado):
         
         if parametroPIDSeleccionado == 'play':
-            self.instanciaModbus.startHorno_vistaPID(self.horno_manta_seleccionada)
+            pass
         else:
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
@@ -438,6 +444,10 @@ class Ui_MainWindow(object):
                 self.buttonTime.setText(hora)
             except:
                 pass
+            if (self.playHornos_flag==True):
+                self.playHornos_flag = False
+                self.instanciaModbus.startHorno_vistaPID(self.horno_manta_seleccionada, self.playButtonSelected_start)
+
             time.sleep(0.01)
 
 if __name__ == "__main__":

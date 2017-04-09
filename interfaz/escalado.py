@@ -11,11 +11,14 @@ import Home
 import calculadora2
 import serialClass
 import threading
+import time
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector):
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
+        self.flag_DesactivaVista = False
+        self.instanciaModbus = serialClass.modbus()
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
@@ -510,7 +513,10 @@ class Ui_MainWindow(object):
         self.label_TITLE_FLOW6.setText(_translate("MainWindow", "C. Flujo 6"))
 
         self.actionButtons()
-        self.actualizaValoresPIDTimer()
+        #self.actualizaValoresPIDTimer()
+        self.t = threading.Timer(0.1, self.actualizaValoresPIDTimer)
+        self.t.IsBackground = True;
+        self.t.start()
 
     def actionButtons(self):
         self.pushButton_HOME.setGeometry(QtCore.QRect(0, 7, 71, 71))
@@ -562,9 +568,10 @@ class Ui_MainWindow(object):
         self.pushButton_YMIN_OUT_4.clicked.connect(lambda: self.displayCalculadora('MFC4','OUT','YMIN'))
 
     def home(self):
+        self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
-        self.v.cancel()
+        self.t.cancel()
 
     def displayCalculadora(self, MFC, IN_OUT, X_Y):
         self.MainWindow.setEnabled(False)
@@ -574,12 +581,14 @@ class Ui_MainWindow(object):
         MainWindow.show() 
 
     def actualizaValoresPIDTimer(self):
-        self.instanciaModbus = serialClass.modbus()
-        self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
-        
 
-        try:
-            print('variables_OUT!!!',self.variablesPIDEscalado[1])
+        while True:
+
+            self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
+            #print('variables_OUT!!!',self.variablesPIDEscalado[0][0])
+
+            if(self.flag_DesactivaVista==True):
+                break
             # IN:
             self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][0],16)))
             self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][1],16)))
@@ -622,11 +631,7 @@ class Ui_MainWindow(object):
             self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][14],16)))
             self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][15],16)))
 
-        except:
-            pass
-
-        self.v = threading.Timer(1.5, self.actualizaValoresPIDTimer)
-        self.v.start() 
+            time.sleep(1)
 
 if __name__ == "__main__":
     import sys

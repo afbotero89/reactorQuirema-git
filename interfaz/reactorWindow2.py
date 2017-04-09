@@ -24,6 +24,7 @@ class Ui_MainWindow(object):
         self.sectionVector = sectionVector
         self.instanciaModbus = serialClass.modbus()
         self.flag_DesactivaVista = False
+        self.playHornos_flag = False
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -7290,27 +7291,17 @@ class Ui_MainWindow(object):
         self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow)
         MainWindow.show()
 
-    def playHornos(self, hornoSeleccionado, playButtonSelected):  
-        
-        self.instanciaModbus.startHorno_reactor(hornoSeleccionado, playButtonSelected)
+    def playHornos(self, hornoSeleccionado, playButtonSelected):
+        self.playHornos_flag = True 
+        self.hornoSeleccionado_start = hornoSeleccionado
+        self.playButtonSelected_start = playButtonSelected
 
     def actualizaValoresPIDTimer(self):
         while True:
             if self.flag_DesactivaVista == True:
                 break
             variablesReactor = self.instanciaModbus.readRegister_Reactor()
-            print(variablesReactor)
-            #self.variablesPIDReactor_horno1 = self.instanciaModbus.read_variablesVistaReactor_hornos(1)
-            #self.variablesPIDReactor_horno2 = self.instanciaModbus.read_variablesVistaReactor_hornos(2)
-            #self.variablesPIDReactor_horno3 = self.instanciaModbus.read_variablesVistaReactor_hornos(3)
-            #self.variablesPIDReactor_horno4 = self.instanciaModbus.read_variablesVistaReactor_hornos(4)
 
-            #self.variablesPIDReactor_hornos_rampa1 = self.instanciaModbus.read_variablesVistaReactor_hornos_rampa(0)
-            #self.variablesPIDReactor_hornos_rampa2 = self.instanciaModbus.read_variablesVistaReactor_hornos_rampa(1)
-            #self.variablesPIDReactor_hornos_rampa3 = self.instanciaModbus.read_variablesVistaReactor_hornos_rampa(2)
-            #self.variablesPIDReactor_hornos_rampa4 = self.instanciaModbus.read_variablesVistaReactor_hornos_rampa(3)
-
-            #self.variablesPIDReactor_MFC_SV = self.instanciaModbus.read_variablesVistaReactor_MFC_SV()
             self.variablesPIDReactor_MFC_PV = self.instanciaModbus.read_variablesVistaReactor_MFC_PV()
 
             try:            
@@ -7402,8 +7393,12 @@ class Ui_MainWindow(object):
                 self.pushButton_PV_flujo4.setText(str(int(self.variablesPIDReactor_MFC_PV[3],16))) 
             except:
                 pass
-
-            time.sleep(0.01)     
+            hora = time.strftime("%H:%M:%S")
+            print(hora) 
+            if self.playHornos_flag == True:
+                self.playHornos_flag = False
+                self.instanciaModbus.startHorno_reactor(self.hornoSeleccionado_start,self.playButtonSelected_start)        
+            time.sleep(0.5)     
 
 if __name__ == "__main__":
     import sys

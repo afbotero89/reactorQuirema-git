@@ -1,5 +1,6 @@
 #Listar puertos mac, ls /dev/tty.*
 #Check sum modbus protocolo (FF-suma-1), FF es 2^8 ---> complemento  a 2 
+from PyQt5 import QtGui
 import serial
 import time
 import threading
@@ -150,6 +151,16 @@ class modbus:
 		self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 		self.stopbits = '\r\n' #Bis de stop
 
+		self.start_Horno1_PIDWindow = False
+		self.start_Horno2_PIDWindow = False
+		self.start_Horno3_PIDWindow = False
+		self.start_Horno4_PIDWindow = False
+
+		self.start_Horno1_Reactor = False
+		self.start_Horno2_Reactor = False
+		self.start_Horno3_Reactor = False
+		self.start_Horno4_Reactor = False
+
 	def readRegister_Reactor(self):
 		#print("horno=",horno_manta_seleccionada)
 		try:
@@ -198,7 +209,7 @@ class modbus:
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
 		#print("horno=",horno_manta_seleccionada)
 		self.registrosHorno = []
-		self.readRegister_Reactor()
+		#self.readRegister_Reactor()
 		try:
 
 			if (horno_manta_seleccionada=='horno1'):
@@ -395,6 +406,8 @@ class modbus:
 			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
 			
 			self.s.write(modbusCommand)
+			self.s.write(modbusCommand)
+			self.s.write(modbusCommand)
 			time.sleep(0.1)
 			respuestaPLC = self.s.readline()
 			
@@ -417,65 +430,6 @@ class modbus:
 	######################################################
 	### Hornos Escritura de datos, vista variables PID ###
 	######################################################	
-	def read_variablesVistaReactor_hornos(self, horno):
-		# Read set values MFC (mass flow controller)
-		#Lee set_value_present_value
-		try:		
-			time.sleep(0.1)
-			if horno == 1:
-				registro = self.vectorRegistrosHorno1_Hex[12]
-			elif horno == 2:
-				registro = self.vectorRegistrosHorno2_Hex[12]
-			elif horno == 3:
-				registro = self.vectorRegistrosHorno3_Hex[12]
-			elif horno == 4:
-				registro = self.vectorRegistrosHorno4_Hex[12]
-
-			registro_SV_PV = (registro.split('x')[1]).upper() 
-			sufijo_SV_PV = '0002'  #Numero de registros para leer
-
-			modbusCommand_SV_PV = self.prefijo_lectura + registro_SV_PV + sufijo_SV_PV
-			checksum_SV_PV = self.checkSumCalculation(modbusCommand_SV_PV)
-
-			self.s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
-			time.sleep(0.1)
-			variablePID_SV_PV =  self.s.readline()   # lee serial sv-presentValue
-
-			#### Set value-present value
-			registros_SV_PV = str(variablePID_SV_PV).split(':')[1]
-			registros_SV_PV = list(registros_SV_PV)
-			registros_SV_PV = registros_SV_PV[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
-
-			presentValueHorno = registros_SV_PV[0] + registros_SV_PV[1] + registros_SV_PV[2] + registros_SV_PV[3]
-			setValueHorno = registros_SV_PV[4] + registros_SV_PV[5] + registros_SV_PV[6] + registros_SV_PV[7]
-				
-			return (setValueHorno, presentValueHorno)
-		except:
-			self.init_Varialbes_Serial()
-
-	def read_variablesVistaReactor_hornos_rampa(self, horno):
-		try:	
-			registrosRampa = self.registrosRampasHornos_Hex[horno]
-			sufijoRampa = '0001'
-			comandoModbus_Rampa = self.prefijo_lectura + registrosRampa + sufijoRampa
-			checksum_Rampa = self.checkSumCalculation(comandoModbus_Rampa)
-			self.s.write(bytes(self.startBit + comandoModbus_Rampa + checksum_Rampa + '\r\n','UTF-8'))
-			time.sleep(0.1)
-			variablePID_rampa =  self.s.readline()   # lee serial rampa
-			#print("tamaño pid rampa",len(variablePID_rampa))
-			if(len(variablePID_rampa) != 15):
-				self.s.write(bytes(self.startBit + comandoModbus_Rampa + checksum_Rampa + '\r\n','UTF-8'))
-				time.sleep(0.1)
-				variablePID_rampa =  self.s.readline()   # lee serial rampa
-			registroRampa =  str(variablePID_rampa).split(':')[1]
-			registroRampa = list(registroRampa)
-			registroRampa = registroRampa[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
-
-			rampa = registroRampa[0] + registroRampa[1] + registroRampa[2] + registroRampa[3]
-			
-			return rampa
-		except:
-			pass
 
 	def read_variablesVistaReactor_MFC_SV(self):
 		try:
@@ -627,20 +581,23 @@ class modbus:
 			self.s.write(modbusCommand)
 			time.sleep(0.1)
 			respuestaPLC = self.s.readline()
-			
+			print("escrito", modbusCommand, "respuesta", respuestaPLC)
 			if (modbusCommand == respuestaPLC):
 				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
 			else:
 				time.sleep(0.1)
-				self.s.write(modbusCommand)
+				pass
+				#self.s.write(modbusCommand)
 		except:
 			pass
 
 
 	def startHorno_reactor(self, hornoSeleccionado, playButtonSelected):
-		print(hornoSeleccionado)
+		print("escalado", hornoSeleccionado)
+		
 		try:
-			if(hornoSeleccionado=='horno1'):
+			flag_start = False
+			if(hornoSeleccionado=='horno1' and self.start_Horno1_Reactor == False):
 				
 				checkSum = self.checkSumCalculation('0105080BFF00')
 				comando = bytes(':0105080BFF00'+ checkSum + '\r\n','UTF-8')
@@ -648,77 +605,185 @@ class modbus:
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
+					print('start 1')
+					flag_start = True
+					self.start_Horno1_Reactor = True
 					playButtonSelected.setStyleSheet('background:green;color:white')
-			elif(hornoSeleccionado=='horno2'):
+			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080DFF00')
 				comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
+					print('start 2')
+					flag_start = True
+					self.start_Horno2_Reactor = True
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					
-			elif(hornoSeleccionado=='horno3'):
+			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080FFF00')
 				comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
+					print('start 3')
+					flag_start = True
+					self.start_Horno3_Reactor = True
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					
-			elif(hornoSeleccionado=='horno4'):
+			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == False):
 				checkSum = self.checkSumCalculation('01050811FF00')
 				comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
+					print('start 4')
+					flag_start = True
+					self.start_Horno4_Reactor = True
 					playButtonSelected.setStyleSheet('background:green;color:white')
+			playButtonSelected.enabled = False
+
+
+			if(hornoSeleccionado=='horno1' and self.start_Horno1_Reactor == True and flag_start == False):
+				
+				checkSum = self.checkSumCalculation('0105080B0000')
+				comando = bytes(':0105080B0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('stop 1')
+					self.start_Horno1_Reactor = False
+					playButtonSelected.setStyleSheet('background:red;color:white')
+			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == True and flag_start == False):
+				checkSum = self.checkSumCalculation('0105080D0000')
+				comando = bytes(':0105080D0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('stop 2')
+					self.start_Horno2_Reactor = False
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					
+			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == True and flag_start == False):
+				checkSum = self.checkSumCalculation('0105080F0000')
+				comando = bytes(':0105080F0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('stop 3')
+					self.start_Horno3_Reactor = False
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					
+			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == True and flag_start == False):
+				checkSum = self.checkSumCalculation('010508110000')
+				comando = bytes(':010508110000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('stop 4')
+					self.start_Horno4_Reactor = False
+					playButtonSelected.setStyleSheet('background:red;color:white')
 		except:
 			pass		
 		
-	def startHorno_vistaPID(self, hornoSeleccionado):
-		print(hornoSeleccionado)
+	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):
+		
 		try:
-
-			if(hornoSeleccionado=='horno1'):
-				
+			flag_start = False
+			if(hornoSeleccionado=='horno1' and self.start_Horno1_PIDWindow == False):		
 				checkSum = self.checkSumCalculation('0105080AFF00')
 				comando = bytes(':0105080AFF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
-			elif(hornoSeleccionado=='horno2'):
+					flag_start = True
+					self.start_Horno1_PIDWindow = True
+					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					print('start 1')
+					
+			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == False):
 				checkSum = self.checkSumCalculation('0105080CFF00')
 				comando = bytes(':0105080CFF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
-			elif(hornoSeleccionado=='horno3'):
+					flag_start = True
+					self.start_Horno2_PIDWindow = True
+					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					print('start 2')
+			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == False):
 				checkSum = self.checkSumCalculation('0105080EFF00')
 				comando = bytes(':0105080EFF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
-			elif(hornoSeleccionado=='horno4'):
+					flag_start = True
+					self.start_Horno3_PIDWindow = True
+					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					print('start 3')
+			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == False):
 				checkSum = self.checkSumCalculation('01050810FF00')
 				comando = bytes(':01050810FF00'+ checkSum + '\r\n','UTF-8')
 				self.s.write(comando)
 				time.sleep(0.1)
 				lectura = self.s.readline()
 				if (lectura==comando):
-					print('iguales')
+					flag_start = True
+					self.start_Horno4_PIDWindow = True
+					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					print('start 4')
+
+
+			if(hornoSeleccionado=='horno1' and self.start_Horno1_PIDWindow == True  and flag_start == False):		
+				checkSum = self.checkSumCalculation('0105080A0000')
+				comando = bytes(':0105080A0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					self.start_Horno1_PIDWindow = False
+					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					print('stop 1')
+			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == True  and flag_start == False):
+				checkSum = self.checkSumCalculation('0105080C0000')
+				comando = bytes(':0105080C0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					self.start_Horno2_PIDWindow = False
+					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					print('stop 2')
+			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == True and flag_start == False):
+				checkSum = self.checkSumCalculation('0105080E0000')
+				comando = bytes(':0105080E0000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					self.start_Horno3_PIDWindow = False
+					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					print('stop 3')
+			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == True and flag_start == False):
+				checkSum = self.checkSumCalculation('010508100000')
+				comando = bytes(':010508100000'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					self.start_Horno4_PIDWindow = False
+					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					print('stop 4')
 		except:
 			pass
 
