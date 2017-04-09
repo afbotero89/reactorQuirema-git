@@ -6,11 +6,15 @@ import threading
 
 class modbus:
 	def __init__(self):
-		print(threading.current_thread())
-		self.s = serial.Serial('/dev/tty.usbmodem1421',9600)
+		self.init_Varialbes_Serial()
+
+	def init_Varialbes_Serial(self):
+		
+		self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
 		self.s.bytesize = 7
 		self.s.parity = serial.PARITY_EVEN
 		self.s.stopbits = 1
+		self.s.timeout = 0.1
 
 		#Registros hornos PLC orden: 
 		#- 0. tiempo de muestreo
@@ -45,11 +49,12 @@ class modbus:
 		self.vectorRegistrosHorno3 = [pidH3, pidH3 + 1, pidH3 + 2, pidH3 + 3, pidH3 + 4, pidH3 + 5, pidH3 + 6, pidH3 + 7, pidH3 + 8, pidH3 + 9, pidH3 + 10, pidH3 + 12, 4144, 4145, 4532]
 		self.vectorRegistrosHorno4 = [pidH4, pidH4 + 1, pidH4 + 2, pidH4 + 3, pidH4 + 4, pidH4 + 5, pidH4 + 6, pidH4 + 7, pidH4 + 8, pidH4 + 9, pidH4 + 10, pidH4 + 12, 4154, 4155, 4596]
 		
+		# Rampas valores en decimal: 4129, 4139, 4149, 4159
 		self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
 
 		# Registros controladores de flujo masico (MFC: Mass flow controllers)
 		
-		# Set values inicia a partir del registro 4098 (Dec) = 1002 (Hex)
+		# Set values inicia a partir del registro 4098 (Dec) = 1002 (Hex), termina en 
 		# Present values inician a partir del registro 4197 (Dec) = 1065 (Hex)
 
 		self.registrosMFC1_SV_PV = ['1002','1065']
@@ -145,7 +150,47 @@ class modbus:
 		self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 		self.stopbits = '\r\n' #Bis de stop
 
+	def readRegister_Reactor(self):
+		#print("horno=",horno_manta_seleccionada)
+		try:
+			self.registrosHorno = []
 
+			sufijo = '0064' #Numero de registros a leer, 100 en este caso
+			###### leyendo 11 registros 000B registros #######
+			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
+			registro = '1002'    
+			
+			modbusCommand = self.prefijo_lectura + registro + sufijo
+
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
+
+			self.s.write(bytes(comandoModbus,'UTF-8'))	
+			
+			time.sleep(0.1)
+			
+			#print(self.startBit + modbusCommand + checkSum)
+
+			variablesPID_4506_4518 = self.s.readline()   # lee serial
+
+			#print(variablesPID_4506_4518)
+			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
+
+			variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
+
+			registros = list(variablesPID_4506_4518)
+
+			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			
+			for i in range(100):
+				self.registrosHorno.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
+
+			# Agrupo lista en grupos de cuatro
+			return self.registrosHorno
+		except:
+			pass
 
 	################################################
 	### Hornos lecturas de datos, vista variables PID
@@ -153,6 +198,7 @@ class modbus:
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
 		#print("horno=",horno_manta_seleccionada)
 		self.registrosHorno = []
+		self.readRegister_Reactor()
 		try:
 
 			if (horno_manta_seleccionada=='horno1'):
@@ -164,7 +210,7 @@ class modbus:
 			elif(horno_manta_seleccionada=='horno4'):
 				vectorRegistros = self.vectorRegistrosHorno4_Hex
 
-			sufijo = '000D' #Numero de registros a leer, 11 en este caso
+			sufijo = '000D' #Numero de registros a leer, 13 en este caso
 
 			###### leyendo 11 registros 000B registros #######
 			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
@@ -181,11 +227,11 @@ class modbus:
 			
 			time.sleep(0.1)
 			
-			print(self.startBit + modbusCommand + checkSum)
+			#print(self.startBit + modbusCommand + checkSum)
 
 			variablesPID_4506_4518 = self.s.readline()   # lee serial
 
-			print(variablesPID_4506_4518)
+			#print(variablesPID_4506_4518)
 			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
 
 			variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
@@ -195,14 +241,14 @@ class modbus:
 			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 			
 			# Agrupo lista en grupos de cuatro
-
+			#print("registros horno = ", registros)
 			for i in range(13):
 				self.registrosHorno.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
 
 			hora = time.strftime("%H:%M:%S")
 
 			#print(hora)
-
+			
 			return (int(self.registrosHorno[0],16),
 					int(self.registrosHorno[1],16),
 					int(self.registrosHorno[2],16),
@@ -217,7 +263,7 @@ class modbus:
 					int(self.registrosHorno[12],16))
 	
 		except:
-			pass
+			self.init_Varialbes_Serial()
 
 	def readRegister_PIDWindow_SV_PV_GPWM(self, horno_manta_seleccionada):
 		try:
@@ -246,7 +292,7 @@ class modbus:
 			self.s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
 			time.sleep(0.1)
 			variablePID_SV_PV =  self.s.readline()   # lee serial
-			print(variablePID_SV_PV)
+			#print(variablePID_SV_PV)
 
 			self.s.write(bytes(self.startBit + modbusCommand_GPWM + checksum_GPWM + '\r\n','UTF-8'))
 			time.sleep(0.1)
@@ -405,7 +451,7 @@ class modbus:
 				
 			return (setValueHorno, presentValueHorno)
 		except:
-			pass
+			self.init_Varialbes_Serial()
 
 	def read_variablesVistaReactor_hornos_rampa(self, horno):
 		try:	
@@ -593,82 +639,88 @@ class modbus:
 
 	def startHorno_reactor(self, hornoSeleccionado, playButtonSelected):
 		print(hornoSeleccionado)
-		if(hornoSeleccionado=='horno1'):
-			
-			checkSum = self.checkSumCalculation('0105080BFF00')
-			comando = bytes(':0105080BFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-				playButtonSelected.setStyleSheet('background:red;color:white')
-		elif(hornoSeleccionado=='horno2'):
-			checkSum = self.checkSumCalculation('0105080DFF00')
-			comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-				playButtonSelected.setStyleSheet('background:red;color:white')
+		try:
+			if(hornoSeleccionado=='horno1'):
 				
-		elif(hornoSeleccionado=='horno3'):
-			checkSum = self.checkSumCalculation('0105080FFF00')
-			comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-				playButtonSelected.setStyleSheet('background:red;color:white')
-				
-		elif(hornoSeleccionado=='horno4'):
-			checkSum = self.checkSumCalculation('01050811FF00')
-			comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-				playButtonSelected.setStyleSheet('background:red;color:white')
-				
+				checkSum = self.checkSumCalculation('0105080BFF00')
+				comando = bytes(':0105080BFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+			elif(hornoSeleccionado=='horno2'):
+				checkSum = self.checkSumCalculation('0105080DFF00')
+				comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					
+			elif(hornoSeleccionado=='horno3'):
+				checkSum = self.checkSumCalculation('0105080FFF00')
+				comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					
+			elif(hornoSeleccionado=='horno4'):
+				checkSum = self.checkSumCalculation('01050811FF00')
+				comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+		except:
+			pass		
 		
 	def startHorno_vistaPID(self, hornoSeleccionado):
 		print(hornoSeleccionado)
-		if(hornoSeleccionado=='horno1'):
-			
-			checkSum = self.checkSumCalculation('0105080AFF00')
-			comando = bytes(':0105080AFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-		elif(hornoSeleccionado=='horno2'):
-			checkSum = self.checkSumCalculation('0105080CFF00')
-			comando = bytes(':0105080CFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-		elif(hornoSeleccionado=='horno3'):
-			checkSum = self.checkSumCalculation('0105080EFF00')
-			comando = bytes(':0105080EFF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
-		elif(hornoSeleccionado=='horno4'):
-			checkSum = self.checkSumCalculation('01050810FF00')
-			comando = bytes(':01050810FF00'+ checkSum + '\r\n','UTF-8')
-			self.s.write(comando)
-			time.sleep(0.1)
-			lectura = self.s.readline()
-			if (lectura==comando):
-				print('iguales')
+		try:
+
+			if(hornoSeleccionado=='horno1'):
+				
+				checkSum = self.checkSumCalculation('0105080AFF00')
+				comando = bytes(':0105080AFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+			elif(hornoSeleccionado=='horno2'):
+				checkSum = self.checkSumCalculation('0105080CFF00')
+				comando = bytes(':0105080CFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+			elif(hornoSeleccionado=='horno3'):
+				checkSum = self.checkSumCalculation('0105080EFF00')
+				comando = bytes(':0105080EFF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+			elif(hornoSeleccionado=='horno4'):
+				checkSum = self.checkSumCalculation('01050810FF00')
+				comando = bytes(':01050810FF00'+ checkSum + '\r\n','UTF-8')
+				self.s.write(comando)
+				time.sleep(0.1)
+				lectura = self.s.readline()
+				if (lectura==comando):
+					print('iguales')
+		except:
+			pass
 
 	def closePort(self):
 		print('close port')

@@ -29,7 +29,7 @@ s.stopbits = 1
 #s.write(bytes(':010611C2004E2' + 'FF' + '\r\n','UTF-8'))
 #tiempoMuestreo = s.read(11)
 #print(tiempoMuestreo)
-comando = bytes(':0105080AFF00E9\r\n','UTF-8')
+comando = bytes(':010611A600033F\r\n','UTF-8')
 s.write(comando)
 lectura = s.readline()
 print(lectura, comando)
