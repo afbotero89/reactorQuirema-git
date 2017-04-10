@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QPoint
 import setPID_parameters
+import reactorWindow2
 import sqlite3
 import sys
 sys.path.append('../modbusComunication')
@@ -419,8 +420,10 @@ class Ui_MainWindow(object):
         if(self.sectionVector[0] == True):
 
             if (id_button=="OK"):
-                self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
-
+                print("ok")
+                setPID_parameters.valorVariableAModificar = self.setValueString
+                setPID_parameters.setValueFromCalculadora = True
+                #self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
                 self.MainWindow.close()
                 self.setPID_parameters = setPID_parameters.Ui_MainWindow()
                 self.pidWindow.setEnabled(True)
@@ -429,8 +432,11 @@ class Ui_MainWindow(object):
         elif(self.sectionVector[5] == True):
 
             if (id_button=="OK"):
+                reactorWindow2.valorVariableAModificar = self.setValueString
+                reactorWindow2.setValueFromCalculadora = True
                 try:
-                    self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
+                    pass
+                    #self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
                 except:
                     print("error escritura reactor")
                 hornoSeleccionado = self.horno_manta_seleccionada

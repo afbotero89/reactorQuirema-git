@@ -18,6 +18,8 @@ import time
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector):
+        global valorVariableAModificar, setValueFromCalculadora
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -25,6 +27,9 @@ class Ui_MainWindow(object):
         self.instanciaModbus = serialClass.modbus()
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
+
+        valorVariableAModificar = "0"
+        setValueFromCalculadora = False
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -7284,7 +7289,8 @@ class Ui_MainWindow(object):
     #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
     # Equipo seleccionado: Se refiere que selecciono el usuario para modificar (hornos o controladores de flujo(MFC))
     def setValuesHorno(self, variable, equipoSeleccionado):
-        
+        self.variableSeleccionada = variable
+        self.equipoSeleccionado = equipoSeleccionado
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()
@@ -7297,6 +7303,8 @@ class Ui_MainWindow(object):
         self.playButtonSelected_start = playButtonSelected
 
     def actualizaValoresPIDTimer(self):
+        global valorVariableAModificar, setValueFromCalculadora
+
         while True:
             if self.flag_DesactivaVista == True:
                 break
@@ -7397,8 +7405,12 @@ class Ui_MainWindow(object):
             print(hora) 
             if self.playHornos_flag == True:
                 self.playHornos_flag = False
-                self.instanciaModbus.startHorno_reactor(self.hornoSeleccionado_start,self.playButtonSelected_start)        
-            time.sleep(0.5)     
+                self.instanciaModbus.startHorno_reactor(self.hornoSeleccionado_start,self.playButtonSelected_start) 
+
+            if (setValueFromCalculadora == True):
+                setValueFromCalculadora = False
+                self.instanciaModbus.writeValuesPID(float(valorVariableAModificar),self.variableSeleccionada,self.equipoSeleccionado)    
+            time.sleep(0.2)     
 
 if __name__ == "__main__":
     import sys

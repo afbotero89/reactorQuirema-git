@@ -18,8 +18,13 @@ import threading
 import time
 import serialClass
 
+
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector):
+
+        global valorVariableAModificar, setValueFromCalculadora
+        
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -30,7 +35,10 @@ class Ui_MainWindow(object):
         self.lecturaDatosPID_PLC = serialClass.modbus()
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
+        valorVariableAModificar = "0"
+        setValueFromCalculadora = False
         
+        self.variablePIDSeleccionada = ""
         #self.lecturaDatosPID_PLC = serialClass.modbus()
         #self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegisterHorno1(self.horno_manta_seleccionada)
 
@@ -352,6 +360,7 @@ class Ui_MainWindow(object):
         if parametroPIDSeleccionado == 'play':
             pass
         else:
+            self.variablePIDSeleccionada = parametroPIDSeleccionado
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
             calculadora = calculadora2.Ui_MainWindow()
@@ -363,16 +372,15 @@ class Ui_MainWindow(object):
         #self.t.start()
 
     def actualizaValoresTimer(self):
-
+        global valorVariableAModificar, setValueFromCalculadora
+        
         while True:
 
             self.contador = self.contador + 1
             self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
 
             self.datosPID_PLC_SV_PV_GPWM = self.lecturaDatosPID_PLC.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
-            # Actualiza valor pid
-            #print(self.contador)
-            #print(self.datosPID_PLC, self.datosPID_PLC_SV_PV_GPWM)
+
             if(self.flag_DesactivaVista==True):
                 break
             try:
@@ -448,8 +456,10 @@ class Ui_MainWindow(object):
                 self.playHornos_flag = False
                 self.instanciaModbus.startHorno_vistaPID(self.horno_manta_seleccionada, self.playButtonSelected_start)
 
+            if (setValueFromCalculadora == True):
+                setValueFromCalculadora = False
+                self.instanciaModbus.writeValuesPID(valorVariableAModificar,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
             time.sleep(0.01)
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
