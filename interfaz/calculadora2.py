@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QPoint
 import setPID_parameters
 import reactorWindow2
+import escalado
 import sqlite3
 import sys
 sys.path.append('../modbusComunication')
@@ -465,9 +466,11 @@ class Ui_MainWindow(object):
         elif(self.sectionVector[1] == True):
 
             if (id_button=="OK"):
+                escalado.valorVariableAModificar = self.setValueString
+                escalado.setValueFromCalculadora = True
                 self.MainWindow.close()
                 self.escaladoMainWindow.setEnabled(True)
-                self.instanciaModbus.writeValues_Escalado(float(self.setValueString), self.controladorFlujo, self.IN_OUT, self.X_Y)
+                #self.instanciaModbus.writeValues_Escalado(float(self.setValueString), self.controladorFlujo, self.IN_OUT, self.X_Y)
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
 
     def closeEvent_PID_reactor(self, event):

@@ -15,10 +15,13 @@ import time
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector):
+        global valorVariableAModificar, setValueFromCalculadora
+
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
         self.flag_DesactivaVista = False
-        self.instanciaModbus = serialClass.modbus()
+        valorVariableAModificar = "0"
+        setValueFromCalculadora = False
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
@@ -514,7 +517,7 @@ class Ui_MainWindow(object):
 
         self.actionButtons()
         #self.actualizaValoresPIDTimer()
-        self.t = threading.Timer(0.1, self.actualizaValoresPIDTimer)
+        self.t = threading.Thread(target = self.actualizaValoresPIDTimer)
         self.t.IsBackground = True;
         self.t.start()
 
@@ -571,67 +574,196 @@ class Ui_MainWindow(object):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
-        self.t.cancel()
+        #self.t.cancel()
 
     def displayCalculadora(self, MFC, IN_OUT, X_Y):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()
+        self.controladorFlujo = MFC
+        self.IN_OUT = IN_OUT
+        self.X_Y = X_Y
         self.calculadora.setupUI_escalado(MainWindow, self.sectionVector, MFC, IN_OUT, X_Y, self.MainWindow)
         MainWindow.show() 
 
     def actualizaValoresPIDTimer(self):
+        global valorVariableAModificar, setValueFromCalculadora
 
         while True:
-
+            self.instanciaModbus = serialClass.modbus()
             self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
-            #print('variables_OUT!!!',self.variablesPIDEscalado[0][0])
+
+            print(valorVariableAModificar, setValueFromCalculadora)
 
             if(self.flag_DesactivaVista==True):
                 break
             # IN:
-            self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][0],16)))
-            self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][1],16)))
-            self.pushButton_YMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][2],16)))
-            self.pushButton_YMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][3],16)))
+            try:
+                self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][0],16)))
+            except:
+                pass
+            try:
+                self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][1],16)))
+            except:
+                pass   
 
-            self.pushButton_XMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][4],16)))
-            self.pushButton_XMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][5],16)))
-            self.pushButton_YMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][6],16)))
-            self.pushButton_YMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][7],16)))
+            try:
+                self.pushButton_YMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][2],16)))
+            except:
+                pass
 
-            self.pushButton_XMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][8],16)))
-            self.pushButton_XMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][9],16)))
-            self.pushButton_YMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][10],16)))
-            self.pushButton_YMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][11],16)))
+            try:    
+                self.pushButton_YMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][3],16)))
+            except:
+                pass
 
-            self.pushButton_XMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][12],16)))
-            self.pushButton_XMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][13],16)))
-            self.pushButton_YMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][14],16)))
-            self.pushButton_YMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][15],16)))
+            try:
+                self.pushButton_XMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][4],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][5],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][6],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][7],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][8],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][9],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][10],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][11],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][12],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][13],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][14],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][15],16)))
+            except:
+                pass
 
             # OUT:
-            self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][0],16)))
-            self.pushButton_XMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][1],16)))
-            self.pushButton_YMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][2],16)))
-            self.pushButton_YMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][3],16)))
+            try: 
+                self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][0],16)))
+            except:
+                pass
 
-            self.pushButton_XMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][4],16)))
-            self.pushButton_XMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][5],16)))
-            self.pushButton_YMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][6],16)))
-            self.pushButton_YMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][7],16)))
+            try:
+                self.pushButton_XMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][1],16)))
+            except:
+                pass
 
-            self.pushButton_XMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][8],16)))
-            self.pushButton_XMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][9],16)))
-            self.pushButton_YMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][10],16)))
-            self.pushButton_YMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][11],16)))
+            try:
+                self.pushButton_YMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][2],16)))
+            except:
+                pass
 
-            self.pushButton_XMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][12],16)))
-            self.pushButton_XMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][13],16)))
-            self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][14],16)))
-            self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][15],16)))
+            try:
+                self.pushButton_YMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][3],16)))
+            except:
+                pass
 
-            time.sleep(1)
+            try:            
+                self.pushButton_XMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][4],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][5],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][6],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][7],16)))
+            except:
+                pass
+
+            try:            
+                self.pushButton_XMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][8],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][9],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][10],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][11],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][12],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][13],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][14],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][15],16)))
+            except:
+                pass
+
+            if (setValueFromCalculadora == True):
+                setValueFromCalculadora = False
+
+                self.instanciaModbus.writeValues_Escalado(float(valorVariableAModificar), self.controladorFlujo, self.IN_OUT, self.X_Y)
+
+            time.sleep(0.5)
 
 if __name__ == "__main__":
     import sys
