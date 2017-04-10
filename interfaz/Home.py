@@ -50,22 +50,17 @@ class Ui_MainWindow(object):
         self.pushButton_2.setStyleSheet(buttonStyle)
 
         self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(100, 210, 271, 80))
+        self.pushButton_3.setGeometry(QtCore.QRect(100, 320, 271, 80))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.setStyleSheet(buttonStyle)
 
         self.pushButton_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(410, 210, 271, 80))
+        self.pushButton_4.setGeometry(QtCore.QRect(410, 320, 271, 80))
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_4.setStyleSheet(buttonStyle)
 
-        self.pushButton_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(100, 320, 271, 80))
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_5.setStyleSheet(buttonStyle)
-
         self.pushButton_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(410, 320, 271, 80))
+        self.pushButton_6.setGeometry(QtCore.QRect(260, 210, 271, 80))
         self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_6.setStyleSheet(buttonStyle)
 
@@ -104,7 +99,6 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Escalado"))
         self.pushButton_3.setText(_translate("MainWindow", "Alarmas"))
         self.pushButton_4.setText(_translate("MainWindow", "Recetas"))
-        self.pushButton_5.setText(_translate("MainWindow", "Gráficos"))
         self.pushButton_6.setText(_translate("MainWindow", "Reactor"))
 
         self.pushButton.clicked.connect(self.PIDInterface)

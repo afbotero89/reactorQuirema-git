@@ -592,169 +592,169 @@ class Ui_MainWindow(object):
         while True:
             self.instanciaModbus = serialClass.modbus()
             self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
-
+            print(self.variablesPIDEscalado)
             print(valorVariableAModificar, setValueFromCalculadora)
 
             if(self.flag_DesactivaVista==True):
                 break
             # IN:
             try:
-                self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][0],16)))
+                self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0],16)))
             except:
                 pass
             try:
-                self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][1],16)))
+                self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[1],16)))
             except:
                 pass   
 
             try:
-                self.pushButton_YMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0][2],16)))
+                self.pushButton_YMAX_IN_1.setText(str(int(self.variablesPIDEscalado[2],16)))
             except:
                 pass
 
             try:    
-                self.pushButton_YMIN_IN_1.setText(str(int(self.variablesPIDEscalado[0][3],16)))
+                self.pushButton_YMIN_IN_1.setText(str(int(self.variablesPIDEscalado[3],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][4],16)))
+                self.pushButton_XMAX_IN_2.setText(str(int(self.variablesPIDEscalado[4],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][5],16)))
+                self.pushButton_XMIN_IN_2.setText(str(int(self.variablesPIDEscalado[5],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_2.setText(str(int(self.variablesPIDEscalado[0][6],16)))
+                self.pushButton_YMAX_IN_2.setText(str(int(self.variablesPIDEscalado[6],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_2.setText(str(int(self.variablesPIDEscalado[0][7],16)))
+                self.pushButton_YMIN_IN_2.setText(str(int(self.variablesPIDEscalado[7],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][8],16)))
+                self.pushButton_XMAX_IN_3.setText(str(int(self.variablesPIDEscalado[8],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][9],16)))
+                self.pushButton_XMIN_IN_3.setText(str(int(self.variablesPIDEscalado[9],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_3.setText(str(int(self.variablesPIDEscalado[0][10],16)))
+                self.pushButton_YMAX_IN_3.setText(str(int(self.variablesPIDEscalado[10],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_3.setText(str(int(self.variablesPIDEscalado[0][11],16)))
+                self.pushButton_YMIN_IN_3.setText(str(int(self.variablesPIDEscalado[11],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][12],16)))
+                self.pushButton_XMAX_IN_4.setText(str(int(self.variablesPIDEscalado[12],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][13],16)))
+                self.pushButton_XMIN_IN_4.setText(str(int(self.variablesPIDEscalado[13],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_4.setText(str(int(self.variablesPIDEscalado[0][14],16)))
+                self.pushButton_YMAX_IN_4.setText(str(int(self.variablesPIDEscalado[14],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_4.setText(str(int(self.variablesPIDEscalado[0][15],16)))
+                self.pushButton_YMIN_IN_4.setText(str(int(self.variablesPIDEscalado[15],16)))
             except:
                 pass
 
             # OUT:
             try: 
-                self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][0],16)))
+                self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[25],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][1],16)))
+                self.pushButton_XMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[26],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[1][2],16)))
+                self.pushButton_YMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[27],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[1][3],16)))
+                self.pushButton_YMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[28],16)))
             except:
                 pass
 
             try:            
-                self.pushButton_XMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][4],16)))
+                self.pushButton_XMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[29],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][5],16)))
+                self.pushButton_XMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[30],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[1][6],16)))
+                self.pushButton_YMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[31],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[1][7],16)))
+                self.pushButton_YMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[32],16)))
             except:
                 pass
 
             try:            
-                self.pushButton_XMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][8],16)))
+                self.pushButton_XMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[33],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][9],16)))
+                self.pushButton_XMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[34],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[1][10],16)))
+                self.pushButton_YMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[35],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[1][11],16)))
+                self.pushButton_YMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[36],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][12],16)))
+                self.pushButton_XMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[37],16)))
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][13],16)))
+                self.pushButton_XMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[38],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[1][14],16)))
+                self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[39],16)))
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[1][15],16)))
+                self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[40],16)))
             except:
                 pass
 

@@ -7,166 +7,171 @@ import threading
 
 class modbus:
 	def __init__(self):
+		
 		self.init_Varialbes_Serial()
 
+
 	def init_Varialbes_Serial(self):
-		
-		self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
-		self.s.bytesize = 7
-		self.s.parity = serial.PARITY_EVEN
-		self.s.stopbits = 1
-		self.s.timeout = 0.1
+		try:
 
-		#Registros hornos PLC orden: 
-		#- 0. tiempo de muestreo
-		#- 1. ganancia proporcional
-		#- 2. Ganancia integral
-		#- 3. Ganancia derivativa
-		#- 4. Direccion de control
-		#- 5. Rango de tolerancia de error
-		#- 6. Limite superior de salida
-		#- 7. limite inferior de salida
-		#- 8. Limite superior integral
-		#- 9. limite inferior integral
-		#- 10. Valor integral acumulado
-		#- 11. PV anterior
-		#- 12. Present value
-		#- 13. Set value
-		#- 14. GPWM
+			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
+			self.s.bytesize = 7
+			self.s.parity = serial.PARITY_EVEN
+			self.s.stopbits = 1
+			self.s.timeout = 0.1
 
-		# Formato para lectura modbus ':0103119A000150\r\n'
-		# 01 ---> Direccion
-		# 03 ---> Leer registro 06---> Escribir registro 119A ---> registro hexadecimal para este caso (119A = 4506)
-		# 0001 ---> Numero de registros que se quiere leer, en este caso solo es un registro.
-		# 50 ---> Check sum (FF - suma de todos los numeros pares 01+03+11) + 1
+			#Registros hornos PLC orden: 
+			#- 0. tiempo de muestreo
+			#- 1. ganancia proporcional
+			#- 2. Ganancia integral
+			#- 3. Ganancia derivativa
+			#- 4. Direccion de control
+			#- 5. Rango de tolerancia de error
+			#- 6. Limite superior de salida
+			#- 7. limite inferior de salida
+			#- 8. Limite superior integral
+			#- 9. limite inferior integral
+			#- 10. Valor integral acumulado
+			#- 11. PV anterior
+			#- 12. Present value
+			#- 13. Set value
+			#- 14. GPWM
 
-		pidH1=4506
-		pidH2=4536
-		pidH3=4556
-		pidH4=4576
+			# Formato para lectura modbus ':0103119A000150\r\n'
+			# 01 ---> Direccion
+			# 03 ---> Leer registro 06---> Escribir registro 119A ---> registro hexadecimal para este caso (119A = 4506)
+			# 0001 ---> Numero de registros que se quiere leer, en este caso solo es un registro.
+			# 50 ---> Check sum (FF - suma de todos los numeros pares 01+03+11) + 1
 
-		self.vectorRegistrosHorno1 = [pidH1, pidH1 + 1, pidH1 + 2, pidH1 + 3, pidH1 + 4, pidH1 + 5, pidH1 + 6, pidH1 + 7, pidH1 + 8, pidH1 + 9, pidH1 + 10, pidH1 + 12, 4124, 4125, 4526]
-		self.vectorRegistrosHorno2 = [pidH2, pidH2 + 1, pidH2 + 2, pidH2 + 3, pidH2 + 4, pidH2 + 5, pidH2 + 6, pidH2 + 7, pidH2 + 8, pidH2 + 9, pidH2 + 10, pidH2 + 12, 4134, 4135, 4529]
-		self.vectorRegistrosHorno3 = [pidH3, pidH3 + 1, pidH3 + 2, pidH3 + 3, pidH3 + 4, pidH3 + 5, pidH3 + 6, pidH3 + 7, pidH3 + 8, pidH3 + 9, pidH3 + 10, pidH3 + 12, 4144, 4145, 4532]
-		self.vectorRegistrosHorno4 = [pidH4, pidH4 + 1, pidH4 + 2, pidH4 + 3, pidH4 + 4, pidH4 + 5, pidH4 + 6, pidH4 + 7, pidH4 + 8, pidH4 + 9, pidH4 + 10, pidH4 + 12, 4154, 4155, 4596]
-		
-		# Rampas valores en decimal: 4129, 4139, 4149, 4159
-		self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
+			pidH1=4506
+			pidH2=4536
+			pidH3=4556
+			pidH4=4576
 
-		# Registros controladores de flujo masico (MFC: Mass flow controllers)
-		
-		# Set values inicia a partir del registro 4098 (Dec) = 1002 (Hex), termina en 
-		# Present values inician a partir del registro 4197 (Dec) = 1065 (Hex)
+			self.vectorRegistrosHorno1 = [pidH1, pidH1 + 1, pidH1 + 2, pidH1 + 3, pidH1 + 4, pidH1 + 5, pidH1 + 6, pidH1 + 7, pidH1 + 8, pidH1 + 9, pidH1 + 10, pidH1 + 12, 4124, 4125, 4526]
+			self.vectorRegistrosHorno2 = [pidH2, pidH2 + 1, pidH2 + 2, pidH2 + 3, pidH2 + 4, pidH2 + 5, pidH2 + 6, pidH2 + 7, pidH2 + 8, pidH2 + 9, pidH2 + 10, pidH2 + 12, 4134, 4135, 4529]
+			self.vectorRegistrosHorno3 = [pidH3, pidH3 + 1, pidH3 + 2, pidH3 + 3, pidH3 + 4, pidH3 + 5, pidH3 + 6, pidH3 + 7, pidH3 + 8, pidH3 + 9, pidH3 + 10, pidH3 + 12, 4144, 4145, 4532]
+			self.vectorRegistrosHorno4 = [pidH4, pidH4 + 1, pidH4 + 2, pidH4 + 3, pidH4 + 4, pidH4 + 5, pidH4 + 6, pidH4 + 7, pidH4 + 8, pidH4 + 9, pidH4 + 10, pidH4 + 12, 4154, 4155, 4596]
+			
+			# Rampas valores en decimal: 4129, 4139, 4149, 4159
+			self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
 
-		self.registrosMFC1_SV_PV = ['1002','1065']
-		self.registrosMFC2_SV_PV = ['1003','1066']
-		self.registrosMFC3_SV_PV = ['1004','1067']
-		self.registrosMFC4_SV_PV = ['1005','1068']
+			# Registros controladores de flujo masico (MFC: Mass flow controllers)
+			
+			# Set values inicia a partir del registro 4098 (Dec) = 1002 (Hex), termina en 4101
+			# Present values inician a partir del registro 4197 (Dec) = 1065 (Hex), termina en 4200
 
-		# Escalado inicia a partir del registro 4606 (Dec) = 11FE (Hex)
-		# In: Xmax, Xmin, Ymax, Ymin
-		self.registrosMFC1_IN = ['11FE','11FF','1200','1201']
-		self.registrosMFC2_IN = ['1202','1203','1204','1205']
-		self.registrosMFC3_IN = ['1206','1207','1208','1209']
-		self.registrosMFC4_IN = ['120A','120B','120C','120D']
+			self.registrosMFC1_SV_PV = ['1002','1065']
+			self.registrosMFC2_SV_PV = ['1003','1066']
+			self.registrosMFC3_SV_PV = ['1004','1067']
+			self.registrosMFC4_SV_PV = ['1005','1068']
 
-		# Escalado inicia a partir del registro 4631 (Dec) = 1217 (Hex)
-		# Out: Xmax, Xmin, Ymax, Ymin
-		self.registrosMFC1_OUT = ['1217','1218','1219','121A']
-		self.registrosMFC2_OUT = ['121B','121C','121D','121E']
-		self.registrosMFC3_OUT = ['121F','1220','1221','1222']
-		self.registrosMFC4_OUT = ['1223','1224','1225','1226']
+			# Escalado inicia a partir del registro 4606 (Dec) = 11FE (Hex), termina en 4621(Dec) = 120D(Hex)
+			# In: Xmax, Xmin, Ymax, Ymin
+			self.registrosMFC1_IN = ['11FE','11FF','1200','1201']
+			self.registrosMFC2_IN = ['1202','1203','1204','1205']
+			self.registrosMFC3_IN = ['1206','1207','1208','1209']
+			self.registrosMFC4_IN = ['120A','120B','120C','120D']
 
-		self.vectorRegistrosHorno1_Hex = [hex(self.vectorRegistrosHorno1[0]),
-										  hex(self.vectorRegistrosHorno1[1]),
-										  hex(self.vectorRegistrosHorno1[2]),
-										  hex(self.vectorRegistrosHorno1[3]),
-										  hex(self.vectorRegistrosHorno1[4]),
-										  hex(self.vectorRegistrosHorno1[5]),
-										  hex(self.vectorRegistrosHorno1[6]),
-										  hex(self.vectorRegistrosHorno1[7]),
-										  hex(self.vectorRegistrosHorno1[8]),
-										  hex(self.vectorRegistrosHorno1[9]),
-										  hex(self.vectorRegistrosHorno1[10]),
-										  hex(self.vectorRegistrosHorno1[11]),
-										  hex(self.vectorRegistrosHorno1[12]),
-										  hex(self.vectorRegistrosHorno1[13]),
-										  hex(self.vectorRegistrosHorno1[14])]
+			# Escalado inicia a partir del registro 4631 (Dec) = 1217 (Hex), termina en 4646 (Dec) = 1226(Hex)
+			# Out: Xmax, Xmin, Ymax, Ymin
+			self.registrosMFC1_OUT = ['1217','1218','1219','121A']
+			self.registrosMFC2_OUT = ['121B','121C','121D','121E']
+			self.registrosMFC3_OUT = ['121F','1220','1221','1222']
+			self.registrosMFC4_OUT = ['1223','1224','1225','1226']
 
-		self.vectorRegistrosHorno2_Hex = [hex(self.vectorRegistrosHorno2[0]),
-										  hex(self.vectorRegistrosHorno2[1]),
-										  hex(self.vectorRegistrosHorno2[2]),
-										  hex(self.vectorRegistrosHorno2[3]),
-										  hex(self.vectorRegistrosHorno2[4]),
-										  hex(self.vectorRegistrosHorno2[5]),
-										  hex(self.vectorRegistrosHorno2[6]),
-										  hex(self.vectorRegistrosHorno2[7]),
-										  hex(self.vectorRegistrosHorno2[8]),
-										  hex(self.vectorRegistrosHorno2[9]),
-										  hex(self.vectorRegistrosHorno2[10]),
-										  hex(self.vectorRegistrosHorno2[11]),
-										  hex(self.vectorRegistrosHorno2[12]),
-										  hex(self.vectorRegistrosHorno2[13]),
-										  hex(self.vectorRegistrosHorno2[14])]
+			self.vectorRegistrosHorno1_Hex = [hex(self.vectorRegistrosHorno1[0]),
+											  hex(self.vectorRegistrosHorno1[1]),
+											  hex(self.vectorRegistrosHorno1[2]),
+											  hex(self.vectorRegistrosHorno1[3]),
+											  hex(self.vectorRegistrosHorno1[4]),
+											  hex(self.vectorRegistrosHorno1[5]),
+											  hex(self.vectorRegistrosHorno1[6]),
+											  hex(self.vectorRegistrosHorno1[7]),
+											  hex(self.vectorRegistrosHorno1[8]),
+											  hex(self.vectorRegistrosHorno1[9]),
+											  hex(self.vectorRegistrosHorno1[10]),
+											  hex(self.vectorRegistrosHorno1[11]),
+											  hex(self.vectorRegistrosHorno1[12]),
+											  hex(self.vectorRegistrosHorno1[13]),
+											  hex(self.vectorRegistrosHorno1[14])]
 
-		self.vectorRegistrosHorno3_Hex = [hex(self.vectorRegistrosHorno3[0]),
-										  hex(self.vectorRegistrosHorno3[1]),
-										  hex(self.vectorRegistrosHorno3[2]),
-										  hex(self.vectorRegistrosHorno3[3]),
-										  hex(self.vectorRegistrosHorno3[4]),
-										  hex(self.vectorRegistrosHorno3[5]),
-										  hex(self.vectorRegistrosHorno3[6]),
-										  hex(self.vectorRegistrosHorno3[7]),
-										  hex(self.vectorRegistrosHorno3[8]),
-										  hex(self.vectorRegistrosHorno3[9]),
-										  hex(self.vectorRegistrosHorno3[10]),
-										  hex(self.vectorRegistrosHorno3[11]),
-										  hex(self.vectorRegistrosHorno3[12]),
-										  hex(self.vectorRegistrosHorno3[13]),
-										  hex(self.vectorRegistrosHorno3[14])]
+			self.vectorRegistrosHorno2_Hex = [hex(self.vectorRegistrosHorno2[0]),
+											  hex(self.vectorRegistrosHorno2[1]),
+											  hex(self.vectorRegistrosHorno2[2]),
+											  hex(self.vectorRegistrosHorno2[3]),
+											  hex(self.vectorRegistrosHorno2[4]),
+											  hex(self.vectorRegistrosHorno2[5]),
+											  hex(self.vectorRegistrosHorno2[6]),
+											  hex(self.vectorRegistrosHorno2[7]),
+											  hex(self.vectorRegistrosHorno2[8]),
+											  hex(self.vectorRegistrosHorno2[9]),
+											  hex(self.vectorRegistrosHorno2[10]),
+											  hex(self.vectorRegistrosHorno2[11]),
+											  hex(self.vectorRegistrosHorno2[12]),
+											  hex(self.vectorRegistrosHorno2[13]),
+											  hex(self.vectorRegistrosHorno2[14])]
 
-		self.vectorRegistrosHorno4_Hex = [hex(self.vectorRegistrosHorno4[0]),
-										  hex(self.vectorRegistrosHorno4[1]),
-										  hex(self.vectorRegistrosHorno4[2]),
-										  hex(self.vectorRegistrosHorno4[3]),
-										  hex(self.vectorRegistrosHorno4[4]),
-										  hex(self.vectorRegistrosHorno4[5]),
-										  hex(self.vectorRegistrosHorno4[6]),
-										  hex(self.vectorRegistrosHorno4[7]),
-										  hex(self.vectorRegistrosHorno4[8]),
-										  hex(self.vectorRegistrosHorno4[9]),
-										  hex(self.vectorRegistrosHorno4[10]),
-										  hex(self.vectorRegistrosHorno4[11]),
-										  hex(self.vectorRegistrosHorno4[12]),
-										  hex(self.vectorRegistrosHorno4[13]),
-										  hex(self.vectorRegistrosHorno4[14])]
+			self.vectorRegistrosHorno3_Hex = [hex(self.vectorRegistrosHorno3[0]),
+											  hex(self.vectorRegistrosHorno3[1]),
+											  hex(self.vectorRegistrosHorno3[2]),
+											  hex(self.vectorRegistrosHorno3[3]),
+											  hex(self.vectorRegistrosHorno3[4]),
+											  hex(self.vectorRegistrosHorno3[5]),
+											  hex(self.vectorRegistrosHorno3[6]),
+											  hex(self.vectorRegistrosHorno3[7]),
+											  hex(self.vectorRegistrosHorno3[8]),
+											  hex(self.vectorRegistrosHorno3[9]),
+											  hex(self.vectorRegistrosHorno3[10]),
+											  hex(self.vectorRegistrosHorno3[11]),
+											  hex(self.vectorRegistrosHorno3[12]),
+											  hex(self.vectorRegistrosHorno3[13]),
+											  hex(self.vectorRegistrosHorno3[14])]
 
-		self.registrosPIDHornosLectura = []
-		self.registrosHorno = []
-		self.registros_SetPresent_Value_Hornos = []
-		self.registros_SetPresent_Value_Hornos_rampa = []
-		self.registrosEscalado_IN = []
-		self.registrosEscalado_OUT = []
-		self.startBit = ':'
-		self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
-		self.stopbits = '\r\n' #Bis de stop
+			self.vectorRegistrosHorno4_Hex = [hex(self.vectorRegistrosHorno4[0]),
+											  hex(self.vectorRegistrosHorno4[1]),
+											  hex(self.vectorRegistrosHorno4[2]),
+											  hex(self.vectorRegistrosHorno4[3]),
+											  hex(self.vectorRegistrosHorno4[4]),
+											  hex(self.vectorRegistrosHorno4[5]),
+											  hex(self.vectorRegistrosHorno4[6]),
+											  hex(self.vectorRegistrosHorno4[7]),
+											  hex(self.vectorRegistrosHorno4[8]),
+											  hex(self.vectorRegistrosHorno4[9]),
+											  hex(self.vectorRegistrosHorno4[10]),
+											  hex(self.vectorRegistrosHorno4[11]),
+											  hex(self.vectorRegistrosHorno4[12]),
+											  hex(self.vectorRegistrosHorno4[13]),
+											  hex(self.vectorRegistrosHorno4[14])]
 
-		self.start_Horno1_PIDWindow = False
-		self.start_Horno2_PIDWindow = False
-		self.start_Horno3_PIDWindow = False
-		self.start_Horno4_PIDWindow = False
+			self.registrosPIDHornosLectura = []
+			self.registrosHorno = []
+			self.registros_SetPresent_Value_Hornos = []
+			self.registros_SetPresent_Value_Hornos_rampa = []
+			self.registrosEscalado_IN = []
+			self.registrosEscalado_OUT = []
+			self.startBit = ':'
+			self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
+			self.stopbits = '\r\n' #Bis de stop
 
-		self.start_Horno1_Reactor = False
-		self.start_Horno2_Reactor = False
-		self.start_Horno3_Reactor = False
-		self.start_Horno4_Reactor = False
+			self.start_Horno1_PIDWindow = False
+			self.start_Horno2_PIDWindow = False
+			self.start_Horno3_PIDWindow = False
+			self.start_Horno4_PIDWindow = False
+
+			self.start_Horno1_Reactor = False
+			self.start_Horno2_Reactor = False
+			self.start_Horno3_Reactor = False
+			self.start_Horno4_Reactor = False
+		except:
+			pass
 
 	def readRegister_Reactor(self):
 		#print("horno=",horno_manta_seleccionada)
 		try:
 			self.registrosHorno = []
 
-			sufijo = '0064' #Numero de registros a leer, 100 en este caso
+			sufijo = '003E' #Numero de registros a leer, 62 en este caso
 			###### leyendo 11 registros 000B registros #######
 			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
 			registro = '1002'    
@@ -195,7 +200,7 @@ class modbus:
 
 			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 			
-			for i in range(100):
+			for i in range(62):
 				self.registrosHorno.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
 
 			# Agrupo lista en grupos de cuatro
@@ -490,7 +495,7 @@ class modbus:
 	def readVarialesVistaEscalado(self):
 		# Read values MFC (mass flow controller), escalado IN
 		try:
-			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0010'
+			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0029'
 			checksum_MFC_IN = self.checkSumCalculation(comandoModbus_MFC_IN)
 			self.s.write(bytes(self.startBit + comandoModbus_MFC_IN + checksum_MFC_IN + '\r\n','UTF-8'))
 			time.sleep(0.1)
@@ -499,33 +504,14 @@ class modbus:
 			registros_MFC_IN =  str(variablePID_MFC_IN).split(':')[1]
 			registros_MFC_IN = list(registros_MFC_IN)
 			registros_MFC_IN = registros_MFC_IN[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
-			for i in range(16):
+			for i in range(41):
 				registros_MFC = registros_MFC_IN[i*4]+registros_MFC_IN[(i*4) + 1]+registros_MFC_IN[(i*4) + 2]+registros_MFC_IN[(i*4) + 3]
 				self.registrosEscalado_IN.append(registros_MFC)
 		except:
 			pass
 
-				# Read values MFC (mass flow controller), escalado OUT
-		try:
-			comandoModbus_MFC_OUT = self.prefijo_lectura + self.registrosMFC1_OUT[0] + '0010'
-			checksum_MFC_OUT = self.checkSumCalculation(comandoModbus_MFC_OUT)
-			self.s.write(bytes(self.startBit + comandoModbus_MFC_OUT + checksum_MFC_OUT + '\r\n','UTF-8'))
-			time.sleep(0.1)
-			variablePID_MFC_OUT =  self.s.readline()   # lee serial sv-presentValue
+		return self.registrosEscalado_IN
 
-			registros_MFC_OUT =  str(variablePID_MFC_OUT).split(':')[1]
-			registros_MFC_OUT = list(registros_MFC_OUT)
-			registros_MFC_OUT = registros_MFC_OUT[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
-			for i in range(16):
-				registros_MFC = registros_MFC_OUT[i*4]+registros_MFC_OUT[(i*4) + 1]+registros_MFC_OUT[(i*4) + 2]+registros_MFC_OUT[(i*4) + 3]
-				self.registrosEscalado_OUT.append(registros_MFC)
-		except:
-			pass
-
-		try:
-			return (self.registrosEscalado_IN, self.registrosEscalado_OUT)
-		except:
-			pass
 	###################################################
 	### Hornos Escritura de datos, vista ESCALADO
 	###################################################		
