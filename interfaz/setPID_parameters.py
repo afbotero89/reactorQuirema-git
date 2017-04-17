@@ -185,9 +185,9 @@ class Ui_MainWindow(object):
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
         self.playButton.setGeometry(QtCore.QRect(640, 300, 80, 80))
         self.playButton.setObjectName("playButton")
-        self.playButton.setStyleSheet("background-color: black; color:white; font-size: 22pt;")
+        self.playButton.setStyleSheet("background-color: black; color:white; font-size: 22pt; border-radius: 40px;")
         self.playButton.setIcon(QtGui.QIcon('../images/play-button.png'))
-        self.playButton.setIconSize(QtCore.QSize(60,60))
+        self.playButton.setIconSize(QtCore.QSize(72,72))
 
         self.label_4 = QtWidgets.QLabel(self.centralWidget)
         self.label_4.setGeometry(QtCore.QRect(630, 170, 131, 41))

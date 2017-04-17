@@ -7039,22 +7039,22 @@ class Ui_MainWindow(object):
         self.label_50.setObjectName("label_50")
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
         self.playButton.setGeometry(QtCore.QRect(670, 290, 41, 32))
-        self.playButton.setStyleSheet("color:white;background-color:red")
+        self.playButton.setStyleSheet("color:white;background-color:green")
         self.playButton.setObjectName("playButton")
 
         self.playButton1 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton1.setGeometry(QtCore.QRect(670, 324, 41, 32))
-        self.playButton1.setStyleSheet("color:white;background-color:red")
+        self.playButton1.setStyleSheet("color:white;background-color:green")
         self.playButton1.setObjectName("playButton")
 
         self.playButton2 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton2.setGeometry(QtCore.QRect(670, 358, 41, 32))
-        self.playButton2.setStyleSheet("color:white;background-color:red")
+        self.playButton2.setStyleSheet("color:white;background-color:green")
         self.playButton2.setObjectName("playButton")
 
         self.playButton3 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton3.setGeometry(QtCore.QRect(670, 392, 41, 32))
-        self.playButton3.setStyleSheet("color:white;background-color:red")
+        self.playButton3.setStyleSheet("color:white;background-color:green")
         self.playButton3.setObjectName("playButton")        
 
         self.label_51 = QtWidgets.QLabel(self.centralWidget)

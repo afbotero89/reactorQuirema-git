@@ -615,7 +615,8 @@ class modbus:
 					print('start 1')
 					flag_start = True
 					self.start_Horno1_Reactor = True
-					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("Stop 1")
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080DFF00')
 				comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
@@ -626,8 +627,8 @@ class modbus:
 					print('start 2')
 					flag_start = True
 					self.start_Horno2_Reactor = True
-					playButtonSelected.setStyleSheet('background:green;color:white')
-					
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("Stop 2")
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080FFF00')
 				comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
@@ -638,8 +639,8 @@ class modbus:
 					print('start 3')
 					flag_start = True
 					self.start_Horno3_Reactor = True
-					playButtonSelected.setStyleSheet('background:green;color:white')
-					
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("Stop 3")
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == False):
 				checkSum = self.checkSumCalculation('01050811FF00')
 				comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
@@ -650,7 +651,8 @@ class modbus:
 					print('start 4')
 					flag_start = True
 					self.start_Horno4_Reactor = True
-					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("Stop 4")
 			playButtonSelected.enabled = False
 
 
@@ -664,7 +666,8 @@ class modbus:
 				if (lectura==comando):
 					print('stop 1')
 					self.start_Horno1_Reactor = False
-					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("Play 1")
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080D0000')
 				comando = bytes(':0105080D0000'+ checkSum + '\r\n','UTF-8')
@@ -674,8 +677,8 @@ class modbus:
 				if (lectura==comando):
 					print('stop 2')
 					self.start_Horno2_Reactor = False
-					playButtonSelected.setStyleSheet('background:red;color:white')
-					
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("Play 2")
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080F0000')
 				comando = bytes(':0105080F0000'+ checkSum + '\r\n','UTF-8')
@@ -685,8 +688,8 @@ class modbus:
 				if (lectura==comando):
 					print('stop 3')
 					self.start_Horno3_Reactor = False
-					playButtonSelected.setStyleSheet('background:red;color:white')
-					
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("Play 3")
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('010508110000')
 				comando = bytes(':010508110000'+ checkSum + '\r\n','UTF-8')
@@ -696,7 +699,8 @@ class modbus:
 				if (lectura==comando):
 					print('stop 4')
 					self.start_Horno4_Reactor = False
-					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("Play 4")
 		except:
 			pass		
 		
