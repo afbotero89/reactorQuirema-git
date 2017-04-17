@@ -4,6 +4,7 @@ from PyQt5 import QtGui
 import serial
 import time
 import threading
+import psutil, os
 
 class modbus:
 	def __init__(self):
@@ -12,14 +13,28 @@ class modbus:
 
 
 	def init_Varialbes_Serial(self):
+		global s
 		try:
+		
+			s = serial.Serial()
+			s.port = '/dev/tty.SLAB_USBtoUART'
+			s.baudrate = 9600
+			s.bytesize = 7
+			s.parity = serial.PARITY_EVEN
+			s.stopbits = 1
+			s.timeout = 0.1
 
-			self.s = serial.Serial('/dev/tty.SLAB_USBtoUART',9600)
-			self.s.bytesize = 7
-			self.s.parity = serial.PARITY_EVEN
-			self.s.stopbits = 1
-			self.s.timeout = 0.1
+			p = psutil.Process(os.getpid())
+			files = p.open_files()
+			files.clear()
 
+			if s.is_open == False:
+				s.open()
+			#print("puerto abierto",s.is_open)
+
+
+			#print("datos !!!!!!")
+			#print(files)
 			#Registros hornos PLC orden: 
 			#- 0. tiempo de muestreo
 			#- 1. ganancia proporcional
@@ -167,6 +182,7 @@ class modbus:
 			pass
 
 	def readRegister_Reactor(self):
+		global s
 		#print("horno=",horno_manta_seleccionada)
 		try:
 			self.registrosHorno = []
@@ -183,13 +199,13 @@ class modbus:
 
 			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
 
-			self.s.write(bytes(comandoModbus,'UTF-8'))	
+			s.write(bytes(comandoModbus,'UTF-8'))	
 			
 			time.sleep(0.1)
 			
 			#print(self.startBit + modbusCommand + checkSum)
 
-			variablesPID_4506_4518 = self.s.readline()   # lee serial
+			variablesPID_4506_4518 = s.readline()   # lee serial
 
 			#print(variablesPID_4506_4518)
 			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
@@ -212,6 +228,7 @@ class modbus:
 	### Hornos lecturas de datos, vista variables PID
 	################################################
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
+		global s
 		#print("horno=",horno_manta_seleccionada)
 		self.registrosHorno = []
 		#self.readRegister_Reactor()
@@ -239,13 +256,13 @@ class modbus:
 
 			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
 
-			self.s.write(bytes(comandoModbus,'UTF-8'))	
+			s.write(bytes(comandoModbus,'UTF-8'))	
 			
 			time.sleep(0.1)
 			
 			#print(self.startBit + modbusCommand + checkSum)
 
-			variablesPID_4506_4518 = self.s.readline()   # lee serial
+			variablesPID_4506_4518 = s.readline()   # lee serial
 
 			#print(variablesPID_4506_4518)
 			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
@@ -282,6 +299,7 @@ class modbus:
 			self.init_Varialbes_Serial()
 
 	def readRegister_PIDWindow_SV_PV_GPWM(self, horno_manta_seleccionada):
+		global s
 		try:
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1_Hex
@@ -305,14 +323,14 @@ class modbus:
 			modbusCommand_GPWM = self.prefijo_lectura + registro_GPWM + sufijo_GPWM
 			checksum_GPWM = self.checkSumCalculation(modbusCommand_GPWM)
 
-			self.s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
+			s.write(bytes(self.startBit + modbusCommand_SV_PV + checksum_SV_PV + '\r\n','UTF-8'))
 			time.sleep(0.1)
-			variablePID_SV_PV =  self.s.readline()   # lee serial
+			variablePID_SV_PV =  s.readline()   # lee serial
 			#print(variablePID_SV_PV)
 
-			self.s.write(bytes(self.startBit + modbusCommand_GPWM + checksum_GPWM + '\r\n','UTF-8'))
+			s.write(bytes(self.startBit + modbusCommand_GPWM + checksum_GPWM + '\r\n','UTF-8'))
 			time.sleep(0.1)
-			variablePID_GPWM = self.s.readline()   # lee serial
+			variablePID_GPWM = s.readline()   # lee serial
 
 			#### Set value-present value
 			registros_SV_PV = str(variablePID_SV_PV).split(':')[1]
@@ -333,7 +351,7 @@ class modbus:
 	### Hornos Escritura de datos, vista variables PID
 	###################################################		
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
-
+		global s
 		try:
 			
 			if (horno_mantaSeleccionada=='horno1'):
@@ -410,16 +428,16 @@ class modbus:
 
 			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
 			
-			self.s.write(modbusCommand)
-			self.s.write(modbusCommand)
-			self.s.write(modbusCommand)
+			s.write(modbusCommand)
+			s.write(modbusCommand)
+			s.write(modbusCommand)
 			time.sleep(0.1)
-			respuestaPLC = self.s.readline()
+			respuestaPLC = s.readline()
 			
 			if (modbusCommand == respuestaPLC):
 				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
 			else:
-				self.s.write(modbusCommand)
+				s.write(modbusCommand)
 				time.sleep(0.1)
 				
 			print('escrito',modbusCommand)
@@ -428,7 +446,7 @@ class modbus:
 			#self.instrument.write_register(registro,valorPID,1)
 		except:
 			#time.sleep(0.2)
-			#self.s.write(modbusCommand)
+			#s.write(modbusCommand)
 			#print("error de escritura")
 			pass
 	
@@ -437,18 +455,19 @@ class modbus:
 	######################################################	
 
 	def read_variablesVistaReactor_MFC_SV(self):
+		global s
 		try:
 			comandoModbus_MFC_SV = self.prefijo_lectura + self.registrosMFC1_SV_PV[0] + '0004'
 			checksum_MFC_SV = self.checkSumCalculation(comandoModbus_MFC_SV)
-			self.s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
+			s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
 			time.sleep(0.1)
-			variablePID_MFC_SV =  self.s.readline()   # lee serial sv-presentValue
+			variablePID_MFC_SV =  s.readline()   # lee serial sv-presentValue
 
 			# 27 es el numero de datos retornado al consultar los 4 registros de los controladores de flujo para los SV
 			if(len(variablePID_MFC_SV) < 27):
-				self.s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
+				s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
 				time.sleep(0.1)
-				variablePID_MFC_SV =  self.s.readline()   # lee serial sv-presentValue
+				variablePID_MFC_SV =  s.readline()   # lee serial sv-presentValue
 
 			#print("len mfc sv",len(variablePID_MFC_SV))
 
@@ -464,19 +483,20 @@ class modbus:
 			pass
 
 	def read_variablesVistaReactor_MFC_PV(self):
+		global s
 		try:
 			# Read present values MFC (mass flow controller)
 			comandoModbus_MFC_PV = self.prefijo_lectura + self.registrosMFC1_SV_PV[1] + '0004'
 			checksum_MFC_PV = self.checkSumCalculation(comandoModbus_MFC_PV)
-			self.s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
+			s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
 			time.sleep(0.1)
-			variablePID_MFC_PV =  self.s.readline()   # lee serial sv-presentValue
+			variablePID_MFC_PV =  s.readline()   # lee serial sv-presentValue
 
 			# 27 es el numero de datos retornado al consultar los 4 registros de los controladores de flujo para los PV
 			if(len(variablePID_MFC_PV)<27):
-				self.s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
+				s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
 				time.sleep(0.1)
-				variablePID_MFC_PV =  self.s.readline()   # lee serial sv-presentValue
+				variablePID_MFC_PV =  s.readline()   # lee serial sv-presentValue
 
 			#print("len mfc pv", len(variablePID_MFC_PV))
 
@@ -493,13 +513,14 @@ class modbus:
 			pass
 
 	def readVarialesVistaEscalado(self):
+		global s
 		# Read values MFC (mass flow controller), escalado IN
 		try:
 			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0029'
 			checksum_MFC_IN = self.checkSumCalculation(comandoModbus_MFC_IN)
-			self.s.write(bytes(self.startBit + comandoModbus_MFC_IN + checksum_MFC_IN + '\r\n','UTF-8'))
+			s.write(bytes(self.startBit + comandoModbus_MFC_IN + checksum_MFC_IN + '\r\n','UTF-8'))
 			time.sleep(0.1)
-			variablePID_MFC_IN =  self.s.readline()   # lee serial sv-presentValue
+			variablePID_MFC_IN =  s.readline()   # lee serial sv-presentValue
 
 			registros_MFC_IN =  str(variablePID_MFC_IN).split(':')[1]
 			registros_MFC_IN = list(registros_MFC_IN)
@@ -516,7 +537,7 @@ class modbus:
 	### Hornos Escritura de datos, vista ESCALADO
 	###################################################		
 	def writeValues_Escalado(self, valorPID, MFC, IN_OUT, X_Y):
-
+		global s
 		try:
 			
 			# SI LA VARIABLE DE ENTRADA SELECCIONADA FUE IN
@@ -564,32 +585,32 @@ class modbus:
 
 			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
 			
-			self.s.write(modbusCommand)
+			s.write(modbusCommand)
 			time.sleep(0.1)
-			respuestaPLC = self.s.readline()
+			respuestaPLC = s.readline()
 			print("escrito", modbusCommand, "respuesta", respuestaPLC)
 			if (modbusCommand == respuestaPLC):
 				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
 			else:
 				time.sleep(0.1)
 				pass
-				#self.s.write(modbusCommand)
+				#s.write(modbusCommand)
 		except:
 			pass
 
 
 	def startHorno_reactor(self, hornoSeleccionado, playButtonSelected):
 		print("escalado", hornoSeleccionado)
-		
+		global s		
 		try:
 			flag_start = False
 			if(hornoSeleccionado=='horno1' and self.start_Horno1_Reactor == False):
 				
 				checkSum = self.checkSumCalculation('0105080BFF00')
 				comando = bytes(':0105080BFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('start 1')
 					flag_start = True
@@ -598,9 +619,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080DFF00')
 				comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('start 2')
 					flag_start = True
@@ -610,9 +631,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080FFF00')
 				comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('start 3')
 					flag_start = True
@@ -622,9 +643,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == False):
 				checkSum = self.checkSumCalculation('01050811FF00')
 				comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('start 4')
 					flag_start = True
@@ -637,9 +658,9 @@ class modbus:
 				
 				checkSum = self.checkSumCalculation('0105080B0000')
 				comando = bytes(':0105080B0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('stop 1')
 					self.start_Horno1_Reactor = False
@@ -647,9 +668,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080D0000')
 				comando = bytes(':0105080D0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('stop 2')
 					self.start_Horno2_Reactor = False
@@ -658,9 +679,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080F0000')
 				comando = bytes(':0105080F0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('stop 3')
 					self.start_Horno3_Reactor = False
@@ -669,9 +690,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('010508110000')
 				comando = bytes(':010508110000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					print('stop 4')
 					self.start_Horno4_Reactor = False
@@ -680,15 +701,15 @@ class modbus:
 			pass		
 		
 	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):
-		
+		global s		
 		try:
 			flag_start = False
 			if(hornoSeleccionado=='horno1' and self.start_Horno1_PIDWindow == False):		
 				checkSum = self.checkSumCalculation('0105080AFF00')
 				comando = bytes(':0105080AFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					flag_start = True
 					self.start_Horno1_PIDWindow = True
@@ -698,9 +719,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == False):
 				checkSum = self.checkSumCalculation('0105080CFF00')
 				comando = bytes(':0105080CFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					flag_start = True
 					self.start_Horno2_PIDWindow = True
@@ -709,9 +730,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == False):
 				checkSum = self.checkSumCalculation('0105080EFF00')
 				comando = bytes(':0105080EFF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					flag_start = True
 					self.start_Horno3_PIDWindow = True
@@ -720,9 +741,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == False):
 				checkSum = self.checkSumCalculation('01050810FF00')
 				comando = bytes(':01050810FF00'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					flag_start = True
 					self.start_Horno4_PIDWindow = True
@@ -733,9 +754,9 @@ class modbus:
 			if(hornoSeleccionado=='horno1' and self.start_Horno1_PIDWindow == True  and flag_start == False):		
 				checkSum = self.checkSumCalculation('0105080A0000')
 				comando = bytes(':0105080A0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					self.start_Horno1_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
@@ -743,9 +764,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == True  and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080C0000')
 				comando = bytes(':0105080C0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					self.start_Horno2_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
@@ -753,9 +774,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080E0000')
 				comando = bytes(':0105080E0000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					self.start_Horno3_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
@@ -763,9 +784,9 @@ class modbus:
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == True and flag_start == False):
 				checkSum = self.checkSumCalculation('010508100000')
 				comando = bytes(':010508100000'+ checkSum + '\r\n','UTF-8')
-				self.s.write(comando)
+				s.write(comando)
 				time.sleep(0.1)
-				lectura = self.s.readline()
+				lectura = s.readline()
 				if (lectura==comando):
 					self.start_Horno4_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
@@ -774,10 +795,12 @@ class modbus:
 			pass
 
 	def closePort(self):
+		global s
 		print('close port')
-		self.s.close()
+		s.close()
 			
 	def checkSumCalculation(self,vectorModbus):
+		global s
 		#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
 		vectorModbus = list(vectorModbus)
 

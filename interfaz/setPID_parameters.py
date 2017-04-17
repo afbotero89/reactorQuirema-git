@@ -32,11 +32,12 @@ class Ui_MainWindow(object):
         self.sectionVector = sectionVector
         self.contador = 0
         self.instanciaModbus = serialClass.modbus()
-        self.lecturaDatosPID_PLC = serialClass.modbus()
+
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
         valorVariableAModificar = "0"
         setValueFromCalculadora = False
+        threadCreated = False
         
         self.variablePIDSeleccionada = ""
         #self.lecturaDatosPID_PLC = serialClass.modbus()
@@ -247,8 +248,10 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         #self.actualizaValoresTimer()
-        self.t = threading.Timer(0.1, self.actualizaValoresTimer)
+
+        self.t = threading.Thread(target=self.actualizaValoresTimer)
         self.t.IsBackground = True;
+        print(self.t)
         self.t.start()
 
     def retranslateUi(self, MainWindow):
@@ -337,14 +340,14 @@ class Ui_MainWindow(object):
         self.playButton.clicked.connect(lambda: self.playHornos(self.playButton))
 
     def back(self):
-        self.t.cancel()
+        #self.t.cancel()
         self.flag_DesactivaVista = True
         self.instanciaModbus.closePort()
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
         self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
 
     def home(self):
-        self.t.cancel()
+        #self.t.cancel()
         self.flag_DesactivaVista = True
         self.instanciaModbus.closePort()        
         self.home = Home.Ui_MainWindow()
@@ -377,9 +380,9 @@ class Ui_MainWindow(object):
         while True:
 
             self.contador = self.contador + 1
-            self.datosPID_PLC = self.lecturaDatosPID_PLC.readRegister_PIDWindow(self.horno_manta_seleccionada)
+            self.datosPID_PLC = self.instanciaModbus.readRegister_PIDWindow(self.horno_manta_seleccionada)
 
-            self.datosPID_PLC_SV_PV_GPWM = self.lecturaDatosPID_PLC.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
+            self.datosPID_PLC_SV_PV_GPWM = self.instanciaModbus.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
 
             if(self.flag_DesactivaVista==True):
                 break
@@ -447,7 +450,7 @@ class Ui_MainWindow(object):
             except:
                 pass    
             hora = time.strftime("%H:%M:%S")
-            print(hora)
+            #print(hora)
             try:
                 self.buttonTime.setText(hora)
             except:
