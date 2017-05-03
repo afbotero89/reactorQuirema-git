@@ -21,17 +21,17 @@ import serialClass
 
 class Ui_MainWindow(object):
     
-    def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector):
+    def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector, socket):
 
         global valorVariableAModificar, setValueFromCalculadora
-        
+        self.s = socket
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
         self.horno_manta_seleccionada = horno_manta_seleccionada
         self.sectionVector = sectionVector
         self.contador = 0
-        self.instanciaModbus = serialClass.modbus()
+        self.instanciaModbus = serialClass.modbus(self.s)
 
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
@@ -342,14 +342,14 @@ class Ui_MainWindow(object):
     def back(self):
         #self.t.cancel()
         self.flag_DesactivaVista = True
-        self.instanciaModbus.closePort()
+        #self.instanciaModbus.closePort()
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
-        self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
+        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def home(self):
         #self.t.cancel()
         self.flag_DesactivaVista = True
-        self.instanciaModbus.closePort()        
+        #self.instanciaModbus.closePort()        
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow)
 
@@ -367,7 +367,7 @@ class Ui_MainWindow(object):
             self.MainWindow.setEnabled(False)
             MainWindow = QtWidgets.QMainWindow()
             calculadora = calculadora2.Ui_MainWindow()
-            calculadora.setupUi_PID_reactor(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow)
+            calculadora.setupUi_PID_reactor(MainWindow, parametroPIDSeleccionado, self.horno_manta_seleccionada, self.sectionVector, self.MainWindow, self.s)
             MainWindow.show()
         
         #self.t = threading.Timer(1, self.actualizaValoresTimer)

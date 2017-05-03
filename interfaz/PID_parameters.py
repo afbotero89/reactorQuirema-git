@@ -12,7 +12,8 @@ import Home
 
 
 class Ui_MainWindow_PIDParameters(object):
-    def setupUi(self, MainWindow1, sectionVector):
+    def setupUi(self, MainWindow1, sectionVector, socket):
+        self.s = socket
         self.MainWindow = MainWindow1
         MainWindow1.setObjectName("MainWindow1")
         MainWindow1.resize(800, 480)
@@ -131,7 +132,7 @@ class Ui_MainWindow_PIDParameters(object):
 
     def setPID_parameters(self, horno_manta_seleccionada):
         self.pidInterface = setPID_parameters.Ui_MainWindow()
-        self.pidInterface.setupUi(self.MainWindow, horno_manta_seleccionada, self.sectionVector)
+        self.pidInterface.setupUi(self.MainWindow, horno_manta_seleccionada, self.sectionVector, self.s)
 
     def home(self):
         self.home = Home.Ui_MainWindow()

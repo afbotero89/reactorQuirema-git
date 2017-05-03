@@ -20,11 +20,11 @@ import dbSQLClass
 import time
 
 class Ui_MainWindow(object):
-    def setupUi_PID_reactor(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow):
+    def setupUi_PID_reactor(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow, socket):
         self.pidWindow = pidWindow
         self.variablePIDSeleccionada = variablePIDSeleccionada
         self.horno_manta_seleccionada = horno_manta_seleccionada
-        self.instanciaModbus = serialClass.modbus()
+        self.instanciaModbus = serialClass.modbus(socket)
         MainWindow.closeEvent = self.closeEvent_PID_reactor
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("  " + horno_manta_seleccionada + "\n" + "  " + "Variable PID: " + variablePIDSeleccionada)
@@ -44,10 +44,10 @@ class Ui_MainWindow(object):
         self.init_Interface(MainWindow, sectionVector)
         #self.label_2.setText("  Controlador de flujo" + ": " + controladorFlujo + "\n" + "  " + IN_OUT + " " + X_Y)
 
-    def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, X_Y, escaladoMainWindow):
+    def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, X_Y, escaladoMainWindow, socket):
         self.escaladoMainWindow = escaladoMainWindow
 
-        self.instanciaModbus = serialClass.modbus()
+        self.instanciaModbus = serialClass.modbus(socket)
         self.controladorFlujo = controladorFlujo
         self.IN_OUT = IN_OUT
         self.X_Y = X_Y

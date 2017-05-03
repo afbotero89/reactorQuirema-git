@@ -14,9 +14,9 @@ import threading
 import time
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector):
+    def setupUi(self, MainWindow, sectionVector, socket):
         global valorVariableAModificar, setValueFromCalculadora
-
+        self.s = socket
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
         self.flag_DesactivaVista = False
@@ -583,14 +583,14 @@ class Ui_MainWindow(object):
         self.controladorFlujo = MFC
         self.IN_OUT = IN_OUT
         self.X_Y = X_Y
-        self.calculadora.setupUI_escalado(MainWindow, self.sectionVector, MFC, IN_OUT, X_Y, self.MainWindow)
+        self.calculadora.setupUI_escalado(MainWindow, self.sectionVector, MFC, IN_OUT, X_Y, self.MainWindow, self.s)
         MainWindow.show() 
 
     def actualizaValoresPIDTimer(self):
         global valorVariableAModificar, setValueFromCalculadora
 
         while True:
-            self.instanciaModbus = serialClass.modbus()
+            self.instanciaModbus = serialClass.modbus(self.s)
             self.variablesPIDEscalado = self.instanciaModbus.readVarialesVistaEscalado()
             print(self.variablesPIDEscalado)
             print(valorVariableAModificar, setValueFromCalculadora)

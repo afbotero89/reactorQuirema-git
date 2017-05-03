@@ -17,14 +17,14 @@ import serialClass
 import time
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector):
+    def setupUi(self, MainWindow, sectionVector, socket):
         global valorVariableAModificar, setValueFromCalculadora
-
+        self.s = socket
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
-        self.instanciaModbus = serialClass.modbus()
+        self.instanciaModbus = serialClass.modbus(self.s)
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
 
@@ -7283,7 +7283,7 @@ class Ui_MainWindow(object):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()
-        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow)
+        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow, self.s)
         MainWindow.show()
 
     def playHornos(self, hornoSeleccionado, playButtonSelected):

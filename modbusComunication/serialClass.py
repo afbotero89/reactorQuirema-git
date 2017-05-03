@@ -5,31 +5,19 @@ import serial
 import time
 import threading
 import psutil, os
+import Home 
 
 class modbus:
-	def __init__(self):
-		
+	def __init__(self, socket):
+		instanceHome = Home.Ui_MainWindow()
+		self.s = socket
 		self.init_Varialbes_Serial()
 
 
 	def init_Varialbes_Serial(self):
-		global s
-		try:
-		
-			s = serial.Serial()
-			s.port = '/dev/tty.SLAB_USBtoUART'
-			s.baudrate = 9600
-			s.bytesize = 7
-			s.parity = serial.PARITY_EVEN
-			s.stopbits = 1
-			s.timeout = 0.1
+			global s
+			s = self.s
 
-			p = psutil.Process(os.getpid())
-			files = p.open_files()
-			files.clear()
-
-			if s.is_open == False:
-				s.open()
 			#print("puerto abierto",s.is_open)
 
 
@@ -178,8 +166,7 @@ class modbus:
 			self.start_Horno2_Reactor = False
 			self.start_Horno3_Reactor = False
 			self.start_Horno4_Reactor = False
-		except:
-			pass
+
 
 	def readRegister_Reactor(self):
 		global s

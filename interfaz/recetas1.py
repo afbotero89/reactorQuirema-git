@@ -12,7 +12,8 @@ import Home
 import calculadora2
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector):
+    def setupUi(self, MainWindow, sectionVector, socket):
+        self.s = socket
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
 

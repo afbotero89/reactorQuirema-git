@@ -13,9 +13,29 @@ import alarmsMainWindow
 import reactorWindow2
 import recetas1
 import escalado
+import serial
+import psutil, os
 
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow):
+
+
+        self.s = serial.Serial()
+        self.s.port = 'COM18'
+        self.s.baudrate = 9600
+        self.s.bytesize = 7
+        self.s.parity = serial.PARITY_EVEN
+        self.s.stopbits = 1
+        self.s.timeout = 0.1
+
+        p = psutil.Process(os.getpid())
+        files = p.open_files()
+        files.clear()
+        
+        if self.s.is_open == False:
+            self.s.open()
+
         self.MainWindow = MainWindow
         #MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 255));")
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
@@ -111,29 +131,29 @@ class Ui_MainWindow(object):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [True,False,False,False,False,False]
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
-        self.pidInterface.setupUi(self.MainWindow, self.sectionVector)
+        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def alarms(self):
         self.sectionVector = [False,False,True,False,False,False]
         self.alarms = alarmsMainWindow.Ui_MainWindow()
-        self.alarms.setupUi(self.MainWindow, self.sectionVector)
+        self.alarms.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def recetas(self):
         self.sectionVector = [False,False,False,True,False,False]
         self.recetas = recetas1.Ui_MainWindow()
-        self.recetas.setupUi(self.MainWindow, self.sectionVector)
+        self.recetas.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def rectorMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,False,False,False,False,True]
         self.reactor = reactorWindow2.Ui_MainWindow()
-        self.reactor.setupUi(self.MainWindow, self.sectionVector)
+        self.reactor.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def escaladoMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,True,False,False,False,False]
         self.escalado = escalado.Ui_MainWindow()
-        self.escalado.setupUi(self.MainWindow, self.sectionVector)       
+        self.escalado.setupUi(self.MainWindow, self.sectionVector, self.s)       
        
         
 if __name__ == "__main__":
