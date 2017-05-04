@@ -351,7 +351,7 @@ class Ui_MainWindow(object):
         self.flag_DesactivaVista = True
         #self.instanciaModbus.closePort()        
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)
 
     def playHornos(self, playButtonSelected):
         self.playHornos_flag = True 
@@ -383,6 +383,8 @@ class Ui_MainWindow(object):
             self.datosPID_PLC = self.instanciaModbus.readRegister_PIDWindow(self.horno_manta_seleccionada)
 
             self.datosPID_PLC_SV_PV_GPWM = self.instanciaModbus.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
+
+            print(self.datosPID_PLC_SV_PV_GPWM, self.datosPID_PLC)
 
             if(self.flag_DesactivaVista==True):
                 break

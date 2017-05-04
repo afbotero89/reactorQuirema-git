@@ -16,7 +16,24 @@ class modbus:
 
 	def init_Varialbes_Serial(self):
 			global s
+
+			#self.s = serial.Serial()
+			#self.s.port = '/dev/tty.SLAB_USBtoUART'
+			#self.s.baudrate = 9600
+			#self.s.bytesize = 7
+			#self.s.parity = serial.PARITY_EVEN
+			#self.s.stopbits = 1
+			#self.s.timeout = 0.1
+
+			#p = psutil.Process(os.getpid())
+			#files = p.open_files()
+			#files.clear()
+
+			#if self.s.is_open == False:
+			 #   self.s.open()
+
 			s = self.s
+
 
 			#print("puerto abierto",s.is_open)
 

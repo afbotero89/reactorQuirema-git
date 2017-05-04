@@ -136,7 +136,7 @@ class Ui_MainWindow_PIDParameters(object):
 
     def home(self):
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)
 
 if __name__ == "__main__":
     import sys

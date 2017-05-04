@@ -349,4 +349,4 @@ class Ui_MainWindow(object):
 
     def home(self):
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)

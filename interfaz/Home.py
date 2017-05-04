@@ -18,24 +18,8 @@ import psutil, os
 
 class Ui_MainWindow(object):
     
-    def setupUi(self, MainWindow):
-
-
-        self.s = serial.Serial()
-        self.s.port = 'COM18'
-        self.s.baudrate = 9600
-        self.s.bytesize = 7
-        self.s.parity = serial.PARITY_EVEN
-        self.s.stopbits = 1
-        self.s.timeout = 0.1
-
-        p = psutil.Process(os.getpid())
-        files = p.open_files()
-        files.clear()
-        
-        if self.s.is_open == False:
-            self.s.open()
-
+    def setupUi(self, MainWindow, socket):
+        self.s = socket
         self.MainWindow = MainWindow
         #MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 255));")
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
@@ -158,11 +142,27 @@ class Ui_MainWindow(object):
         
 if __name__ == "__main__":
     import sys
+
+    socket = serial.Serial()
+    socket.port = '/dev/tty.SLAB_USBtoUART'
+    socket.baudrate = 9600
+    socket.bytesize = 7
+    socket.parity = serial.PARITY_EVEN
+    socket.stopbits = 1
+    socket.timeout = 0.1
+
+    p = psutil.Process(os.getpid())
+    files = p.open_files()
+    files.clear()
+    
+    if socket.is_open == False:
+        socket.open()
+
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUi(MainWindow, socket)
     qPoint = QPoint(0,-5)
     MainWindow.move(qPoint)
     MainWindow.show()

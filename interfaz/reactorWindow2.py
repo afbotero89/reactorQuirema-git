@@ -7272,7 +7272,7 @@ class Ui_MainWindow(object):
     def home(self):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)
         self.t.cancel()
 
     #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     

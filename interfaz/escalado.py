@@ -573,7 +573,7 @@ class Ui_MainWindow(object):
     def home(self):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)
         #self.t.cancel()
 
     def displayCalculadora(self, MFC, IN_OUT, X_Y):

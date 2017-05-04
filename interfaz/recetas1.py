@@ -619,11 +619,11 @@ class Ui_MainWindow(object):
     def addNew_Recetas(self):
         self.sectionVector = [False,False,False,True,False,False]
         self.recetas = recetas2.Ui_MainWindow()
-        self.recetas.setupUi(self.MainWindow, self.sectionVector)
+        self.recetas.setupUi(self.MainWindow, self.sectionVector, self.s)
 
     def home(self):
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow)
+        self.home.setupUi(self.MainWindow, self.s)
 
     def displayCalculadora(self):
         self.MainWindow.setEnabled(False)
