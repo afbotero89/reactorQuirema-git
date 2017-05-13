@@ -144,7 +144,7 @@ if __name__ == "__main__":
     import sys
 
     socket = serial.Serial()
-    socket.port = '/dev/tty.SLAB_USBtoUART'
+    socket.port = '/dev/ttyUSB0'
     socket.baudrate = 9600
     socket.bytesize = 7
     socket.parity = serial.PARITY_EVEN
@@ -155,8 +155,8 @@ if __name__ == "__main__":
     files = p.open_files()
     files.clear()
     
-    if socket.is_open == False:
-        socket.open()
+    #if socket.is_open == False:
+    socket.open()
 
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')

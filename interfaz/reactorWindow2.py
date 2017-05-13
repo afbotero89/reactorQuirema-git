@@ -7390,6 +7390,17 @@ class Ui_MainWindow(object):
                 self.pushButton_PV_flujo4.setText(str(int(self.variablesPIDReactor_MFC_PV[3],16))) 
             except:
                 pass
+
+            try:
+                self.pushButton_PV_flujo5.setText(str(int(self.variablesPIDReactor_MFC_PV[4],16))) 
+            except:
+                pass
+
+            try:
+                self.pushButton_PV_flujo6.setText(str(int(self.variablesPIDReactor_MFC_PV[5],16))) 
+            except:
+                pass
+
             hora = time.strftime("%H:%M:%S")
             print(hora) 
             if self.playHornos_flag == True:

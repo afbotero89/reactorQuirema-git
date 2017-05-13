@@ -85,6 +85,8 @@ class modbus:
 			self.registrosMFC2_SV_PV = ['1003','1066']
 			self.registrosMFC3_SV_PV = ['1004','1067']
 			self.registrosMFC4_SV_PV = ['1005','1068']
+			self.registrosMFC5_SV_PV = ['1006','1069']
+			self.registrosMFC6_SV_PV = ['1007','106A']
 
 			# Escalado inicia a partir del registro 4606 (Dec) = 11FE (Hex), termina en 4621(Dec) = 120D(Hex)
 			# In: Xmax, Xmin, Ymax, Ymin
@@ -378,6 +380,10 @@ class modbus:
 					vectorRegistros=self.registrosMFC3_SV_PV
 			elif(horno_mantaSeleccionada=='MFC4'):
 					vectorRegistros=self.registrosMFC4_SV_PV
+			elif(horno_mantaSeleccionada=='MFC5'):
+					vectorRegistros=self.registrosMFC5_SV_PV
+			elif(horno_mantaSeleccionada=='MFC6'):
+					vectorRegistros=self.registrosMFC6_SV_PV
 
 			if variablePID == 'tiempoMuestreo':
 			        registro = vectorRegistros[0]
@@ -461,17 +467,17 @@ class modbus:
 	def read_variablesVistaReactor_MFC_SV(self):
 		global s
 		try:
-			comandoModbus_MFC_SV = self.prefijo_lectura + self.registrosMFC1_SV_PV[0] + '0004'
+			comandoModbus_MFC_SV = self.prefijo_lectura + self.registrosMFC1_SV_PV[0] + '0006'
 			checksum_MFC_SV = self.checkSumCalculation(comandoModbus_MFC_SV)
 			s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
 			time.sleep(0.1)
 			variablePID_MFC_SV =  s.readline()   # lee serial sv-presentValue
 
 			# 27 es el numero de datos retornado al consultar los 4 registros de los controladores de flujo para los SV
-			if(len(variablePID_MFC_SV) < 27):
-				s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
-				time.sleep(0.1)
-				variablePID_MFC_SV =  s.readline()   # lee serial sv-presentValue
+			#if(len(variablePID_MFC_SV) < 27):
+				#s.write(bytes(self.startBit + comandoModbus_MFC_SV + checksum_MFC_SV + '\r\n','UTF-8'))
+				#time.sleep(0.1)
+				#variablePID_MFC_SV =  s.readline()   # lee serial sv-presentValue
 
 			#print("len mfc sv",len(variablePID_MFC_SV))
 
@@ -481,7 +487,9 @@ class modbus:
 			registros_MFC_SV = [registros_MFC_SV[0]+registros_MFC_SV[1]+registros_MFC_SV[2]+registros_MFC_SV[3],
 								registros_MFC_SV[4]+registros_MFC_SV[5]+registros_MFC_SV[6]+registros_MFC_SV[7],
 								registros_MFC_SV[8]+registros_MFC_SV[9]+registros_MFC_SV[10]+registros_MFC_SV[11],
-								registros_MFC_SV[12]+registros_MFC_SV[13]+registros_MFC_SV[14]+registros_MFC_SV[15]]
+								registros_MFC_SV[12]+registros_MFC_SV[13]+registros_MFC_SV[14]+registros_MFC_SV[15],
+								registros_MFC_SV[16]+registros_MFC_SV[17]+registros_MFC_SV[18]+registros_MFC_SV[19],
+								registros_MFC_SV[20]+registros_MFC_SV[21]+registros_MFC_SV[22]+registros_MFC_SV[23]]
 			return registros_MFC_SV
 		except:
 			pass
@@ -490,17 +498,17 @@ class modbus:
 		global s
 		try:
 			# Read present values MFC (mass flow controller)
-			comandoModbus_MFC_PV = self.prefijo_lectura + self.registrosMFC1_SV_PV[1] + '0004'
+			comandoModbus_MFC_PV = self.prefijo_lectura + self.registrosMFC1_SV_PV[1] + '0006'
 			checksum_MFC_PV = self.checkSumCalculation(comandoModbus_MFC_PV)
 			s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
 			time.sleep(0.1)
 			variablePID_MFC_PV =  s.readline()   # lee serial sv-presentValue
 
 			# 27 es el numero de datos retornado al consultar los 4 registros de los controladores de flujo para los PV
-			if(len(variablePID_MFC_PV)<27):
-				s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
-				time.sleep(0.1)
-				variablePID_MFC_PV =  s.readline()   # lee serial sv-presentValue
+			#if(len(variablePID_MFC_PV)<27):
+				#s.write(bytes(self.startBit + comandoModbus_MFC_PV + checksum_MFC_PV + '\r\n','UTF-8'))
+				#time.sleep(0.1)
+				#variablePID_MFC_PV =  s.readline()   # lee serial sv-presentValue
 
 			#print("len mfc pv", len(variablePID_MFC_PV))
 
@@ -510,7 +518,9 @@ class modbus:
 			registros_MFC_PV = [registros_MFC_PV[0]+registros_MFC_PV[1]+registros_MFC_PV[2]+registros_MFC_PV[3],
 								registros_MFC_PV[4]+registros_MFC_PV[5]+registros_MFC_PV[6]+registros_MFC_PV[7],
 								registros_MFC_PV[8]+registros_MFC_PV[9]+registros_MFC_PV[10]+registros_MFC_PV[11],
-								registros_MFC_PV[12]+registros_MFC_PV[13]+registros_MFC_PV[14]+registros_MFC_PV[15]]
+								registros_MFC_PV[12]+registros_MFC_PV[13]+registros_MFC_PV[14]+registros_MFC_PV[15],
+								registros_MFC_PV[16]+registros_MFC_PV[17]+registros_MFC_PV[18]+registros_MFC_PV[19],
+								registros_MFC_PV[20]+registros_MFC_PV[21]+registros_MFC_PV[22]+registros_MFC_PV[23]]
 			return registros_MFC_PV
 
 		except:
