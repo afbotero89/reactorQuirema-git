@@ -7380,6 +7380,16 @@ class Ui_MainWindow(object):
                 self.pushButton_SV_flujo4.setText(str(int(variablesReactor[3],16))) 
             except:
                 pass
+
+            try:
+                self.pushButton_SV_flujo5.setText(str(int(variablesReactor[4],16))) 
+            except:
+                pass
+            try:
+                self.pushButton_SV_flujo6.setText(str(int(variablesReactor[5],16))) 
+            except:
+                pass
+
             try:
                 self.pushButton_PV_flujo1.setText(str(int(self.variablesPIDReactor_MFC_PV[0],16))) 
             except:
