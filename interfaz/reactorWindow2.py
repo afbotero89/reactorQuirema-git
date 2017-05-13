@@ -7261,6 +7261,12 @@ class Ui_MainWindow(object):
 
         # MFC4
         self.pushButton_SV_flujo4.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC4'))
+
+        # MFC5
+        self.pushButton_SV_flujo5.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC5'))
+
+        # MFC6
+        self.pushButton_SV_flujo6.clicked.connect(lambda: self.setValuesHorno('setValue_MFC','MFC6'))
         #self.pushButton_PV_flujo4.clicked.connect(lambda: self.setValuesHorno('presentValue_MFC','MFC4'))
 
         self.playButton.clicked.connect(lambda: self.playHornos('horno1', self.playButton))
