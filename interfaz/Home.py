@@ -156,8 +156,10 @@ if __name__ == "__main__":
     files.clear()
     
     #if socket.is_open == False:
-    socket.open()
-
+    try:
+        socket.open()
+    except:
+        pass    
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')
     MainWindow = QtWidgets.QMainWindow()

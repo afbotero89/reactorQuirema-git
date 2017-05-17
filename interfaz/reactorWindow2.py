@@ -1538,6 +1538,12 @@ class Ui_MainWindow(object):
 "border-radius: 20px;\n"
 "qproperty-alignment: AlignCenter;")
         self.label_31.setObjectName("label_31")
+
+        self.pushButtonValve = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonValve.setGeometry(QtCore.QRect(250, 295, 81, 35))
+        self.pushButtonValve.setStyleSheet("color:black;")
+        self.pushButtonValve.setObjectName("pushButton_PV_flujo2")
+
         self.label_32 = QtWidgets.QLabel(self.centralWidget)
         self.label_32.setGeometry(QtCore.QRect(90, 250, 41, 31))
         self.label_32.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
@@ -7217,6 +7223,8 @@ class Ui_MainWindow(object):
         self.label_53.setText(_translate("MainWindow", "SV:"))
         self.label_54.setText(_translate("MainWindow", "PV:"))
         self.label_55.setText(_translate("MainWindow", "mL/min"))
+        self.pushButtonValve.setText(_translate("MainWindow", "OFF"))
+
 
         self.actionButtons()
         #self.actualizaValoresPIDTimer()
@@ -7418,6 +7426,15 @@ class Ui_MainWindow(object):
                 pass
 
             hora = time.strftime("%H:%M:%S")
+            date = time.strftime("%d-%m-%Y")
+            fileRegisters = open("../historicRegisters/" + str(date), "a")
+            # setvalues: horno1, horno2, horno3, horno4
+            try:
+                fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
+                fileRegisters.close()
+            except:
+                pass
+
             print(hora) 
             if self.playHornos_flag == True:
                 self.playHornos_flag = False
