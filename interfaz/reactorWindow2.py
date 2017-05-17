@@ -27,6 +27,7 @@ class Ui_MainWindow(object):
         self.instanciaModbus = serialClass.modbus(self.s)
         self.flag_DesactivaVista = False
         self.playHornos_flag = False
+        self.playValve_flag = False
 
         valorVariableAModificar = "0"
         setValueFromCalculadora = False
@@ -1533,15 +1534,15 @@ class Ui_MainWindow(object):
         self.pushButton_PV_bomba.setStyleSheet("color:black;")
         self.pushButton_PV_bomba.setObjectName("pushButton_PV_bomba")
         self.label_31 = QtWidgets.QLabel(self.centralWidget)
-        self.label_31.setGeometry(QtCore.QRect(250, 260, 81, 61))
+        self.label_31.setGeometry(QtCore.QRect(250, 260, 81, 41))
         self.label_31.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "border-radius: 20px;\n"
 "qproperty-alignment: AlignCenter;")
         self.label_31.setObjectName("label_31")
 
         self.pushButtonValve = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonValve.setGeometry(QtCore.QRect(250, 295, 81, 35))
-        self.pushButtonValve.setStyleSheet("color:black;")
+        self.pushButtonValve.setGeometry(QtCore.QRect(255, 295, 71, 25))
+        self.pushButtonValve.setStyleSheet("color:white;background-color:green")
         self.pushButtonValve.setObjectName("pushButton_PV_flujo2")
 
         self.label_32 = QtWidgets.QLabel(self.centralWidget)
@@ -7281,6 +7282,7 @@ class Ui_MainWindow(object):
         self.playButton1.clicked.connect(lambda: self.playHornos('horno2', self.playButton1))
         self.playButton2.clicked.connect(lambda: self.playHornos('horno3', self.playButton2))
         self.playButton3.clicked.connect(lambda: self.playHornos('horno4', self.playButton3))
+        self.pushButtonValve.clicked.connect(lambda: self.playValve('valve6', self.pushButtonValve))
  
 
     def home(self):
@@ -7304,6 +7306,11 @@ class Ui_MainWindow(object):
         self.playHornos_flag = True 
         self.hornoSeleccionado_start = hornoSeleccionado
         self.playButtonSelected_start = playButtonSelected
+
+    def playValve(self, valveSelected, playButtonValve):
+        self.playValve_flag = True
+        self.valveSelected_start = valveSelected
+        self.playButtonValve = playButtonValve
 
     def actualizaValoresPIDTimer(self):
         global valorVariableAModificar, setValueFromCalculadora
@@ -7427,9 +7434,10 @@ class Ui_MainWindow(object):
 
             hora = time.strftime("%H:%M:%S")
             date = time.strftime("%d-%m-%Y")
-            fileRegisters = open("../historicRegisters/" + str(date), "a")
-            # setvalues: horno1, horno2, horno3, horno4
+            
+            # setvalues: horno1, horno2, horno3, horno4, MCF1, MCF2, MCF3, MCF4, MCF5, MCF6
             try:
+                fileRegisters = open("../historicRegisters/" + str(date), "a")
                 fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
                 fileRegisters.close()
             except:
@@ -7439,6 +7447,10 @@ class Ui_MainWindow(object):
             if self.playHornos_flag == True:
                 self.playHornos_flag = False
                 self.instanciaModbus.startHorno_reactor(self.hornoSeleccionado_start,self.playButtonSelected_start) 
+
+            if self.playValve_flag == True:
+                self.playValve_flag = False
+                self.instanciaModbus.start_Valve_reactor(self.valveSelected_start, self.playButtonValve)
 
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False

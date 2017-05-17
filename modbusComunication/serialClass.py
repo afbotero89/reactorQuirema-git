@@ -186,6 +186,8 @@ class modbus:
 			self.start_Horno3_Reactor = False
 			self.start_Horno4_Reactor = False
 
+			self.startValveReactor_flag = False
+
 
 	def readRegister_Reactor(self):
 		global s
@@ -717,7 +719,19 @@ class modbus:
 					playButtonSelected.setText("Play 4")
 		except:
 			pass		
-		
+	
+	def start_Valve_reactor(self,valveSelected, playButtonSelected):
+
+		flag_start = False
+		if (self.startValveReactor_flag == False):
+			self.startValveReactor_flag = True
+			flag_start = True
+			playButtonSelected.setStyleSheet('background:red;color:white')
+		elif(self.startValveReactor_flag == True and flag_start == False):
+			self.startValveReactor_flag = False
+			playButtonSelected.setStyleSheet('background:green;color:white')
+	
+				
 	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):
 		global s		
 		try:
