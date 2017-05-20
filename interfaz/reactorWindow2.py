@@ -7322,65 +7322,78 @@ class Ui_MainWindow(object):
 
             self.variablesPIDReactor_MFC_PV = self.instanciaModbus.read_variablesVistaReactor_MFC_PV()
 
-            try:            
-                self.pushButton_SV1.setText(str(int(variablesReactor[27],16)))
+            try:
+                setValue1String = self.decimalString(str(int(variablesReactor[27],16)))            
+                self.pushButton_SV1.setText(setValue1String)
             except:
                 pass  
             try:
-                self.pushButton_PV1.setText(str(int(variablesReactor[26],16)))
+                presentValue1String = self.decimalString(str(int(variablesReactor[26],16)))
+                self.pushButton_PV1.setText(presentValue1String)
             except:
                 pass
 
-            try:                  
-                self.pushButton_R1.setText(str(int(variablesReactor[31],16)))
+            try:
+                rampa1 = self.decimalString(str(int(variablesReactor[31],16)))                   
+                self.pushButton_R1.setText(rampa1)
             except:
                 pass
 
 
             try:
-                self.pushButton_SV2.setText(str(int(variablesReactor[37],16)))
+                setValue2String = self.decimalString(str(int(variablesReactor[37],16)))
+                self.pushButton_SV2.setText(setValue2String)
             except:
                 pass           
             try:
-                self.pushButton_PV2.setText(str(int(variablesReactor[36],16)))
+                presentValue2String = self.decimalString(str(int(variablesReactor[36],16)))
+                self.pushButton_PV2.setText(presentValue2String)
             except:
                 pass
             try:
-                self.pushButton_R2.setText(str(int(variablesReactor[41],16)))
-            except:
-                pass
-
-
-            try:
-                self.pushButton_SV3.setText(str(int(variablesReactor[47],16)))
-            except:
-                pass
-            try:
-                self.pushButton_PV3.setText(str(int(variablesReactor[46],16)))
-            except:
-                pass
-            try:
-                self.pushButton_R3.setText(str(int(variablesReactor[51],16)))
+                rampa2 = self.decimalString(str(int(variablesReactor[41],16))) 
+                self.pushButton_R2.setText(rampa2)
             except:
                 pass
 
 
             try:
-                self.pushButton_SV4.setText(str(int(variablesReactor[57],16)))
+                setValue3String = self.decimalString(str(int(variablesReactor[47],16))) 
+                self.pushButton_SV3.setText(setValue3String)
             except:
                 pass
             try:
-                self.pushButton_PV4.setText(str(int(variablesReactor[56],16)))
+                presentValue3String = self.decimalString(str(int(variablesReactor[46],16)))  
+                self.pushButton_PV3.setText(presentValue3String)
             except:
                 pass
             try:
-                self.pushButton_R4.setText(str(int(variablesReactor[61],16)))
+                rampa3 = self.decimalString(str(int(variablesReactor[51],16)))
+                self.pushButton_R3.setText(rampa3)
             except:
                 pass
 
 
             try:
-                self.pushButton_SV_flujo1.setText(str(int(variablesReactor[0],16))) 
+                setValue4String = self.decimalString(str(int(variablesReactor[57],16)))
+                self.pushButton_SV4.setText(setValue4String)
+            except:
+                pass
+            try:
+                presentValue4String = self.decimalString(str(int(variablesReactor[56],16))) 
+                self.pushButton_PV4.setText(presentValue4String)
+            except:
+                pass
+            try:
+                rampa4 = self.decimalString(str(int(variablesReactor[61],16))) 
+                self.pushButton_R4.setText(rampa4)
+            except:
+                pass
+
+
+            try:
+                svFlujo1String = self.decimalString(str(int(variablesReactor[0],16))) 
+                self.pushButton_SV_flujo1.setText(svFlujo1String) 
             except:
                 pass
             try:
@@ -7455,7 +7468,15 @@ class Ui_MainWindow(object):
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False
                 self.instanciaModbus.writeValuesPID(float(valorVariableAModificar),self.variableSeleccionada,self.equipoSeleccionado)    
-            time.sleep(0.2)     
+            time.sleep(0.2)
+
+    def decimalString(self, stringValue):
+        stringValueReturn = stringValue
+        if len(stringValueReturn)==1:
+            stringValueReturn = '0.' + stringValueReturn
+        else:   
+            stringValueReturn = stringValueReturn[0:(len(stringValueReturn)-1)] + '.' + stringValueReturn[len(stringValueReturn)-1]
+        return stringValueReturn
 
 if __name__ == "__main__":
     import sys
