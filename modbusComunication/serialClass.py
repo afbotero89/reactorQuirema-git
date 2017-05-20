@@ -94,6 +94,8 @@ class modbus:
 			self.registrosMFC2_IN = ['1202','1203','1204','1205']
 			self.registrosMFC3_IN = ['1206','1207','1208','1209']
 			self.registrosMFC4_IN = ['120A','120B','120C','120D']
+			self.registrosMFC5_IN = ['120E','120F','1210','1211']
+			self.registrosMFC6_IN = ['1212','1213','1214','1215']
 
 			# Escalado inicia a partir del registro 4631 (Dec) = 1217 (Hex), termina en 4646 (Dec) = 1226(Hex)
 			# Out: Xmax, Xmin, Ymax, Ymin
@@ -101,6 +103,8 @@ class modbus:
 			self.registrosMFC2_OUT = ['121B','121C','121D','121E']
 			self.registrosMFC3_OUT = ['121F','1220','1221','1222']
 			self.registrosMFC4_OUT = ['1223','1224','1225','1226']
+			self.registrosMFC5_OUT = ['1227','1228','1229','122A']
+			self.registrosMFC6_OUT = ['122B','122C','122D','122E']
 
 			self.vectorRegistrosHorno1_Hex = [hex(self.vectorRegistrosHorno1[0]),
 											  hex(self.vectorRegistrosHorno1[1]),
@@ -236,11 +240,11 @@ class modbus:
 	### Hornos lecturas de datos, vista variables PID
 	################################################
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
-		global s
+			global s
 		#print("horno=",horno_manta_seleccionada)
-		self.registrosHorno = []
+			self.registrosHorno = []
 		#self.readRegister_Reactor()
-		try:
+		#try:
 
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1_Hex
@@ -278,7 +282,7 @@ class modbus:
 			variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
 
 			registros = list(variablesPID_4506_4518)
-
+			print("valores evaluar",comandoModbus, variablesPID_4506_4518)
 			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 			
 			# Agrupo lista en grupos de cuatro
@@ -303,8 +307,8 @@ class modbus:
 					int(self.registrosHorno[10],16),
 					int(self.registrosHorno[12],16))
 	
-		except:
-			self.init_Varialbes_Serial()
+
+			#self.init_Varialbes_Serial()
 
 	def readRegister_PIDWindow_SV_PV_GPWM(self, horno_manta_seleccionada):
 		global s
@@ -441,8 +445,6 @@ class modbus:
 			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
 			
 			s.write(modbusCommand)
-			s.write(modbusCommand)
-			s.write(modbusCommand)
 			time.sleep(0.1)
 			respuestaPLC = s.readline()
 			
@@ -532,7 +534,7 @@ class modbus:
 		global s
 		# Read values MFC (mass flow controller), escalado IN
 		try:
-			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0029'
+			comandoModbus_MFC_IN = self.prefijo_lectura + self.registrosMFC1_IN[0] + '0031'
 			checksum_MFC_IN = self.checkSumCalculation(comandoModbus_MFC_IN)
 			s.write(bytes(self.startBit + comandoModbus_MFC_IN + checksum_MFC_IN + '\r\n','UTF-8'))
 			time.sleep(0.1)
@@ -541,7 +543,7 @@ class modbus:
 			registros_MFC_IN =  str(variablePID_MFC_IN).split(':')[1]
 			registros_MFC_IN = list(registros_MFC_IN)
 			registros_MFC_IN = registros_MFC_IN[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
-			for i in range(41):
+			for i in range(49):
 				registros_MFC = registros_MFC_IN[i*4]+registros_MFC_IN[(i*4) + 1]+registros_MFC_IN[(i*4) + 2]+registros_MFC_IN[(i*4) + 3]
 				self.registrosEscalado_IN.append(registros_MFC)
 		except:
@@ -565,6 +567,10 @@ class modbus:
 			        vectorRegistros = self.registrosMFC3_IN	
 			if (MFC=='MFC4' and IN_OUT =='IN'):
 			        vectorRegistros = self.registrosMFC4_IN	
+			if (MFC=='MFC5' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC5_IN	
+			if (MFC=='MFC6' and IN_OUT =='IN'):
+			        vectorRegistros = self.registrosMFC6_IN	
 
 			# SI LA VARIABLE DE ENTRADA SELECCIONADA FUE OUT
 			if (MFC=='MFC1' and IN_OUT =='OUT'):
@@ -575,6 +581,10 @@ class modbus:
 			        vectorRegistros = self.registrosMFC3_OUT
 			if (MFC=='MFC4' and IN_OUT =='OUT'):
 			        vectorRegistros = self.registrosMFC4_OUT
+			if (MFC=='MFC5' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC5_OUT
+			if (MFC=='MFC6' and IN_OUT =='OUT'):
+			        vectorRegistros = self.registrosMFC6_OUT
 
 			if X_Y == 'XMAX':
 			    registro = '0x' + vectorRegistros[0]
@@ -724,12 +734,24 @@ class modbus:
 
 		flag_start = False
 		if (self.startValveReactor_flag == False):
-			self.startValveReactor_flag = True
-			flag_start = True
-			playButtonSelected.setStyleSheet('background:red;color:white')
+			checkSum = self.checkSumCalculation('01050800FF00')
+			comando = bytes(':01050800FF00'+ checkSum + '\r\n','UTF-8')
+			s.write(comando)
+			time.sleep(0.1)
+			lectura = s.readline()
+			if (lectura==comando):
+				self.startValveReactor_flag = True
+				flag_start = True
+				playButtonSelected.setStyleSheet('background:red;color:white')
 		elif(self.startValveReactor_flag == True and flag_start == False):
-			self.startValveReactor_flag = False
-			playButtonSelected.setStyleSheet('background:green;color:white')
+			checkSum = self.checkSumCalculation('010508000000')
+			comando = bytes(':010508000000'+ checkSum + '\r\n','UTF-8')
+			s.write(comando)
+			time.sleep(0.1)
+			lectura = s.readline()
+			if (lectura==comando):
+				self.startValveReactor_flag = False
+				playButtonSelected.setStyleSheet('background:green;color:white')
 	
 				
 	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):

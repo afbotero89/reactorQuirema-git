@@ -194,100 +194,100 @@ class Ui_MainWindow(object):
         self.label_TITLE_FLOW4.setStyleSheet("color:white")
         self.label_TITLE_FLOW4.setObjectName("label_TITLE_FLOW4")
         self.pushButton_XMAX_IN_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_1.setGeometry(QtCore.QRect(80, 140, 81, 32))
+        self.pushButton_XMAX_IN_1.setGeometry(QtCore.QRect(80, 140, 65, 25))
         self.pushButton_XMAX_IN_1.setObjectName("pushButton_XMAX_IN_1")
         self.pushButton_XMAX_OUT_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_1.setGeometry(QtCore.QRect(150, 140, 81, 32))
+        self.pushButton_XMAX_OUT_1.setGeometry(QtCore.QRect(150, 140, 65, 25))
         self.pushButton_XMAX_OUT_1.setObjectName("pushButton_XMAX_OUT_1")
         self.pushButton_XMIN_IN_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_1.setGeometry(QtCore.QRect(80, 170, 81, 32))
+        self.pushButton_XMIN_IN_1.setGeometry(QtCore.QRect(80, 170, 65, 25))
         self.pushButton_XMIN_IN_1.setObjectName("pushButton_XMIN_IN_1")
         self.pushButton_XMIN_OUT_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_1.setGeometry(QtCore.QRect(150, 170, 81, 32))
+        self.pushButton_XMIN_OUT_1.setGeometry(QtCore.QRect(150, 170, 65, 25))
         self.pushButton_XMIN_OUT_1.setObjectName("pushButton_XMIN_OUT_1")
         self.pushButton_YMAX_IN_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_1.setGeometry(QtCore.QRect(80, 200, 81, 32))
+        self.pushButton_YMAX_IN_1.setGeometry(QtCore.QRect(80, 200, 65, 25))
         self.pushButton_YMAX_IN_1.setObjectName("pushButton_YMAX_IN_1")
         self.pushButton_YMAX_OUT_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_1.setGeometry(QtCore.QRect(150, 200, 81, 32))
+        self.pushButton_YMAX_OUT_1.setGeometry(QtCore.QRect(150, 200, 65, 25))
         self.pushButton_YMAX_OUT_1.setObjectName("pushButton_YMAX_OUT_1")
         self.pushButton_YMIN_IN_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_1.setGeometry(QtCore.QRect(80, 230, 81, 32))
+        self.pushButton_YMIN_IN_1.setGeometry(QtCore.QRect(80, 230, 65, 25))
         self.pushButton_YMIN_IN_1.setObjectName("pushButton_YMIN_IN_1")
         self.pushButton_YMIN_OUT_1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_1.setGeometry(QtCore.QRect(150, 230, 81, 32))
+        self.pushButton_YMIN_OUT_1.setGeometry(QtCore.QRect(150, 230, 65, 25))
         self.pushButton_YMIN_OUT_1.setObjectName("pushButton_YMIN_OUT_1")
         self.pushButton_XMAX_IN_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_2.setGeometry(QtCore.QRect(260, 140, 81, 32))
+        self.pushButton_XMAX_IN_2.setGeometry(QtCore.QRect(260, 140, 65, 25))
         self.pushButton_XMAX_IN_2.setObjectName("pushButton_XMAX_IN_2")
         self.pushButton_XMAX_OUT_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_2.setGeometry(QtCore.QRect(330, 140, 81, 32))
+        self.pushButton_XMAX_OUT_2.setGeometry(QtCore.QRect(330, 140, 65, 25))
         self.pushButton_XMAX_OUT_2.setObjectName("pushButton_XMAX_OUT_2")
         self.pushButton_YMIN_IN_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_2.setGeometry(QtCore.QRect(260, 230, 81, 32))
+        self.pushButton_YMIN_IN_2.setGeometry(QtCore.QRect(260, 230, 65, 25))
         self.pushButton_YMIN_IN_2.setObjectName("pushButton_YMIN_IN_2")
         self.pushButton_XMIN_IN_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_2.setGeometry(QtCore.QRect(260, 170, 81, 32))
+        self.pushButton_XMIN_IN_2.setGeometry(QtCore.QRect(260, 170, 65, 25))
         self.pushButton_XMIN_IN_2.setObjectName("pushButton_XMIN_IN_2")
         self.pushButton_YMAX_OUT_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_2.setGeometry(QtCore.QRect(330, 200, 81, 32))
+        self.pushButton_YMAX_OUT_2.setGeometry(QtCore.QRect(330, 200, 65, 25))
         self.pushButton_YMAX_OUT_2.setObjectName("pushButton_YMAX_OUT_2")
         self.pushButton_YMIN_OUT_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_2.setGeometry(QtCore.QRect(330, 230, 81, 32))
+        self.pushButton_YMIN_OUT_2.setGeometry(QtCore.QRect(330, 230, 65, 25))
         self.pushButton_YMIN_OUT_2.setObjectName("pushButton_YMIN_OUT_2")
         self.pushButton_XMIN_OUT_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_2.setGeometry(QtCore.QRect(330, 170, 81, 32))
+        self.pushButton_XMIN_OUT_2.setGeometry(QtCore.QRect(330, 170, 65, 25))
         self.pushButton_XMIN_OUT_2.setObjectName("pushButton_XMIN_OUT_2")
         self.pushButton_YMAX_IN_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_2.setGeometry(QtCore.QRect(260, 200, 81, 32))
+        self.pushButton_YMAX_IN_2.setGeometry(QtCore.QRect(260, 200, 65, 25))
         self.pushButton_YMAX_IN_2.setObjectName("pushButton_YMAX_IN_2")
         self.pushButton_XMAX_IN_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_3.setGeometry(QtCore.QRect(440, 140, 81, 32))
+        self.pushButton_XMAX_IN_3.setGeometry(QtCore.QRect(440, 140, 65, 25))
         self.pushButton_XMAX_IN_3.setObjectName("pushButton_XMAX_IN_3")
         self.pushButton_XMAX_OUT_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_3.setGeometry(QtCore.QRect(510, 140, 81, 32))
+        self.pushButton_XMAX_OUT_3.setGeometry(QtCore.QRect(510, 140, 65, 25))
         self.pushButton_XMAX_OUT_3.setObjectName("pushButton_XMAX_OUT_3")
         self.pushButton_YMIN_IN_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_3.setGeometry(QtCore.QRect(440, 230, 81, 32))
+        self.pushButton_YMIN_IN_3.setGeometry(QtCore.QRect(440, 230, 65, 25))
         self.pushButton_YMIN_IN_3.setObjectName("pushButton_YMIN_IN_3")
         self.pushButton_XMIN_IN_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_3.setGeometry(QtCore.QRect(440, 170, 81, 32))
+        self.pushButton_XMIN_IN_3.setGeometry(QtCore.QRect(440, 170, 65, 25))
         self.pushButton_XMIN_IN_3.setObjectName("pushButton_XMIN_IN_3")
         self.pushButton_YMAX_OUT_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_3.setGeometry(QtCore.QRect(510, 200, 81, 32))
+        self.pushButton_YMAX_OUT_3.setGeometry(QtCore.QRect(510, 200, 65, 25))
         self.pushButton_YMAX_OUT_3.setObjectName("pushButton_YMAX_OUT_3")
         self.pushButton_YMIN_OUT_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_3.setGeometry(QtCore.QRect(510, 230, 81, 32))
+        self.pushButton_YMIN_OUT_3.setGeometry(QtCore.QRect(510, 230, 65, 25))
         self.pushButton_YMIN_OUT_3.setObjectName("pushButton_YMIN_OUT_3")
         self.pushButton_XMIN_OUT_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_3.setGeometry(QtCore.QRect(510, 170, 81, 32))
+        self.pushButton_XMIN_OUT_3.setGeometry(QtCore.QRect(510, 170, 65, 25))
         self.pushButton_XMIN_OUT_3.setObjectName("pushButton_XMIN_OUT_3")
         self.pushButton_YMAX_IN_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_3.setGeometry(QtCore.QRect(440, 200, 81, 32))
+        self.pushButton_YMAX_IN_3.setGeometry(QtCore.QRect(440, 200, 65, 25))
         self.pushButton_YMAX_IN_3.setObjectName("pushButton_YMAX_IN_3")
         self.pushButton_XMAX_IN_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_4.setGeometry(QtCore.QRect(610, 140, 81, 32))
+        self.pushButton_XMAX_IN_4.setGeometry(QtCore.QRect(610, 140, 65, 25))
         self.pushButton_XMAX_IN_4.setObjectName("pushButton_XMAX_IN_4")
         self.pushButton_XMAX_OUT_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_4.setGeometry(QtCore.QRect(680, 140, 81, 32))
+        self.pushButton_XMAX_OUT_4.setGeometry(QtCore.QRect(680, 140, 65, 25))
         self.pushButton_XMAX_OUT_4.setObjectName("pushButton_XMAX_OUT_4")
         self.pushButton_YMIN_IN_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_4.setGeometry(QtCore.QRect(610, 230, 81, 32))
+        self.pushButton_YMIN_IN_4.setGeometry(QtCore.QRect(610, 230, 65, 25))
         self.pushButton_YMIN_IN_4.setObjectName("pushButton_YMIN_IN_4")
         self.pushButton_XMIN_IN_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_4.setGeometry(QtCore.QRect(610, 170, 81, 32))
+        self.pushButton_XMIN_IN_4.setGeometry(QtCore.QRect(610, 170, 65, 25))
         self.pushButton_XMIN_IN_4.setObjectName("pushButton_XMIN_IN_4")
         self.pushButton_YMAX_OUT_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_4.setGeometry(QtCore.QRect(680, 200, 81, 32))
+        self.pushButton_YMAX_OUT_4.setGeometry(QtCore.QRect(680, 200, 65, 25))
         self.pushButton_YMAX_OUT_4.setObjectName("pushButton_YMAX_OUT_4")
         self.pushButton_YMIN_OUT_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_4.setGeometry(QtCore.QRect(680, 230, 81, 32))
+        self.pushButton_YMIN_OUT_4.setGeometry(QtCore.QRect(680, 230, 65, 25))
         self.pushButton_YMIN_OUT_4.setObjectName("pushButton_YMIN_OUT_4")
         self.pushButton_XMIN_OUT_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_4.setGeometry(QtCore.QRect(680, 170, 81, 32))
+        self.pushButton_XMIN_OUT_4.setGeometry(QtCore.QRect(680, 170, 65, 25))
         self.pushButton_XMIN_OUT_4.setObjectName("pushButton_XMIN_OUT_4")
         self.pushButton_YMAX_IN_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_4.setGeometry(QtCore.QRect(610, 200, 81, 32))
+        self.pushButton_YMAX_IN_4.setGeometry(QtCore.QRect(610, 200, 65, 25))
         self.pushButton_YMAX_IN_4.setObjectName("pushButton_YMAX_IN_4")
         self.label_XMAX = QtWidgets.QLabel(self.centralWidget)
         self.label_XMAX.setGeometry(QtCore.QRect(30, 145, 51, 21))
@@ -346,60 +346,60 @@ class Ui_MainWindow(object):
         self.label_YMIN_2.setStyleSheet("color:white")
         self.label_YMIN_2.setObjectName("label_YMIN_2")
         self.pushButton_XMAX_IN_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_5.setGeometry(QtCore.QRect(80, 300, 81, 32))
+        self.pushButton_XMAX_IN_5.setGeometry(QtCore.QRect(80, 300, 65, 25))
         self.pushButton_XMAX_IN_5.setObjectName("pushButton_XMAX_IN_5")
         self.pushButton_XMAX_OUT_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_5.setGeometry(QtCore.QRect(150, 300, 81, 32))
+        self.pushButton_XMAX_OUT_5.setGeometry(QtCore.QRect(150, 300, 65, 25))
         self.pushButton_XMAX_OUT_5.setObjectName("pushButton_XMAX_OUT_5")
         self.label_XMAX_2 = QtWidgets.QLabel(self.centralWidget)
         self.label_XMAX_2.setGeometry(QtCore.QRect(30, 305, 51, 21))
         self.label_XMAX_2.setStyleSheet("color:white")
         self.label_XMAX_2.setObjectName("label_XMAX_2")
         self.pushButton_YMIN_IN_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_5.setGeometry(QtCore.QRect(80, 390, 81, 32))
+        self.pushButton_YMIN_IN_5.setGeometry(QtCore.QRect(80, 390, 65, 25))
         self.pushButton_YMIN_IN_5.setObjectName("pushButton_YMIN_IN_5")
         self.pushButton_XMIN_IN_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_5.setGeometry(QtCore.QRect(80, 330, 81, 32))
+        self.pushButton_XMIN_IN_5.setGeometry(QtCore.QRect(80, 330, 65, 25))
         self.pushButton_XMIN_IN_5.setObjectName("pushButton_XMIN_IN_5")
         self.pushButton_YMAX_OUT_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_5.setGeometry(QtCore.QRect(150, 360, 81, 32))
+        self.pushButton_YMAX_OUT_5.setGeometry(QtCore.QRect(150, 360, 65, 25))
         self.pushButton_YMAX_OUT_5.setObjectName("pushButton_YMAX_OUT_5")
         self.pushButton_YMIN_OUT_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_5.setGeometry(QtCore.QRect(150, 390, 81, 32))
+        self.pushButton_YMIN_OUT_5.setGeometry(QtCore.QRect(150, 390, 65, 25))
         self.pushButton_YMIN_OUT_5.setObjectName("pushButton_YMIN_OUT_5")
         self.label_YMAX_2 = QtWidgets.QLabel(self.centralWidget)
         self.label_YMAX_2.setGeometry(QtCore.QRect(30, 370, 51, 21))
         self.label_YMAX_2.setStyleSheet("color:white")
         self.label_YMAX_2.setObjectName("label_YMAX_2")
         self.pushButton_XMIN_OUT_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_5.setGeometry(QtCore.QRect(150, 330, 81, 32))
+        self.pushButton_XMIN_OUT_5.setGeometry(QtCore.QRect(150, 330, 65, 25))
         self.pushButton_XMIN_OUT_5.setObjectName("pushButton_XMIN_OUT_5")
         self.pushButton_YMAX_IN_5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_5.setGeometry(QtCore.QRect(80, 360, 81, 32))
+        self.pushButton_YMAX_IN_5.setGeometry(QtCore.QRect(80, 360, 65, 25))
         self.pushButton_YMAX_IN_5.setObjectName("pushButton_YMAX_IN_5")
         self.pushButton_XMAX_IN_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_IN_6.setGeometry(QtCore.QRect(260, 300, 81, 32))
+        self.pushButton_XMAX_IN_6.setGeometry(QtCore.QRect(260, 300, 65, 25))
         self.pushButton_XMAX_IN_6.setObjectName("pushButton_XMAX_IN_6")
         self.pushButton_XMAX_OUT_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMAX_OUT_6.setGeometry(QtCore.QRect(330, 300, 81, 32))
+        self.pushButton_XMAX_OUT_6.setGeometry(QtCore.QRect(330, 300, 65, 25))
         self.pushButton_XMAX_OUT_6.setObjectName("pushButton_XMAX_OUT_6")
         self.pushButton_XMIN_IN_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_IN_6.setGeometry(QtCore.QRect(260, 330, 81, 32))
+        self.pushButton_XMIN_IN_6.setGeometry(QtCore.QRect(260, 330, 65, 25))
         self.pushButton_XMIN_IN_6.setObjectName("pushButton_XMIN_IN_6")
         self.pushButton_YMIN_IN_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_IN_6.setGeometry(QtCore.QRect(260, 390, 81, 32))
+        self.pushButton_YMIN_IN_6.setGeometry(QtCore.QRect(260, 390, 65, 25))
         self.pushButton_YMIN_IN_6.setObjectName("pushButton_YMIN_IN_6")
         self.pushButton_YMAX_OUT_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_OUT_6.setGeometry(QtCore.QRect(330, 360, 81, 32))
+        self.pushButton_YMAX_OUT_6.setGeometry(QtCore.QRect(330, 360, 65, 25))
         self.pushButton_YMAX_OUT_6.setObjectName("pushButton_YMAX_OUT_6")
         self.pushButton_YMAX_IN_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMAX_IN_6.setGeometry(QtCore.QRect(260, 360, 81, 32))
+        self.pushButton_YMAX_IN_6.setGeometry(QtCore.QRect(260, 360, 65, 25))
         self.pushButton_YMAX_IN_6.setObjectName("pushButton_YMAX_IN_6")
         self.pushButton_YMIN_OUT_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_YMIN_OUT_6.setGeometry(QtCore.QRect(330, 390, 81, 32))
+        self.pushButton_YMIN_OUT_6.setGeometry(QtCore.QRect(330, 390, 65, 25))
         self.pushButton_YMIN_OUT_6.setObjectName("pushButton_YMIN_OUT_6")
         self.pushButton_XMIN_OUT_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_XMIN_OUT_6.setGeometry(QtCore.QRect(330, 330, 81, 32))
+        self.pushButton_XMIN_OUT_6.setGeometry(QtCore.QRect(330, 330, 65, 25))
         self.pushButton_XMIN_OUT_6.setObjectName("pushButton_XMIN_OUT_6")
         self.label_TITLE_FLOW5 = QtWidgets.QLabel(self.centralWidget)
         self.label_TITLE_FLOW5.setGeometry(QtCore.QRect(110, 280, 81, 20))
@@ -549,6 +549,16 @@ class Ui_MainWindow(object):
         self.pushButton_YMAX_IN_4.clicked.connect(lambda: self.displayCalculadora('MFC4','IN','YMAX'))
         self.pushButton_YMIN_IN_4.clicked.connect(lambda: self.displayCalculadora('MFC4','IN','YMIN'))
 
+        self.pushButton_XMAX_IN_5.clicked.connect(lambda: self.displayCalculadora('MFC5','IN','XMAX'))
+        self.pushButton_XMIN_IN_5.clicked.connect(lambda: self.displayCalculadora('MFC5','IN','XMIN'))
+        self.pushButton_YMAX_IN_5.clicked.connect(lambda: self.displayCalculadora('MFC5','IN','YMAX'))
+        self.pushButton_YMIN_IN_5.clicked.connect(lambda: self.displayCalculadora('MFC5','IN','YMIN'))
+
+        self.pushButton_XMAX_IN_6.clicked.connect(lambda: self.displayCalculadora('MFC6','IN','XMAX'))
+        self.pushButton_XMIN_IN_6.clicked.connect(lambda: self.displayCalculadora('MFC6','IN','XMIN'))
+        self.pushButton_YMAX_IN_6.clicked.connect(lambda: self.displayCalculadora('MFC6','IN','YMAX'))
+        self.pushButton_YMIN_IN_6.clicked.connect(lambda: self.displayCalculadora('MFC6','IN','YMIN'))
+
         # OUT
         self.pushButton_XMAX_OUT_1.clicked.connect(lambda: self.displayCalculadora('MFC1','OUT','XMAX'))
         self.pushButton_XMIN_OUT_1.clicked.connect(lambda: self.displayCalculadora('MFC1','OUT','XMIN'))
@@ -569,6 +579,16 @@ class Ui_MainWindow(object):
         self.pushButton_XMIN_OUT_4.clicked.connect(lambda: self.displayCalculadora('MFC4','OUT','XMIN'))
         self.pushButton_YMAX_OUT_4.clicked.connect(lambda: self.displayCalculadora('MFC4','OUT','YMAX'))
         self.pushButton_YMIN_OUT_4.clicked.connect(lambda: self.displayCalculadora('MFC4','OUT','YMIN'))
+
+        self.pushButton_XMAX_OUT_5.clicked.connect(lambda: self.displayCalculadora('MFC5','OUT','XMAX'))
+        self.pushButton_XMIN_OUT_5.clicked.connect(lambda: self.displayCalculadora('MFC5','OUT','XMIN'))
+        self.pushButton_YMAX_OUT_5.clicked.connect(lambda: self.displayCalculadora('MFC5','OUT','YMAX'))
+        self.pushButton_YMIN_OUT_5.clicked.connect(lambda: self.displayCalculadora('MFC5','OUT','YMIN'))
+
+        self.pushButton_XMAX_OUT_6.clicked.connect(lambda: self.displayCalculadora('MFC6','OUT','XMAX'))
+        self.pushButton_XMIN_OUT_6.clicked.connect(lambda: self.displayCalculadora('MFC6','OUT','XMIN'))
+        self.pushButton_YMAX_OUT_6.clicked.connect(lambda: self.displayCalculadora('MFC6','OUT','YMAX'))
+        self.pushButton_YMIN_OUT_6.clicked.connect(lambda: self.displayCalculadora('MFC6','OUT','YMIN'))
 
     def home(self):
         self.flag_DesactivaVista = True
@@ -677,6 +697,47 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+
+            try:
+                self.pushButton_XMAX_IN_5.setText(str(int(self.variablesPIDEscalado[16],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_IN_5.setText(str(int(self.variablesPIDEscalado[17],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_IN_5.setText(str(int(self.variablesPIDEscalado[18],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_IN_5.setText(str(int(self.variablesPIDEscalado[19],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMAX_IN_6.setText(str(int(self.variablesPIDEscalado[20],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_IN_6.setText(str(int(self.variablesPIDEscalado[21],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_IN_6.setText(str(int(self.variablesPIDEscalado[22],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_IN_6.setText(str(int(self.variablesPIDEscalado[23],16)))
+            except:
+                pass
+
             # OUT:
             try: 
                 self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[25],16)))
@@ -758,12 +819,54 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+
+            try:
+                self.pushButton_XMAX_OUT_5.setText(str(int(self.variablesPIDEscalado[41],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_OUT_5.setText(str(int(self.variablesPIDEscalado[42],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_OUT_5.setText(str(int(self.variablesPIDEscalado[43],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_OUT_5.setText(str(int(self.variablesPIDEscalado[44],16)))
+            except:
+                pass
+
+
+            try:
+                self.pushButton_XMAX_OUT_6.setText(str(int(self.variablesPIDEscalado[45],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_XMIN_OUT_6.setText(str(int(self.variablesPIDEscalado[46],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMAX_OUT_6.setText(str(int(self.variablesPIDEscalado[47],16)))
+            except:
+                pass
+
+            try:
+                self.pushButton_YMIN_OUT_6.setText(str(int(self.variablesPIDEscalado[48],16)))
+            except:
+                pass
+
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False
 
                 self.instanciaModbus.writeValues_Escalado(float(valorVariableAModificar), self.controladorFlujo, self.IN_OUT, self.X_Y)
 
-            time.sleep(0.5)
+            time.sleep(0.2)
 
 if __name__ == "__main__":
     import sys

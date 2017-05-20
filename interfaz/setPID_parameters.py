@@ -464,7 +464,7 @@ class Ui_MainWindow(object):
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False
                 self.instanciaModbus.writeValuesPID(valorVariableAModificar,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
-            time.sleep(0.01)
+                time.sleep(0.1)
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -474,3 +474,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+#':010311B8000D26\r\n'
