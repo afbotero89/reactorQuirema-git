@@ -25,9 +25,9 @@ class modbus:
 			#self.s.stopbits = 1
 			#self.s.timeout = 0.1
 
-			#p = psutil.Process(os.getpid())
-			#files = p.open_files()
-			#files.clear()
+			p = psutil.Process(os.getpid())
+			files = p.open_files()
+			files.clear()
 
 			#if self.s.is_open == False:
 			 #   self.s.open()
