@@ -148,7 +148,7 @@ if __name__ == "__main__":
     import sys
 
     socket = serial.Serial()
-    socket.port = 'COM18'
+    socket.port = '/dev/ttyUSB0'
     socket.baudrate = 9600
     socket.bytesize = 7
     socket.parity = serial.PARITY_EVEN

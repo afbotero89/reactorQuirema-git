@@ -240,11 +240,11 @@ class modbus:
 	### Hornos lecturas de datos, vista variables PID
 	################################################
 	def readRegister_PIDWindow(self, horno_manta_seleccionada):
-			global s
+		global s
 		#print("horno=",horno_manta_seleccionada)
-			self.registrosHorno = []
+		self.registrosHorno = []
 		#self.readRegister_Reactor()
-		#try:
+		try:
 
 			if (horno_manta_seleccionada=='horno1'):
 				vectorRegistros = self.vectorRegistrosHorno1_Hex
@@ -307,7 +307,8 @@ class modbus:
 					int(self.registrosHorno[10],16),
 					int(self.registrosHorno[12],16))
 	
-
+		except:
+			pass	
 			#self.init_Varialbes_Serial()
 
 	def readRegister_PIDWindow_SV_PV_GPWM(self, horno_manta_seleccionada):
