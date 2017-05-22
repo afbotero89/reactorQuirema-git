@@ -7396,52 +7396,70 @@ class Ui_MainWindow(object):
                 self.pushButton_SV_flujo1.setText(svFlujo1String) 
             except:
                 pass
+
             try:
-                self.pushButton_SV_flujo2.setText(str(int(variablesReactor[1],16)))  
-            except:
-                pass
-            try:
-                self.pushButton_SV_flujo3.setText(str(int(variablesReactor[2],16)))  
-            except:
-                pass
-            try:
-                self.pushButton_SV_flujo4.setText(str(int(variablesReactor[3],16))) 
+                svFlujo2String = self.decimalString(str(int(variablesReactor[1],16))) 
+                self.pushButton_SV_flujo2.setText(svFlujo2String)  
             except:
                 pass
 
             try:
-                self.pushButton_SV_flujo5.setText(str(int(variablesReactor[4],16))) 
-            except:
-                pass
-            try:
-                self.pushButton_SV_flujo6.setText(str(int(variablesReactor[5],16))) 
+                svFLujo3String = self.decimalString(str(int(variablesReactor[2],16)))
+                self.pushButton_SV_flujo3.setText(svFLujo3String)  
             except:
                 pass
 
             try:
-                self.pushButton_PV_flujo1.setText(str(int(self.variablesPIDReactor_MFC_PV[0],16))) 
-            except:
-                pass
-            try:
-                self.pushButton_PV_flujo2.setText(str(int(self.variablesPIDReactor_MFC_PV[1],16))) 
-            except:
-                pass
-            try:
-                self.pushButton_PV_flujo3.setText(str(int(self.variablesPIDReactor_MFC_PV[2],16)))  
-            except:
-                pass
-            try:
-                self.pushButton_PV_flujo4.setText(str(int(self.variablesPIDReactor_MFC_PV[3],16))) 
+                svFlujo4String = self.decimalString(str(int(variablesReactor[3],16)))
+                self.pushButton_SV_flujo4.setText(svFlujo4String) 
             except:
                 pass
 
             try:
-                self.pushButton_PV_flujo5.setText(str(int(self.variablesPIDReactor_MFC_PV[4],16))) 
+                svFlujo5String = self.decimalString(str(int(variablesReactor[4],16)))
+                self.pushButton_SV_flujo5.setText(svFlujo5String) 
             except:
                 pass
 
             try:
-                self.pushButton_PV_flujo6.setText(str(int(self.variablesPIDReactor_MFC_PV[5],16))) 
+                svFlujo6String = self.decimalString(str(int(variablesReactor[5],16)))
+                self.pushButton_SV_flujo6.setText(svFlujo6String) 
+            except:
+                pass
+
+            try:
+                pvFlujo1String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[0],16)))
+                self.pushButton_PV_flujo1.setText(pvFlujo1String) 
+            except:
+                pass
+
+            try:
+                pvFlujo2String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[1],16))) 
+                self.pushButton_PV_flujo2.setText(pvFlujo2String) 
+            except:
+                pass
+
+            try:
+                pvFlujo3String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[2],16))) 
+                self.pushButton_PV_flujo3.setText(pvFlujo3String)  
+            except:
+                pass
+
+            try:
+                pvFlujo4String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[3],16)))
+                self.pushButton_PV_flujo4.setText(pvFlujo4String) 
+            except:
+                pass
+
+            try:
+                pvFlujo5String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[4],16)))
+                self.pushButton_PV_flujo5.setText(pvFlujo5String) 
+            except:
+                pass
+
+            try:
+                pvFlujo6String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[5],16)))
+                self.pushButton_PV_flujo6.setText(pvFlujo6String) 
             except:
                 pass
 

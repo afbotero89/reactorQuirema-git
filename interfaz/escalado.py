@@ -619,245 +619,294 @@ class Ui_MainWindow(object):
                 break
             # IN:
             try:
-                self.pushButton_XMAX_IN_1.setText(str(int(self.variablesPIDEscalado[0],16)))
+                xmaxIn1String = self.decimalString(str(int(self.variablesPIDEscalado[0],16)))
+                self.pushButton_XMAX_IN_1.setText(xmaxIn1String)
             except:
                 pass
+
             try:
-                self.pushButton_XMIN_IN_1.setText(str(int(self.variablesPIDEscalado[1],16)))
+                xminIn1String = self.decimalString(str(int(self.variablesPIDEscalado[1],16)))
+                self.pushButton_XMIN_IN_1.setText(xminIn1String)
             except:
                 pass   
 
             try:
-                self.pushButton_YMAX_IN_1.setText(str(int(self.variablesPIDEscalado[2],16)))
+                ymaxIn1String = self.decimalString(str(int(self.variablesPIDEscalado[2],16)))
+                self.pushButton_YMAX_IN_1.setText(ymaxIn1String)
             except:
                 pass
 
-            try:    
-                self.pushButton_YMIN_IN_1.setText(str(int(self.variablesPIDEscalado[3],16)))
-            except:
-                pass
-
-            try:
-                self.pushButton_XMAX_IN_2.setText(str(int(self.variablesPIDEscalado[4],16)))
-            except:
-                pass
-
-            try:
-                self.pushButton_XMIN_IN_2.setText(str(int(self.variablesPIDEscalado[5],16)))
+            try:   
+                yminIn1String = self.decimalString(str(int(self.variablesPIDEscalado[3],16))) 
+                self.pushButton_YMIN_IN_1.setText(yminIn1String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_2.setText(str(int(self.variablesPIDEscalado[6],16)))
+                xmaxIn2String = self.decimalString(str(int(self.variablesPIDEscalado[4],16)))
+                self.pushButton_XMAX_IN_2.setText(xmaxIn2String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_2.setText(str(int(self.variablesPIDEscalado[7],16)))
+                xminIn2String = self.decimalString(str(int(self.variablesPIDEscalado[5],16)))
+                self.pushButton_XMIN_IN_2.setText(xminIn2String)
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_3.setText(str(int(self.variablesPIDEscalado[8],16)))
+                ymaxIn2String = self.decimalString(str(int(self.variablesPIDEscalado[6],16)))
+                self.pushButton_YMAX_IN_2.setText(ymaxIn2String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_3.setText(str(int(self.variablesPIDEscalado[9],16)))
+                yminIn2String = self.decimalString(str(int(self.variablesPIDEscalado[7],16))) 
+                self.pushButton_YMIN_IN_2.setText(yminIn2String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_3.setText(str(int(self.variablesPIDEscalado[10],16)))
+                xmaxIn3String = self.decimalString(str(int(self.variablesPIDEscalado[8],16)))
+                self.pushButton_XMAX_IN_3.setText(xmaxIn3String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_3.setText(str(int(self.variablesPIDEscalado[11],16)))
+                xminIn3String = self.decimalString(str(int(self.variablesPIDEscalado[9],16)))
+                self.pushButton_XMIN_IN_3.setText(xminIn3String)
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_4.setText(str(int(self.variablesPIDEscalado[12],16)))
+                ymaxIn3String = self.decimalString(str(int(self.variablesPIDEscalado[10],16)))
+                self.pushButton_YMAX_IN_3.setText(ymaxIn3String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_4.setText(str(int(self.variablesPIDEscalado[13],16)))
+                yminIn3String = self.decimalString(str(int(self.variablesPIDEscalado[11],16))) 
+                self.pushButton_YMIN_IN_3.setText(yminIn3String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_4.setText(str(int(self.variablesPIDEscalado[14],16)))
+                xmaxIn4String = self.decimalString(str(int(self.variablesPIDEscalado[12],16)))
+                self.pushButton_XMAX_IN_4.setText(xmaxIn4String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_4.setText(str(int(self.variablesPIDEscalado[15],16)))
+                xminIn4String = self.decimalString(str(int(self.variablesPIDEscalado[13],16)))
+                self.pushButton_XMIN_IN_4.setText(xminIn4String)
+            except:
+                pass
+
+            try:
+                ymaxIn4String = self.decimalString(str(int(self.variablesPIDEscalado[14],16)))
+                self.pushButton_YMAX_IN_4.setText(ymaxIn4String)
+            except:
+                pass
+
+            try:
+                yminIn4String = self.decimalString(str(int(self.variablesPIDEscalado[15],16))) 
+                self.pushButton_YMIN_IN_4.setText(yminIn4String)
             except:
                 pass
 
 
             try:
-                self.pushButton_XMAX_IN_5.setText(str(int(self.variablesPIDEscalado[16],16)))
+                xmaxIn5String = self.decimalString(str(int(self.variablesPIDEscalado[16],16)))
+                self.pushButton_XMAX_IN_5.setText(xmaxIn5String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_5.setText(str(int(self.variablesPIDEscalado[17],16)))
+                xminIn5String = self.decimalString(str(int(self.variablesPIDEscalado[17],16)))
+                self.pushButton_XMIN_IN_5.setText(xminIn5String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_5.setText(str(int(self.variablesPIDEscalado[18],16)))
+                ymaxIn5String = self.decimalString(str(int(self.variablesPIDEscalado[18],16)))
+                self.pushButton_YMAX_IN_5.setText(ymaxIn5String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_5.setText(str(int(self.variablesPIDEscalado[19],16)))
+                yminIn5String = self.decimalString(str(int(self.variablesPIDEscalado[19],16))) 
+                self.pushButton_YMIN_IN_5.setText(yminIn5String)
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_IN_6.setText(str(int(self.variablesPIDEscalado[20],16)))
+                xmaxIn6String = self.decimalString(str(int(self.variablesPIDEscalado[20],16)))
+                self.pushButton_XMAX_IN_6.setText(xmaxIn6String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_IN_6.setText(str(int(self.variablesPIDEscalado[21],16)))
+                xminIn6String = self.decimalString(str(int(self.variablesPIDEscalado[21],16)))
+                self.pushButton_XMIN_IN_6.setText(xminIn6String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_IN_6.setText(str(int(self.variablesPIDEscalado[22],16)))
+                ymaxIn6String = self.decimalString(str(int(self.variablesPIDEscalado[22],16)))
+                self.pushButton_YMAX_IN_6.setText(ymaxIn6String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_IN_6.setText(str(int(self.variablesPIDEscalado[23],16)))
+                yminIn6String = self.decimalString(str(int(self.variablesPIDEscalado[23],16))) 
+                self.pushButton_YMIN_IN_6.setText(yminIn6String)
             except:
                 pass
 
             # OUT:
-            try: 
-                self.pushButton_XMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[25],16)))
+            try:
+                xmaxOut1String = self.decimalString(str(int(self.variablesPIDEscalado[25],16))) 
+                self.pushButton_XMAX_OUT_1.setText(xmaxOut1String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[26],16)))
+                xminOut1String = self.decimalString(str(int(self.variablesPIDEscalado[26],16)))
+                self.pushButton_XMIN_OUT_1.setText(xminOut1String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_1.setText(str(int(self.variablesPIDEscalado[27],16)))
+                ymaxOut1String = self.decimalString(str(int(self.variablesPIDEscalado[27],16)))
+                self.pushButton_YMAX_OUT_1.setText(ymaxOut1String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_1.setText(str(int(self.variablesPIDEscalado[28],16)))
+                yminOut1String = self.decimalString(str(int(self.variablesPIDEscalado[28],16))) 
+                self.pushButton_YMIN_OUT_1.setText(yminOut1String)
             except:
                 pass
 
-            try:            
-                self.pushButton_XMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[29],16)))
-            except:
-                pass
-
-            try:
-                self.pushButton_XMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[30],16)))
-            except:
-                pass
-
-            try:
-                self.pushButton_YMAX_OUT_2.setText(str(int(self.variablesPIDEscalado[31],16)))
+            try:   
+                xmaxOut2String = self.decimalString(str(int(self.variablesPIDEscalado[29],16)))         
+                self.pushButton_XMAX_OUT_2.setText(xmaxOut2String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_2.setText(str(int(self.variablesPIDEscalado[32],16)))
-            except:
-                pass
-
-            try:            
-                self.pushButton_XMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[33],16)))
+                xminOut2String = self.decimalString(str(int(self.variablesPIDEscalado[30],16)))
+                self.pushButton_XMIN_OUT_2.setText(xminOut2String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[34],16)))
+                ymaxOut2String = self.decimalString(str(int(self.variablesPIDEscalado[31],16)))
+                self.pushButton_YMAX_OUT_2.setText(ymaxOut2String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_3.setText(str(int(self.variablesPIDEscalado[35],16)))
+                yminOut2String = self.decimalString(str(int(self.variablesPIDEscalado[32],16))) 
+                self.pushButton_YMIN_OUT_2.setText(yminOut2String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_3.setText(str(int(self.variablesPIDEscalado[36],16)))
+                xmaxOut3String = self.decimalString(str(int(self.variablesPIDEscalado[33],16)))              
+                self.pushButton_XMAX_OUT_3.setText(xmaxOut3String)
             except:
                 pass
 
             try:
-                self.pushButton_XMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[37],16)))
+                xminOut3String = self.decimalString(str(int(self.variablesPIDEscalado[34],16)))
+                self.pushButton_XMIN_OUT_3.setText(xminOut3String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[38],16)))
+                ymaxOut3String = self.decimalString(str(int(self.variablesPIDEscalado[35],16)))
+                self.pushButton_YMAX_OUT_3.setText(ymaxOut3String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_4.setText(str(int(self.variablesPIDEscalado[39],16)))
+                yminOut3String = self.decimalString(str(int(self.variablesPIDEscalado[36],16))) 
+                self.pushButton_YMIN_OUT_3.setText(yminOut3String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_4.setText(str(int(self.variablesPIDEscalado[40],16)))
-            except:
-                pass
-
-
-            try:
-                self.pushButton_XMAX_OUT_5.setText(str(int(self.variablesPIDEscalado[41],16)))
+                xmaxOut4String = self.decimalString(str(int(self.variablesPIDEscalado[37],16))) 
+                self.pushButton_XMAX_OUT_4.setText(xmaxOut4String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_5.setText(str(int(self.variablesPIDEscalado[42],16)))
+                xminOut4String = self.decimalString(str(int(self.variablesPIDEscalado[38],16)))
+                self.pushButton_XMIN_OUT_4.setText(xminOut4String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_5.setText(str(int(self.variablesPIDEscalado[43],16)))
+                ymaxOut4String = self.decimalString(str(int(self.variablesPIDEscalado[39],16)))
+                self.pushButton_YMAX_OUT_4.setText(ymaxOut4String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_5.setText(str(int(self.variablesPIDEscalado[44],16)))
+                yminOut4String = self.decimalString(str(int(self.variablesPIDEscalado[40],16))) 
+                self.pushButton_YMIN_OUT_4.setText(yminOut4String)
             except:
                 pass
 
 
             try:
-                self.pushButton_XMAX_OUT_6.setText(str(int(self.variablesPIDEscalado[45],16)))
+                xmaxOut5String = self.decimalString(str(int(self.variablesPIDEscalado[41],16))) 
+                self.pushButton_XMAX_OUT_5.setText(xmaxOut5String)
             except:
                 pass
 
             try:
-                self.pushButton_XMIN_OUT_6.setText(str(int(self.variablesPIDEscalado[46],16)))
+                xminOut5String = self.decimalString(str(int(self.variablesPIDEscalado[42],16)))
+                self.pushButton_XMIN_OUT_5.setText(xminOut5String)
             except:
                 pass
 
             try:
-                self.pushButton_YMAX_OUT_6.setText(str(int(self.variablesPIDEscalado[47],16)))
+                ymaxOut5String = self.decimalString(str(int(self.variablesPIDEscalado[43],16)))
+                self.pushButton_YMAX_OUT_5.setText(ymaxOut5String)
             except:
                 pass
 
             try:
-                self.pushButton_YMIN_OUT_6.setText(str(int(self.variablesPIDEscalado[48],16)))
+                yminOut5String = self.decimalString(str(int(self.variablesPIDEscalado[44],16))) 
+                self.pushButton_YMIN_OUT_5.setText(yminOut5String)
+            except:
+                pass
+
+
+            try:
+                xmaxOut6String = self.decimalString(str(int(self.variablesPIDEscalado[45],16)))
+                self.pushButton_XMAX_OUT_6.setText(xmaxOut6String)
+            except:
+                pass
+
+            try:
+                xminOut6String = self.decimalString(str(int(self.variablesPIDEscalado[46],16)))
+                self.pushButton_XMIN_OUT_6.setText(xminOut6String)
+            except:
+                pass
+
+            try:
+                ymaxOut6String = self.decimalString(str(int(self.variablesPIDEscalado[47],16)))
+                self.pushButton_YMAX_OUT_6.setText(ymaxOut6String)
+            except:
+                pass
+
+            try:
+                yminOut6String = self.decimalString(str(int(self.variablesPIDEscalado[48],16))) 
+                self.pushButton_YMIN_OUT_6.setText(yminOut6String)
             except:
                 pass
 
@@ -867,6 +916,14 @@ class Ui_MainWindow(object):
                 self.instanciaModbus.writeValues_Escalado(float(valorVariableAModificar), self.controladorFlujo, self.IN_OUT, self.X_Y)
 
             time.sleep(0.2)
+
+    def decimalString(self, stringValue):
+        stringValueReturn = stringValue
+        if len(stringValueReturn)==1:
+            stringValueReturn = '0.' + stringValueReturn
+        else:   
+            stringValueReturn = stringValueReturn[0:(len(stringValueReturn)-1)] + '.' + stringValueReturn[len(stringValueReturn)-1]
+        return stringValueReturn
 
 if __name__ == "__main__":
     import sys
