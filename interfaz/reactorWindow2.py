@@ -7468,7 +7468,7 @@ class Ui_MainWindow(object):
             
             # setvalues: horno1, horno2, horno3, horno4, MCF1, MCF2, MCF3, MCF4, MCF5, MCF6
             try:
-                fileRegisters = open("../historicRegisters/" + str(date), "a")
+                fileRegisters = open("/home/pi/Desktop/historicRegisters/" + str(date), "a")
                 fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
                 fileRegisters.close()
             except:
