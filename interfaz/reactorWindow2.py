@@ -7471,11 +7471,16 @@ class Ui_MainWindow(object):
             
             self.contadorAlmacenaDatos = self.contadorAlmacenaDatos + 1
             # Almacena datos aproximadamente cada minuto, el timer cuenta cada 0.2 seg (5 veces para un segundo), el contador llega a 300 = 5*60
-            if(self.contadorAlmacenaDatos >= 100):
+            if(self.contadorAlmacenaDatos >= 200):
                 try:       
                     fileRegisters = open("/home/pi/Desktop/historicRegisters/" + str(date), "a")
+                    fileRegistersRead = open("/home/pi/Desktop/historicRegisters/" + str(date))
                     #fileRegisters = open("/Users/EstebanGarcia/Desktop/historicRegisters/" + str(date), "a")
-                    fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
+                    #fileRegistersRead = open("/Users/EstebanGarcia/Desktop/historicRegisters/" + str(date))
+                    if(len(fileRegistersRead.read()) == 0):
+                        fileRegisters.write("hora" + " " + "SV_H1" + " " + "PV_H1" + " " +  "SV_H2" + " " + "PV_H2" + " " +  "SV_H3" + " " + "PV_H3" + " " +  "SV_H4" + " " + "PV_H4" + " " +  "SV_MFC1" + " " + "PV_MFC1" + " " +  "SV_MFC2" + " " + "PV_MFC2" + " " +  "SV_MFC3" + " " + "PV_MFC3" + " " +  "SV_MFC4" + " " + "PV_MFC4" + " " +  "SV_MFC5" + " " + "PV_MFC5" + " " +  "SV_MFC6" + " " + "PV_MFC6" + "\n")
+                    else:
+                        fileRegisters.write(hora + "  " + setValue1String + "  " +  presentValue1String + "  " +  setValue2String + "  " +  presentValue2String + "  " +  setValue3String + "  " +  presentValue3String + "  " +  setValue4String + "  " +  presentValue4String + "  " +  svFlujo1String + "   " +  pvFlujo1String + "   " +  svFlujo2String + "  " +  pvFlujo2String + "  " +  str(int(variablesReactor[2],16)) + "  " +  pvFlujo3String + "  " +  svFlujo4String + "  " +  pvFlujo4String + "  " +  svFlujo5String + "  " +  pvFlujo5String + "  " +  svFlujo6String + "  " +  pvFlujo6String + "\n")
                     fileRegisters.close()
                 except:
                     pass

@@ -388,6 +388,7 @@ class Ui_MainWindow(object):
 
             if(self.flag_DesactivaVista==True):
                 break
+
             try:
                 tiempoMuestreoString = self.decimalString(str(self.datosPID_PLC[0]))
                 self.buttonTiempoMuestreo.setText(tiempoMuestreoString)
@@ -411,21 +412,25 @@ class Ui_MainWindow(object):
                 self.buttonGanDerivativa.setText(gananciaDerivativaString)
             except:
                 pass
+
             try:
                 direccionControlString = self.decimalString(str(self.datosPID_PLC[4])) 
                 self.buttonDireccionControl.setText(direccionControlString)
             except:
                 pass
+
             try:
                 rangoToleranciaErrorString = self.decimalString(str(self.datosPID_PLC[5]))  
                 self.buttonRangoToleranciaError.setText(rangoToleranciaErrorString)
             except:
                 pass
+
             try:
                 limiteSuperiorSalidaString = self.decimalString(str(self.datosPID_PLC[6]))
                 self.buttonLimiteSuperiorSalida.setText(limiteSuperiorSalidaString)
             except:
                 pass
+
             try:
                 limiteInferiorSalidaString = self.decimalString(str(self.datosPID_PLC[7]))
                 self.buttonLimiteInferiorSalida.setText(limiteInferiorSalidaString)
@@ -472,11 +477,14 @@ class Ui_MainWindow(object):
                 gpwmString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[2]))
                 self.buttonGPWM.setText(gpwmString)
             except:
-                pass    
+                pass   
+
             hora = time.strftime("%H:%M:%S")
             #print(hora)
+            self.buttonTime.setText(hora)
             try:
-                self.buttonTime.setText(hora)
+                pass
+                #self.buttonTime.setText(hora)
             except:
                 pass
             if (self.playHornos_flag==True):
