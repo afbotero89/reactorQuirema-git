@@ -406,9 +406,16 @@ class Ui_MainWindow(object):
 
     def setValue(self, id_button):
         # Si el usuario selecciono los parametros PID
+
         if id_button != "OK" and id_button != "AC" and id_button != "<":
-            self.setValueString = self.setValueString + id_button
-            self.label.setText(str(self.setValueString))
+            splitString = self.setValueString.split(".")
+            if(len(splitString) == 1):
+                self.setValueString = self.setValueString + id_button
+                self.label.setText(str(self.setValueString))
+            if(len(splitString) == 2) and id_button != ".":
+                if(len(splitString[1]) < 1):
+                    self.setValueString = self.setValueString + id_button
+                    self.label.setText(str(self.setValueString))
         
         if(id_button == "AC"):
             self.setValueString = ""
@@ -421,9 +428,13 @@ class Ui_MainWindow(object):
         if(self.sectionVector[0] == True):
 
             if (id_button=="OK"):
-                print("ok")
-                setPID_parameters.valorVariableAModificar = self.setValueString
-                setPID_parameters.setValueFromCalculadora = True
+                lenSplitStringValue = self.setValueString.split(".")
+                if(len(lenSplitStringValue)==1):
+                    setPID_parameters.valorVariableAModificar = self.setValueString + "0"
+                    setPID_parameters.setValueFromCalculadora = True
+                elif(len(lenSplitStringValue)==2):
+                    setPID_parameters.valorVariableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
+                    setPID_parameters.setValueFromCalculadora = True
                 #self.instanciaModbus.writeValuesPID(self.setValueString,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
                 self.MainWindow.close()
                 self.setPID_parameters = setPID_parameters.Ui_MainWindow()
@@ -433,7 +444,12 @@ class Ui_MainWindow(object):
         elif(self.sectionVector[5] == True):
 
             if (id_button=="OK"):
-                reactorWindow2.valorVariableAModificar = self.setValueString
+                lenSplitStringValue = self.setValueString.split(".")
+                if(len(lenSplitStringValue)==1):
+                    reactorWindow2.valorVariableAModificar = self.setValueString + "0"
+                elif(len(lenSplitStringValue)==2):
+                    reactorWindow2.valorVariableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
+
                 reactorWindow2.setValueFromCalculadora = True
                 try:
                     pass
@@ -466,7 +482,12 @@ class Ui_MainWindow(object):
         elif(self.sectionVector[1] == True):
 
             if (id_button=="OK"):
-                escalado.valorVariableAModificar = self.setValueString
+                lenSplitStringValue = self.setValueString.split(".")
+                if(len(lenSplitStringValue)==1):
+                    escalado.valorVariableAModificar = self.setValueString + "0"
+                elif(len(lenSplitStringValue)==2):
+                    escalado.valorVariableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
+
                 escalado.setValueFromCalculadora = True
                 self.MainWindow.close()
                 self.escaladoMainWindow.setEnabled(True)

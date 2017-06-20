@@ -486,7 +486,8 @@ class Ui_MainWindow(object):
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False
                 self.instanciaModbus.writeValuesPID(valorVariableAModificar,self.variablePIDSeleccionada,self.horno_manta_seleccionada)
-                time.sleep(0.1)
+            
+            time.sleep(0.1)
     def decimalString(self, stringValue):
         stringValueReturn = stringValue
         if len(stringValueReturn)==1:

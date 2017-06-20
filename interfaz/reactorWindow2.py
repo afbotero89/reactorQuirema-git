@@ -19,6 +19,7 @@ import time
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector, socket):
         global valorVariableAModificar, setValueFromCalculadora
+        self.contadorAlmacenaDatos = 0
         self.s = socket
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
@@ -194,7 +195,7 @@ class Ui_MainWindow(object):
         self.label_4.setGeometry(QtCore.QRect(630, 160, 41, 31))
         self.label_4.setStyleSheet("")
         self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap("../images/trapezoide.png"))
+        self.label_4.setPixmap(QtGui.QPixmap("../images/trapezoide1.png"))
         self.label_4.setScaledContents(True)
         self.label_4.setObjectName("label_4")
         self.label_5 = QtWidgets.QLabel(self.centralWidget)
@@ -7229,7 +7230,7 @@ class Ui_MainWindow(object):
 
         self.actionButtons()
         #self.actualizaValoresPIDTimer()
-        self.t = threading.Timer(0.1, self.actualizaValoresPIDTimer)
+        self.t = threading.Thread(target = self.actualizaValoresPIDTimer)
         self.t.IsBackground = True;
         self.t.start()
 
@@ -7289,7 +7290,7 @@ class Ui_MainWindow(object):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow, self.s)
-        self.t.cancel()
+        #self.t.cancel()
 
     #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
     # Equipo seleccionado: Se refiere que selecciono el usuario para modificar (hornos o controladores de flujo(MFC))
@@ -7467,12 +7468,18 @@ class Ui_MainWindow(object):
             date = time.strftime("%d-%m-%Y")
             
             # setvalues: horno1, horno2, horno3, horno4, MCF1, MCF2, MCF3, MCF4, MCF5, MCF6
-            try:
-                fileRegisters = open("/home/pi/Desktop/historicRegisters/" + str(date), "a")
-                fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
-                fileRegisters.close()
-            except:
-                pass
+            
+            self.contadorAlmacenaDatos = self.contadorAlmacenaDatos + 1
+            # Almacena datos aproximadamente cada minuto, el timer cuenta cada 0.2 seg (5 veces para un segundo), el contador llega a 300 = 5*60
+            if(self.contadorAlmacenaDatos >= 100):
+                try:       
+                    fileRegisters = open("/home/pi/Desktop/historicRegisters/" + str(date), "a")
+                    #fileRegisters = open("/Users/EstebanGarcia/Desktop/historicRegisters/" + str(date), "a")
+                    fileRegisters.write(hora + " " + str(int(variablesReactor[27],16)) + " " +  str(int(variablesReactor[37],16)) + " " +  str(int(variablesReactor[47],16)) + " " +  str(int(variablesReactor[57],16)) + " " +  str(int(variablesReactor[0],16)) + " " +  str(int(variablesReactor[1],16)) + " " +  str(int(variablesReactor[2],16)) + " " +  str(int(self.variablesPIDReactor_MFC_PV[3],16)) + " " +  str(int(variablesReactor[4],16)) + " " +  str(int(variablesReactor[5],16)) + "\n")
+                    fileRegisters.close()
+                except:
+                    pass
+                self.contadorAlmacenaDatos = 0
 
             print(hora) 
             if self.playHornos_flag == True:
@@ -7485,8 +7492,11 @@ class Ui_MainWindow(object):
 
             if (setValueFromCalculadora == True):
                 setValueFromCalculadora = False
-                self.instanciaModbus.writeValuesPID(float(valorVariableAModificar),self.variableSeleccionada,self.equipoSeleccionado)    
-            time.sleep(0.2)
+                try:
+                    self.instanciaModbus.writeValuesPID(float(valorVariableAModificar),self.variableSeleccionada,self.equipoSeleccionado)    
+                except:
+                    pass
+            time.sleep(0.1)
 
     def decimalString(self, stringValue):
         stringValueReturn = stringValue
