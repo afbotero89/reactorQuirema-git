@@ -624,11 +624,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn1String = self.decimalString(str(int(self.variablesPIDEscalado[1],16)))
                 self.pushButton_XMIN_IN_1.setText(xminIn1String)
             except:
-                pass   
+                pass  
+
+            time.sleep(0.005) 
 
             try:
                 ymaxIn1String = self.decimalString(str(int(self.variablesPIDEscalado[2],16)))
@@ -636,11 +640,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:   
                 yminIn1String = self.decimalString(str(int(self.variablesPIDEscalado[3],16))) 
                 self.pushButton_YMIN_IN_1.setText(yminIn1String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxIn2String = self.decimalString(str(int(self.variablesPIDEscalado[4],16)))
@@ -648,11 +656,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn2String = self.decimalString(str(int(self.variablesPIDEscalado[5],16)))
                 self.pushButton_XMIN_IN_2.setText(xminIn2String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxIn2String = self.decimalString(str(int(self.variablesPIDEscalado[6],16)))
@@ -660,11 +672,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminIn2String = self.decimalString(str(int(self.variablesPIDEscalado[7],16))) 
                 self.pushButton_YMIN_IN_2.setText(yminIn2String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxIn3String = self.decimalString(str(int(self.variablesPIDEscalado[8],16)))
@@ -672,11 +688,14 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn3String = self.decimalString(str(int(self.variablesPIDEscalado[9],16)))
                 self.pushButton_XMIN_IN_3.setText(xminIn3String)
             except:
                 pass
+            time.sleep(0.005)
 
             try:
                 ymaxIn3String = self.decimalString(str(int(self.variablesPIDEscalado[10],16)))
@@ -684,11 +703,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminIn3String = self.decimalString(str(int(self.variablesPIDEscalado[11],16))) 
                 self.pushButton_YMIN_IN_3.setText(yminIn3String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxIn4String = self.decimalString(str(int(self.variablesPIDEscalado[12],16)))
@@ -696,11 +719,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn4String = self.decimalString(str(int(self.variablesPIDEscalado[13],16)))
                 self.pushButton_XMIN_IN_4.setText(xminIn4String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxIn4String = self.decimalString(str(int(self.variablesPIDEscalado[14],16)))
@@ -708,12 +735,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminIn4String = self.decimalString(str(int(self.variablesPIDEscalado[15],16))) 
                 self.pushButton_YMIN_IN_4.setText(yminIn4String)
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 xmaxIn5String = self.decimalString(str(int(self.variablesPIDEscalado[16],16)))
@@ -721,11 +751,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn5String = self.decimalString(str(int(self.variablesPIDEscalado[17],16)))
                 self.pushButton_XMIN_IN_5.setText(xminIn5String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxIn5String = self.decimalString(str(int(self.variablesPIDEscalado[18],16)))
@@ -733,11 +767,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminIn5String = self.decimalString(str(int(self.variablesPIDEscalado[19],16))) 
                 self.pushButton_YMIN_IN_5.setText(yminIn5String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxIn6String = self.decimalString(str(int(self.variablesPIDEscalado[20],16)))
@@ -745,11 +783,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminIn6String = self.decimalString(str(int(self.variablesPIDEscalado[21],16)))
                 self.pushButton_XMIN_IN_6.setText(xminIn6String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxIn6String = self.decimalString(str(int(self.variablesPIDEscalado[22],16)))
@@ -757,12 +799,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminIn6String = self.decimalString(str(int(self.variablesPIDEscalado[23],16))) 
                 self.pushButton_YMIN_IN_6.setText(yminIn6String)
             except:
                 pass
-
+            
+            time.sleep(0.005)
             # OUT:
             try:
                 xmaxOut1String = self.decimalString(str(int(self.variablesPIDEscalado[25],16))) 
@@ -770,11 +815,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut1String = self.decimalString(str(int(self.variablesPIDEscalado[26],16)))
                 self.pushButton_XMIN_OUT_1.setText(xminOut1String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxOut1String = self.decimalString(str(int(self.variablesPIDEscalado[27],16)))
@@ -782,11 +831,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminOut1String = self.decimalString(str(int(self.variablesPIDEscalado[28],16))) 
                 self.pushButton_YMIN_OUT_1.setText(yminOut1String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:   
                 xmaxOut2String = self.decimalString(str(int(self.variablesPIDEscalado[29],16)))         
@@ -794,11 +847,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut2String = self.decimalString(str(int(self.variablesPIDEscalado[30],16)))
                 self.pushButton_XMIN_OUT_2.setText(xminOut2String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxOut2String = self.decimalString(str(int(self.variablesPIDEscalado[31],16)))
@@ -806,11 +863,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminOut2String = self.decimalString(str(int(self.variablesPIDEscalado[32],16))) 
                 self.pushButton_YMIN_OUT_2.setText(yminOut2String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxOut3String = self.decimalString(str(int(self.variablesPIDEscalado[33],16)))              
@@ -818,11 +879,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut3String = self.decimalString(str(int(self.variablesPIDEscalado[34],16)))
                 self.pushButton_XMIN_OUT_3.setText(xminOut3String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxOut3String = self.decimalString(str(int(self.variablesPIDEscalado[35],16)))
@@ -830,11 +895,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminOut3String = self.decimalString(str(int(self.variablesPIDEscalado[36],16))) 
                 self.pushButton_YMIN_OUT_3.setText(yminOut3String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 xmaxOut4String = self.decimalString(str(int(self.variablesPIDEscalado[37],16))) 
@@ -842,11 +911,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut4String = self.decimalString(str(int(self.variablesPIDEscalado[38],16)))
                 self.pushButton_XMIN_OUT_4.setText(xminOut4String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxOut4String = self.decimalString(str(int(self.variablesPIDEscalado[39],16)))
@@ -854,12 +927,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminOut4String = self.decimalString(str(int(self.variablesPIDEscalado[40],16))) 
                 self.pushButton_YMIN_OUT_4.setText(yminOut4String)
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 xmaxOut5String = self.decimalString(str(int(self.variablesPIDEscalado[41],16))) 
@@ -867,11 +943,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut5String = self.decimalString(str(int(self.variablesPIDEscalado[42],16)))
                 self.pushButton_XMIN_OUT_5.setText(xminOut5String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 ymaxOut5String = self.decimalString(str(int(self.variablesPIDEscalado[43],16)))
@@ -879,11 +959,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 yminOut5String = self.decimalString(str(int(self.variablesPIDEscalado[44],16))) 
                 self.pushButton_YMIN_OUT_5.setText(yminOut5String)
             except:
                 pass
+
+            time.sleep(0.005)
 
 
             try:
@@ -892,17 +976,23 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 xminOut6String = self.decimalString(str(int(self.variablesPIDEscalado[46],16)))
                 self.pushButton_XMIN_OUT_6.setText(xminOut6String)
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 ymaxOut6String = self.decimalString(str(int(self.variablesPIDEscalado[47],16)))
                 self.pushButton_YMAX_OUT_6.setText(ymaxOut6String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 yminOut6String = self.decimalString(str(int(self.variablesPIDEscalado[48],16))) 

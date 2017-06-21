@@ -247,6 +247,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        time.sleep(0.01)
         #self.actualizaValoresTimer()
 
         self.t = threading.Thread(target=self.actualizaValoresTimer)
@@ -339,6 +340,8 @@ class Ui_MainWindow(object):
         self.buttonGPWM.clicked.connect(lambda: self.displayCalculadora('gpwm'))
         self.playButton.clicked.connect(lambda: self.playHornos(self.playButton))
 
+        time.sleep(0.01)
+
     def back(self):
         #self.t.cancel()
         self.flag_DesactivaVista = True
@@ -384,109 +387,101 @@ class Ui_MainWindow(object):
 
             self.datosPID_PLC_SV_PV_GPWM = self.instanciaModbus.readRegister_PIDWindow_SV_PV_GPWM(self.horno_manta_seleccionada)
 
-            print(self.datosPID_PLC_SV_PV_GPWM, self.datosPID_PLC)
-
             if(self.flag_DesactivaVista==True):
                 break
 
             try:
-                tiempoMuestreoString = self.decimalString(str(self.datosPID_PLC[0]))
-                self.buttonTiempoMuestreo.setText(tiempoMuestreoString)
+                if (len(self.datosPID_PLC) == 12):
+
+                    tiempoMuestreoString = self.decimalString(str(self.datosPID_PLC[0]))
+                    self.buttonTiempoMuestreo.setText(tiempoMuestreoString)
+
+                    time.sleep(0.005)
+
+                    gananciaProporcionalString = self.decimalString(str(self.datosPID_PLC[1]))
+                    self.buttonGanProporcional.setText(gananciaProporcionalString)
+
+                    time.sleep(0.005)
+
+                    gananciaIntegralString = self.decimalString(str(self.datosPID_PLC[2]))
+                    self.buttonGanIntegral.setText(gananciaIntegralString)
+
+                    time.sleep(0.005)
+
+                    gananciaDerivativaString = self.decimalString(str(self.datosPID_PLC[3]))
+                    self.buttonGanDerivativa.setText(gananciaDerivativaString)
+
+                    time.sleep(0.005)
+
+                    direccionControlString = self.decimalString(str(self.datosPID_PLC[4])) 
+                    self.buttonDireccionControl.setText(direccionControlString)
+
+                    time.sleep(0.005)
+
+                    rangoToleranciaErrorString = self.decimalString(str(self.datosPID_PLC[5]))  
+                    self.buttonRangoToleranciaError.setText(rangoToleranciaErrorString)
+
+                    time.sleep(0.005)
+
+                    limiteSuperiorSalidaString = self.decimalString(str(self.datosPID_PLC[6]))
+                    self.buttonLimiteSuperiorSalida.setText(limiteSuperiorSalidaString)
+
+                    time.sleep(0.005)
+
+                    limiteInferiorSalidaString = self.decimalString(str(self.datosPID_PLC[7]))
+                    self.buttonLimiteInferiorSalida.setText(limiteInferiorSalidaString)
+
+                    time.sleep(0.005)
+
+                    limiteSuperiorIntegralString = self.decimalString(str(self.datosPID_PLC[8]))
+                    self.buttonLimiteSuperiorIntegral.setText(limiteSuperiorIntegralString)
+
+                    time.sleep(0.005)
+
+                    limiteInferiorIntegralString = self.decimalString(str(self.datosPID_PLC[9]))
+                    self.buttonLimiteInferiorIntegral.setText(limiteInferiorIntegralString)
+
+                    time.sleep(0.005)
+
+                    valorIntegralAcumuladoString = self.decimalString(str(self.datosPID_PLC[10]))
+                    self.buttonValIntegralAcumulado.setText(valorIntegralAcumuladoString)
+
+                    time.sleep(0.005)
+
+                    PVAnteriorString = self.decimalString(str(self.datosPID_PLC[11]))
+                    self.buttonPVAnterior.setText(PVAnteriorString)
+                    
+                    time.sleep(0.005)
+                    print(self.datosPID_PLC)
             except:
                 pass
+
 
             try:
-                gananciaProporcionalString = self.decimalString(str(self.datosPID_PLC[1]))
-                self.buttonGanProporcional.setText(gananciaProporcionalString)
-            except:
-                pass
+                if (len(self.datosPID_PLC_SV_PV_GPWM)==3):
 
-            try:
-                gananciaIntegralString = self.decimalString(str(self.datosPID_PLC[2]))
-                self.buttonGanIntegral.setText(gananciaIntegralString)
-            except:
-                pass
+                    setValueString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[0]))
+                    self.buttonSetValue.setText(setValueString)
 
-            try:
-                gananciaDerivativaString = self.decimalString(str(self.datosPID_PLC[3]))
-                self.buttonGanDerivativa.setText(gananciaDerivativaString)
-            except:
-                pass
+                    time.sleep(0.005)
 
-            try:
-                direccionControlString = self.decimalString(str(self.datosPID_PLC[4])) 
-                self.buttonDireccionControl.setText(direccionControlString)
-            except:
-                pass
+                    presentValueString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[1]))
+                    self.buttonPresentValue.setText(presentValueString)
 
-            try:
-                rangoToleranciaErrorString = self.decimalString(str(self.datosPID_PLC[5]))  
-                self.buttonRangoToleranciaError.setText(rangoToleranciaErrorString)
-            except:
-                pass
+                    time.sleep(0.005)
 
-            try:
-                limiteSuperiorSalidaString = self.decimalString(str(self.datosPID_PLC[6]))
-                self.buttonLimiteSuperiorSalida.setText(limiteSuperiorSalidaString)
-            except:
-                pass
+                    gpwmString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[2]))
+                    self.buttonGPWM.setText(gpwmString)
 
-            try:
-                limiteInferiorSalidaString = self.decimalString(str(self.datosPID_PLC[7]))
-                self.buttonLimiteInferiorSalida.setText(limiteInferiorSalidaString)
-            except:
-                pass
-
-            try:
-                limiteSuperiorIntegralString = self.decimalString(str(self.datosPID_PLC[8]))
-                self.buttonLimiteSuperiorIntegral.setText(limiteSuperiorIntegralString)
-            except:
-                pass
-
-            try:
-                limiteInferiorIntegralString = self.decimalString(str(self.datosPID_PLC[9]))
-                self.buttonLimiteInferiorIntegral.setText(limiteInferiorIntegralString)
-            except:
-                pass
-
-            try:
-                valorIntegralAcumuladoString = self.decimalString(str(self.datosPID_PLC[10]))
-                self.buttonValIntegralAcumulado.setText(valorIntegralAcumuladoString)
-            except:
-                pass
-
-            try:
-                PVAnteriorString = self.decimalString(str(self.datosPID_PLC[11]))
-                self.buttonPVAnterior.setText(PVAnteriorString)
-            except:
-                pass
-
-            try:
-                setValueString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[0]))
-                self.buttonSetValue.setText(setValueString)
-            except:
-                pass
-
-            try: 
-                presentValueString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[1]))
-                self.buttonPresentValue.setText(presentValueString)
-            except:
-                pass
-
-            try:
-                gpwmString = self.decimalString(str(self.datosPID_PLC_SV_PV_GPWM[2]))
-                self.buttonGPWM.setText(gpwmString)
+                    time.sleep(0.005)
+                    print(setValueString, presentValueString, gpwmString)
             except:
                 pass   
 
             hora = time.strftime("%H:%M:%S")
             #print(hora)
             self.buttonTime.setText(hora)
-            try:
-                pass
-                #self.buttonTime.setText(hora)
-            except:
-                pass
+
             if (self.playHornos_flag==True):
                 self.playHornos_flag = False
                 self.instanciaModbus.startHorno_vistaPID(self.horno_manta_seleccionada, self.playButtonSelected_start)

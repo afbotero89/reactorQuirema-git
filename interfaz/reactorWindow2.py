@@ -7328,11 +7328,16 @@ class Ui_MainWindow(object):
                 self.pushButton_SV1.setText(setValue1String)
             except:
                 pass  
+
+            time.sleep(0.005)
+
             try:
                 presentValue1String = self.decimalString(str(int(variablesReactor[26],16)))
                 self.pushButton_PV1.setText(presentValue1String)
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 rampa1 = self.decimalString(str(int(variablesReactor[31],16)))                   
@@ -7340,57 +7345,79 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 setValue2String = self.decimalString(str(int(variablesReactor[37],16)))
                 self.pushButton_SV2.setText(setValue2String)
             except:
-                pass           
+                pass  
+
+            time.sleep(0.005)
+
             try:
                 presentValue2String = self.decimalString(str(int(variablesReactor[36],16)))
                 self.pushButton_PV2.setText(presentValue2String)
             except:
                 pass
+
+            time.sleep(0.005)
+
             try:
                 rampa2 = self.decimalString(str(int(variablesReactor[41],16))) 
                 self.pushButton_R2.setText(rampa2)
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 setValue3String = self.decimalString(str(int(variablesReactor[47],16))) 
                 self.pushButton_SV3.setText(setValue3String)
             except:
                 pass
+
+            time.sleep(0.005)
+
             try:
                 presentValue3String = self.decimalString(str(int(variablesReactor[46],16)))  
                 self.pushButton_PV3.setText(presentValue3String)
             except:
                 pass
+
+            time.sleep(0.005)
+
             try:
                 rampa3 = self.decimalString(str(int(variablesReactor[51],16)))
                 self.pushButton_R3.setText(rampa3)
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 setValue4String = self.decimalString(str(int(variablesReactor[57],16)))
                 self.pushButton_SV4.setText(setValue4String)
             except:
                 pass
+
+            time.sleep(0.005)
+
             try:
                 presentValue4String = self.decimalString(str(int(variablesReactor[56],16))) 
                 self.pushButton_PV4.setText(presentValue4String)
             except:
                 pass
+
+            time.sleep(0.005)
+
             try:
                 rampa4 = self.decimalString(str(int(variablesReactor[61],16))) 
                 self.pushButton_R4.setText(rampa4)
             except:
                 pass
 
+            time.sleep(0.005)
 
             try:
                 svFlujo1String = self.decimalString(str(int(variablesReactor[0],16))) 
@@ -7398,11 +7425,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 svFlujo2String = self.decimalString(str(int(variablesReactor[1],16))) 
                 self.pushButton_SV_flujo2.setText(svFlujo2String)  
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 svFLujo3String = self.decimalString(str(int(variablesReactor[2],16)))
@@ -7410,11 +7441,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 svFlujo4String = self.decimalString(str(int(variablesReactor[3],16)))
                 self.pushButton_SV_flujo4.setText(svFlujo4String) 
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 svFlujo5String = self.decimalString(str(int(variablesReactor[4],16)))
@@ -7422,11 +7457,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 svFlujo6String = self.decimalString(str(int(variablesReactor[5],16)))
                 self.pushButton_SV_flujo6.setText(svFlujo6String) 
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 pvFlujo1String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[0],16)))
@@ -7434,11 +7473,15 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 pvFlujo2String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[1],16))) 
                 self.pushButton_PV_flujo2.setText(pvFlujo2String) 
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 pvFlujo3String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[2],16))) 
@@ -7446,17 +7489,23 @@ class Ui_MainWindow(object):
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 pvFlujo4String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[3],16)))
                 self.pushButton_PV_flujo4.setText(pvFlujo4String) 
             except:
                 pass
 
+            time.sleep(0.005)
+
             try:
                 pvFlujo5String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[4],16)))
                 self.pushButton_PV_flujo5.setText(pvFlujo5String) 
             except:
                 pass
+
+            time.sleep(0.005)
 
             try:
                 pvFlujo6String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[5],16)))
