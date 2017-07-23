@@ -73,6 +73,13 @@ class modbus:
 			self.vectorRegistrosHorno3 = [pidH3, pidH3 + 1, pidH3 + 2, pidH3 + 3, pidH3 + 4, pidH3 + 5, pidH3 + 6, pidH3 + 7, pidH3 + 8, pidH3 + 9, pidH3 + 10, pidH3 + 12, 4144, 4145, 4532]
 			self.vectorRegistrosHorno4 = [pidH4, pidH4 + 1, pidH4 + 2, pidH4 + 3, pidH4 + 4, pidH4 + 5, pidH4 + 6, pidH4 + 7, pidH4 + 8, pidH4 + 9, pidH4 + 10, pidH4 + 12, 4154, 4155, 4596]
 			
+			# Registros mantas para escribir
+			self.presentValue_setValue_onOff_Mantas = ['1044', '1045','0813']
+
+			# Registros solenoide para escribir
+			self.injection_load_onOff_solenoide = ['1040','1041','081A']
+
+
 			# Rampas valores en decimal: 4129, 4139, 4149, 4159
 			self.registrosRampasHornos_Hex = ['1021','102B','1035','103F']
 
@@ -199,7 +206,7 @@ class modbus:
 		try:
 			self.registrosHorno = []
 
-			sufijo = '003E' #Numero de registros a leer, 62 en este caso
+			sufijo = '0044' #Numero de registros a leer, 68 en este caso
 			###### leyendo 11 registros 000B registros #######
 			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
 			registro = '1002'    
@@ -391,6 +398,10 @@ class modbus:
 					vectorRegistros=self.registrosMFC5_SV_PV
 			elif(horno_mantaSeleccionada=='MFC6'):
 					vectorRegistros=self.registrosMFC6_SV_PV
+			elif(horno_mantaSeleccionada=='Mantas'):
+					vectorRegistros = self.presentValue_setValue_onOff_Mantas
+			elif(horno_mantaSeleccionada=='Solenoide'):
+					vectorRegistros = self.injection_load_onOff_solenoide
 
 			if variablePID == 'tiempoMuestreo':
 			        registro = vectorRegistros[0]
@@ -428,6 +439,12 @@ class modbus:
 					registro = '0x'+ vectorRegistros[0]
 			elif variablePID == 'presentValue_MFC':
 					registro = '0x'+ vectorRegistros[1]
+			elif variablePID == 'setValue_mantas':
+					registro = '0x' + vectorRegistros[1]
+			elif variablePID == 'Injection':
+					registro = '0x' + vectorRegistros[0]
+			elif variablePID == 'Load':
+					registro = '0x' + vectorRegistros[1]
 
 			prefijo = '0106'   
 			registro = (registro.split('x')[1]).upper()
@@ -731,12 +748,20 @@ class modbus:
 		except:
 			pass		
 	
-	def start_Valve_reactor(self,valveSelected, playButtonSelected):
+	def start_Valve_reactor(self,solenoideOrManta, playButtonSelected):
+
+		# Por defecto el registro correponde al solenoide
+		registro = '081A'
+
+		if(solenoideOrManta == 'Solenoide'):
+			registro = '081A'
+		elif(solenoideOrManta == 'Manta'):
+			registro = '0813'
 
 		flag_start = False
 		if (self.startValveReactor_flag == False):
-			checkSum = self.checkSumCalculation('01050800FF00')
-			comando = bytes(':01050800FF00'+ checkSum + '\r\n','UTF-8')
+			checkSum = self.checkSumCalculation('0105' + registro + 'FF00')
+			comando = bytes(':0105'+ registro +'FF00'+ checkSum + '\r\n','UTF-8')
 			s.write(comando)
 			time.sleep(0.1)
 			lectura = s.readline()
@@ -745,8 +770,8 @@ class modbus:
 				flag_start = True
 				playButtonSelected.setStyleSheet('background:red;color:white')
 		elif(self.startValveReactor_flag == True and flag_start == False):
-			checkSum = self.checkSumCalculation('010508000000')
-			comando = bytes(':010508000000'+ checkSum + '\r\n','UTF-8')
+			checkSum = self.checkSumCalculation('0105'+ registro +'0000')
+			comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
 			s.write(comando)
 			time.sleep(0.1)
 			lectura = s.readline()

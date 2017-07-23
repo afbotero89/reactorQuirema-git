@@ -1525,13 +1525,23 @@ class Ui_MainWindow(object):
 "qproperty-alignment: AlignCenter;")
         self.label_Mantas.setObjectName("label_Mantas")
 
+        self.label_SV_mantas = QtWidgets.QLabel(self.centralWidget)
+        self.label_SV_mantas.setGeometry(QtCore.QRect(100, 360, 41, 26))
+        self.label_SV_mantas.setStyleSheet("color:white;")
+        self.label_SV_mantas.setObjectName("label_SV_mantas")
+
         self.pushButtonSetValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(100, 360, 51, 20))
+        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(130, 360, 51, 20))
         self.pushButtonSetValueMantas.setStyleSheet("color:black;")
         self.pushButtonSetValueMantas.setObjectName("setValueMantas")
 
+        self.label_PV_mantas = QtWidgets.QLabel(self.centralWidget)
+        self.label_PV_mantas.setGeometry(QtCore.QRect(100, 390, 41, 26))
+        self.label_PV_mantas.setStyleSheet("color:white;")
+        self.label_PV_mantas.setObjectName("label_PV_mantas")
+
         self.pushButtonPresentValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(100, 390, 51, 20))
+        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(130, 390, 51, 20))
         self.pushButtonPresentValueMantas.setStyleSheet("color:black;")
         self.pushButtonPresentValueMantas.setObjectName("pushButtonPresentValueMantas")
 
@@ -1557,18 +1567,28 @@ class Ui_MainWindow(object):
 "qproperty-alignment: AlignCenter;")
         self.label_31.setObjectName("label_31")
 
-        self.pushButtonValve = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonValve.setGeometry(QtCore.QRect(210, 295, 50, 20))
-        self.pushButtonValve.setStyleSheet("color:white;background-color:green")
-        self.pushButtonValve.setObjectName("pushButton_PV_flujo2")
+        self.pushButtonSolenoide = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonSolenoide.setGeometry(QtCore.QRect(210, 295, 50, 20))
+        self.pushButtonSolenoide.setStyleSheet("color:white;background-color:green")
+        self.pushButtonSolenoide.setObjectName("pushButton_PV_flujo2")
+
+        self.label_LoadSolenoide = QtWidgets.QLabel(self.centralWidget)
+        self.label_LoadSolenoide.setGeometry(QtCore.QRect(265, 293, 41, 26))
+        self.label_LoadSolenoide.setStyleSheet("color:white;")
+        self.label_LoadSolenoide.setObjectName("label_LoadSolenoide")
 
         self.pushButtonLoadSolenoide = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonLoadSolenoide.setGeometry(QtCore.QRect(265, 295, 51, 20))
+        self.pushButtonLoadSolenoide.setGeometry(QtCore.QRect(265, 315, 51, 20))
         self.pushButtonLoadSolenoide.setStyleSheet("color:black;background-color:white")
         self.pushButtonLoadSolenoide.setObjectName("pushButton_LoadSolenoide")
 
+        self.label_InjectionSolenoide = QtWidgets.QLabel(self.centralWidget)
+        self.label_InjectionSolenoide.setGeometry(QtCore.QRect(320, 293, 61, 26))
+        self.label_InjectionSolenoide.setStyleSheet("color:white;")
+        self.label_InjectionSolenoide.setObjectName("label_InjectionSolenoide")
+
         self.pushButtonInjectionSolenoide = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonInjectionSolenoide.setGeometry(QtCore.QRect(320, 295, 51, 20))
+        self.pushButtonInjectionSolenoide.setGeometry(QtCore.QRect(320, 315, 51, 20))
         self.pushButtonInjectionSolenoide.setStyleSheet("color:black;background-color:white")
         self.pushButtonInjectionSolenoide.setObjectName("pushButton_InjectionSolenoide")
 
@@ -4486,7 +4506,7 @@ class Ui_MainWindow(object):
         self.line_29.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_29.setObjectName("line_29")
         self.line_30 = QtWidgets.QFrame(self.centralWidget)
-        self.line_30.setGeometry(QtCore.QRect(290, 320, 20, 51))
+        self.line_30.setGeometry(QtCore.QRect(290, 340, 20, 31))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -7170,6 +7190,13 @@ class Ui_MainWindow(object):
         self.pushButton_PV1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_R1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_X1.setText(_translate("MainWindow", "000.0"))
+
+        self.label_SV_mantas.setText(_translate("MainWindow","SV:"))
+        self.label_PV_mantas.setText(_translate("MainWindow","PV:"))
+        
+        self.label_LoadSolenoide.setText(_translate("MainWindow","Load:"))
+        self.label_InjectionSolenoide.setText(_translate("MainWindow","Injection:"))
+
         self.label_8.setText(_translate("MainWindow", "SV:"))
         self.label_9.setText(_translate("MainWindow", "PV:"))
         self.label_10.setText(_translate("MainWindow", "R:"))
@@ -7242,7 +7269,7 @@ class Ui_MainWindow(object):
         self.pushButton_PV_flujo6.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_SV_flujo6.setText(_translate("MainWindow", "0000.0"))
 
-        self.pushButtonValve.setText(_translate("MainWindow", "OFF"))
+        self.pushButtonSolenoide.setText(_translate("MainWindow", "OFF"))
         self.pushButtonLoadSolenoide.setText(_translate("MainWindow","0000.0"))
         self.pushButtonInjectionSolenoide.setText(_translate("MainWindow","0000.0"))
 
@@ -7303,14 +7330,14 @@ class Ui_MainWindow(object):
         self.playButton3.clicked.connect(lambda: self.playHornos('horno4', self.playButton3))
         
         # Actions Buttons solenoide
-        self.pushButtonValve.clicked.connect(lambda: self.playValve('valve6', self.pushButtonValve))
-        self.pushButtonLoadSolenoide.clicked.connect(self.setLoadSolenoide)
-        self.pushButtonInjectionSolenoide.clicked.connect(self.setInjectionSolenoide)
+        self.pushButtonSolenoide.clicked.connect(lambda: self.playSolenoide_Mantas('Solenoide', self.pushButtonSolenoide))
+        self.pushButtonLoadSolenoide.clicked.connect(lambda: self.setLoadSolenoide('Load','Solenoide'))
+        self.pushButtonInjectionSolenoide.clicked.connect(lambda: self.setInjectionSolenoide('Injection','Solenoide'))
  
         # Action Buttons mantas
-        self.pushButtonSetValueMantas.clicked.connect(self.setValueMantas)
+        self.pushButtonSetValueMantas.clicked.connect(lambda: self.setValueMantas('setValue_mantas','Mantas'))
         self.pushButtonPresentValueMantas.clicked.connect(self.presentValueMantas)
-        self.pushButtonStart_StopMantas.clicked.connect(self.startStopMantas)
+        self.pushButtonStart_StopMantas.clicked.connect(lambda: self.playSolenoide_Mantas('Mantas', self.pushButtonStart_StopMantas))
 
         # Actions buttons Bomba
         self.pushButton_setUp_bomba.clicked.connect(self.setUpBomba)
@@ -7338,23 +7365,38 @@ class Ui_MainWindow(object):
         self.hornoSeleccionado_start = hornoSeleccionado
         self.playButtonSelected_start = playButtonSelected
 
-    def playValve(self, valveSelected, playButtonValve):
+    def playSolenoide_Mantas(self, solenoideOrManta, playButtonValve):
         self.playValve_flag = True
-        self.valveSelected_start = valveSelected
+        self.valveSelected_start = solenoideOrManta
         self.playButtonValve = playButtonValve
 
     # Solenoide functions
     def playSolenoide(self):
         print("play Solenoide")
 
-    def setLoadSolenoide(self):
+    def setLoadSolenoide(self, variable, equipoSeleccionado):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora2.Ui_MainWindow()
+        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow, self.s)
+        MainWindow.show()
         print("set load solenoide")
 
-    def setInjectionSolenoide(self):
+    def setInjectionSolenoide(self, variable, equipoSeleccionado):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora2.Ui_MainWindow()
+        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow, self.s)
+        MainWindow.show()
         print("set injection solenoide")
 
     # Mantas functions
-    def setValueMantas(self):
+    def setValueMantas(self, variable, equipoSeleccionado):
+        self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        self.calculadora = calculadora2.Ui_MainWindow()
+        self.calculadora.setupUi_PID_reactor(MainWindow, variable, equipoSeleccionado, self.sectionVector, self.MainWindow, self.s)
+        MainWindow.show()
         print("set value mantas")
 
     def presentValueMantas(self):
@@ -7567,6 +7609,42 @@ class Ui_MainWindow(object):
             try:
                 pvFlujo6String = self.decimalString(str(int(self.variablesPIDReactor_MFC_PV[5],16)))
                 self.pushButton_PV_flujo6.setText(pvFlujo6String) 
+            except:
+                pass
+
+            time.sleep(0.005)
+
+            # Injection solenoide vista reactor
+            try:
+                injectionSolenoideString = self.decimalString(str(int(variablesReactor[62],16)))
+                self.pushButtonInjectionSolenoide.setText(injectionSolenoideString)
+            except:
+                pass
+
+            time.sleep(0.005)
+
+            # Load solenoide vista reactor
+            try:
+                loadSolenoideString = self.decimalString(str(int(variablesReactor[63],16))) 
+                self.pushButtonLoadSolenoide.setText(loadSolenoideString) 
+            except:
+                pass
+
+            time.sleep(0.005)
+
+            # Present Value vista reactor
+            try:
+                presentValueMantasString = self.decimalString(str(int(variablesReactor[66],16)))
+                self.pushButtonPresentValueMantas.setText(presentValueMantasString)
+            except:
+                pass
+
+            time.sleep(0.005)
+
+            # Set Value vista reactor
+            try:
+                setValueMantasString = self.decimalString(str(int(variablesReactor[67],16)))
+                self.pushButtonSetValueMantas.setText(setValueMantasString)
             except:
                 pass
 
