@@ -1517,23 +1517,39 @@ class Ui_MainWindow(object):
         self.label_30.setGeometry(QtCore.QRect(20, 320, 61, 21))
         self.label_30.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "qproperty-alignment: AlignCenter;")
-        self.label_30.setObjectName("label_30")
-        self.playRecetas = QtWidgets.QPushButton(self.centralWidget)
-        self.playRecetas.setGeometry(QtCore.QRect(100, 360, 51, 16))
-        self.playRecetas.setStyleSheet("color:black;")
-        self.playRecetas.setObjectName("playRecetas")
-        self.goRecetas = QtWidgets.QPushButton(self.centralWidget)
-        self.goRecetas.setGeometry(QtCore.QRect(100, 390, 51, 16))
-        self.goRecetas.setStyleSheet("color:black;")
-        self.goRecetas.setObjectName("goRecetas")
-        self.pushButton_SV_bomba = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_SV_bomba.setGeometry(QtCore.QRect(20, 360, 51, 16))
-        self.pushButton_SV_bomba.setStyleSheet("color:black;")
-        self.pushButton_SV_bomba.setObjectName("pushButton_SV_bomba")
-        self.pushButton_PV_bomba = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_PV_bomba.setGeometry(QtCore.QRect(20, 390, 51, 16))
-        self.pushButton_PV_bomba.setStyleSheet("color:black;")
-        self.pushButton_PV_bomba.setObjectName("pushButton_PV_bomba")
+        self.label_30.setObjectName("label_Mantas")
+
+        self.label_Mantas = QtWidgets.QLabel(self.centralWidget)
+        self.label_Mantas.setGeometry(QtCore.QRect(95, 320, 61, 21))
+        self.label_Mantas.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"qproperty-alignment: AlignCenter;")
+        self.label_Mantas.setObjectName("label_Mantas")
+
+        self.pushButtonSetValueMantas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(100, 360, 51, 20))
+        self.pushButtonSetValueMantas.setStyleSheet("color:black;")
+        self.pushButtonSetValueMantas.setObjectName("setValueMantas")
+
+        self.pushButtonPresentValueMantas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(100, 390, 51, 20))
+        self.pushButtonPresentValueMantas.setStyleSheet("color:black;")
+        self.pushButtonPresentValueMantas.setObjectName("pushButtonPresentValueMantas")
+
+        self.pushButtonStart_StopMantas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(100, 420, 51, 20))
+        self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
+        self.pushButtonStart_StopMantas.setObjectName("pushButtonStart_StopMantas")
+
+        self.pushButton_startStop_bomba = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_startStop_bomba.setGeometry(QtCore.QRect(20, 390, 51, 20))
+        self.pushButton_startStop_bomba.setStyleSheet("color:white;background-color:green")
+        self.pushButton_startStop_bomba.setObjectName("pushButton_startStop_bomba")
+
+        self.pushButton_setUp_bomba = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_setUp_bomba.setGeometry(QtCore.QRect(20, 360, 51, 20))
+        self.pushButton_setUp_bomba.setStyleSheet("color:black;")
+        self.pushButton_setUp_bomba.setObjectName("pushButton_PV_bomba")
+
         self.label_31 = QtWidgets.QLabel(self.centralWidget)
         self.label_31.setGeometry(QtCore.QRect(250, 260, 81, 41))
         self.label_31.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
@@ -1542,9 +1558,19 @@ class Ui_MainWindow(object):
         self.label_31.setObjectName("label_31")
 
         self.pushButtonValve = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonValve.setGeometry(QtCore.QRect(255, 295, 71, 25))
+        self.pushButtonValve.setGeometry(QtCore.QRect(210, 295, 50, 20))
         self.pushButtonValve.setStyleSheet("color:white;background-color:green")
         self.pushButtonValve.setObjectName("pushButton_PV_flujo2")
+
+        self.pushButtonLoadSolenoide = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonLoadSolenoide.setGeometry(QtCore.QRect(265, 295, 51, 20))
+        self.pushButtonLoadSolenoide.setStyleSheet("color:black;background-color:white")
+        self.pushButtonLoadSolenoide.setObjectName("pushButton_LoadSolenoide")
+
+        self.pushButtonInjectionSolenoide = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonInjectionSolenoide.setGeometry(QtCore.QRect(320, 295, 51, 20))
+        self.pushButtonInjectionSolenoide.setStyleSheet("color:black;background-color:white")
+        self.pushButtonInjectionSolenoide.setObjectName("pushButton_InjectionSolenoide")
 
         self.label_32 = QtWidgets.QLabel(self.centralWidget)
         self.label_32.setGeometry(QtCore.QRect(90, 250, 41, 31))
@@ -4886,7 +4912,7 @@ class Ui_MainWindow(object):
         self.line_32.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_32.setObjectName("line_32")
         self.line_33 = QtWidgets.QFrame(self.centralWidget)
-        self.line_33.setGeometry(QtCore.QRect(110, 290, 141, 20))
+        self.line_33.setGeometry(QtCore.QRect(110, 290, 91, 20))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -7113,18 +7139,7 @@ class Ui_MainWindow(object):
         self.pushButton_SV_flujo6.setGeometry(QtCore.QRect(10, 220, 61, 16))
         self.pushButton_SV_flujo6.setStyleSheet("color:black;")
         self.pushButton_SV_flujo6.setObjectName("pushButton_SV_flujo6")
-        self.label_53 = QtWidgets.QLabel(self.centralWidget)
-        self.label_53.setGeometry(QtCore.QRect(0, 365, 21, 21))
-        self.label_53.setStyleSheet("color:white;")
-        self.label_53.setObjectName("label_53")
-        self.label_54 = QtWidgets.QLabel(self.centralWidget)
-        self.label_54.setGeometry(QtCore.QRect(0, 390, 21, 31))
-        self.label_54.setStyleSheet("color:white;")
-        self.label_54.setObjectName("label_54")
-        self.label_55 = QtWidgets.QLabel(self.centralWidget)
-        self.label_55.setGeometry(QtCore.QRect(30, 340, 51, 21))
-        self.label_55.setStyleSheet("color:white;")
-        self.label_55.setObjectName("label_55")
+
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 800, 22))
@@ -7186,10 +7201,14 @@ class Ui_MainWindow(object):
         self.label_27.setText(_translate("MainWindow", " Analizador vent"))
         self.label_28.setText(_translate("MainWindow", "4-way valve"))
         self.label_30.setText(_translate("MainWindow", "Bomba"))
-        self.playRecetas.setText(_translate("MainWindow", "Play"))
-        self.goRecetas.setText(_translate("MainWindow", "Recetas"))
-        self.pushButton_SV_bomba.setText(_translate("MainWindow", "000.0"))
-        self.pushButton_PV_bomba.setText(_translate("MainWindow", "000.0"))
+        self.label_Mantas.setText(_translate("MainWindow","Mantas"))
+
+        self.pushButtonSetValueMantas.setText(_translate("MainWindow", "SV:"))
+        self.pushButtonPresentValueMantas.setText(_translate("MainWindow", "PV:"))
+        self.pushButtonStart_StopMantas.setText(_translate("MainWindow","Start"))
+        self.pushButton_startStop_bomba.setText(_translate("MainWindow", "Start"))
+        self.pushButton_setUp_bomba.setText(_translate("MainWindow", "Set up"))
+
         self.label_31.setText(_translate("MainWindow", "6-way valve"))
         self.label_32.setText(_translate("MainWindow", "Vent"))
         self.label_33.setText(_translate("MainWindow", "MFC 1"))
@@ -7222,11 +7241,10 @@ class Ui_MainWindow(object):
         self.pushButton_SV_flujo5.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_PV_flujo6.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_SV_flujo6.setText(_translate("MainWindow", "0000.0"))
-        self.label_53.setText(_translate("MainWindow", "SV:"))
-        self.label_54.setText(_translate("MainWindow", "PV:"))
-        self.label_55.setText(_translate("MainWindow", "mL/min"))
-        self.pushButtonValve.setText(_translate("MainWindow", "OFF"))
 
+        self.pushButtonValve.setText(_translate("MainWindow", "OFF"))
+        self.pushButtonLoadSolenoide.setText(_translate("MainWindow","0000.0"))
+        self.pushButtonInjectionSolenoide.setText(_translate("MainWindow","0000.0"))
 
         self.actionButtons()
         #self.actualizaValoresPIDTimer()
@@ -7283,8 +7301,20 @@ class Ui_MainWindow(object):
         self.playButton1.clicked.connect(lambda: self.playHornos('horno2', self.playButton1))
         self.playButton2.clicked.connect(lambda: self.playHornos('horno3', self.playButton2))
         self.playButton3.clicked.connect(lambda: self.playHornos('horno4', self.playButton3))
+        
+        # Actions Buttons solenoide
         self.pushButtonValve.clicked.connect(lambda: self.playValve('valve6', self.pushButtonValve))
+        self.pushButtonLoadSolenoide.clicked.connect(self.setLoadSolenoide)
+        self.pushButtonInjectionSolenoide.clicked.connect(self.setInjectionSolenoide)
  
+        # Action Buttons mantas
+        self.pushButtonSetValueMantas.clicked.connect(self.setValueMantas)
+        self.pushButtonPresentValueMantas.clicked.connect(self.presentValueMantas)
+        self.pushButtonStart_StopMantas.clicked.connect(self.startStopMantas)
+
+        # Actions buttons Bomba
+        self.pushButton_setUp_bomba.clicked.connect(self.setUpBomba)
+        self.pushButton_startStop_bomba.clicked.connect(self.starStopBomba)
 
     def home(self):
         self.flag_DesactivaVista = True
@@ -7312,6 +7342,33 @@ class Ui_MainWindow(object):
         self.playValve_flag = True
         self.valveSelected_start = valveSelected
         self.playButtonValve = playButtonValve
+
+    # Solenoide functions
+    def playSolenoide(self):
+        print("play Solenoide")
+
+    def setLoadSolenoide(self):
+        print("set load solenoide")
+
+    def setInjectionSolenoide(self):
+        print("set injection solenoide")
+
+    # Mantas functions
+    def setValueMantas(self):
+        print("set value mantas")
+
+    def presentValueMantas(self):
+        print("present value mantas")
+
+    def startStopMantas(self):
+        print("Start stop mantas")
+
+    # Bomba functions
+    def starStopBomba(self):
+        print("start stop bombas")
+
+    def setUpBomba(self):
+        print("set up bomba")
 
     def actualizaValoresPIDTimer(self):
         global valorVariableAModificar, setValueFromCalculadora
