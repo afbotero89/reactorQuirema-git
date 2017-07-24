@@ -9,12 +9,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
 import calculadora2
+import setUpBombaMainWindow
 import sys
 sys.path.append('../modbusComunication')
 import serialClass
 import threading
 import serialClass
 import time
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector, socket):
@@ -7193,7 +7195,7 @@ class Ui_MainWindow(object):
 
         self.label_SV_mantas.setText(_translate("MainWindow","SV:"))
         self.label_PV_mantas.setText(_translate("MainWindow","PV:"))
-        
+
         self.label_LoadSolenoide.setText(_translate("MainWindow","Load:"))
         self.label_InjectionSolenoide.setText(_translate("MainWindow","Injection:"))
 
@@ -7410,7 +7412,11 @@ class Ui_MainWindow(object):
         print("start stop bombas")
 
     def setUpBomba(self):
-        print("set up bomba")
+        #self.MainWindow.setEnabled(False)
+        MainWindow = QtWidgets.QMainWindow()
+        ui = setUpBombaMainWindow.Ui_MainWindow()
+        ui.setupUi(MainWindow)
+        MainWindow.show()
 
     def actualizaValoresPIDTimer(self):
         global valorVariableAModificar, setValueFromCalculadora

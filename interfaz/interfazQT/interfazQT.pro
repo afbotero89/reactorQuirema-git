@@ -22,7 +22,8 @@ FORMS    += mainwindow.ui \
     mainwindow_copy_copy.ui \
     mainwindow_copy_copy_copy.ui \
     mainwindow_copy_copy_copy_copy.ui \
-    mainwindow_copy_copy1.ui
+    mainwindow_copy_copy1.ui \
+    mainwindow_setUpBomba.ui
 
 RESOURCES += \
     images.qrc
