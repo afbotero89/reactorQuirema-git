@@ -1510,7 +1510,7 @@ class Ui_MainWindow(object):
         self.line_9.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_9.setObjectName("line_9")
         self.label_28 = QtWidgets.QLabel(self.centralWidget)
-        self.label_28.setGeometry(QtCore.QRect(190, 330, 81, 71))
+        self.label_28.setGeometry(QtCore.QRect(120, 330, 81, 71))
         self.label_28.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255)); \n"
 "border-radius: 20px;\n"
 "qproperty-alignment: AlignCenter;")
@@ -1522,33 +1522,33 @@ class Ui_MainWindow(object):
         self.label_30.setObjectName("label_Mantas")
 
         self.label_Mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_Mantas.setGeometry(QtCore.QRect(95, 320, 61, 21))
+        self.label_Mantas.setGeometry(QtCore.QRect(450, 40, 61, 21))
         self.label_Mantas.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "qproperty-alignment: AlignCenter;")
         self.label_Mantas.setObjectName("label_Mantas")
 
         self.label_SV_mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_SV_mantas.setGeometry(QtCore.QRect(100, 360, 41, 26))
+        self.label_SV_mantas.setGeometry(QtCore.QRect(450, 70, 41, 26))
         self.label_SV_mantas.setStyleSheet("color:white;")
         self.label_SV_mantas.setObjectName("label_SV_mantas")
 
         self.pushButtonSetValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(130, 360, 51, 20))
+        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(480, 70, 51, 20))
         self.pushButtonSetValueMantas.setStyleSheet("color:black;")
         self.pushButtonSetValueMantas.setObjectName("setValueMantas")
 
         self.label_PV_mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_PV_mantas.setGeometry(QtCore.QRect(100, 390, 41, 26))
+        self.label_PV_mantas.setGeometry(QtCore.QRect(450, 100, 41, 26))
         self.label_PV_mantas.setStyleSheet("color:white;")
         self.label_PV_mantas.setObjectName("label_PV_mantas")
 
         self.pushButtonPresentValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(130, 390, 51, 20))
+        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(480, 100, 51, 20))
         self.pushButtonPresentValueMantas.setStyleSheet("color:black;")
         self.pushButtonPresentValueMantas.setObjectName("pushButtonPresentValueMantas")
 
         self.pushButtonStart_StopMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(100, 420, 51, 20))
+        self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(480, 130, 51, 20))
         self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
         self.pushButtonStart_StopMantas.setObjectName("pushButtonStart_StopMantas")
 
@@ -3372,7 +3372,7 @@ class Ui_MainWindow(object):
         self.line_21.setObjectName("line_21")
 
         self.line_22 = QtWidgets.QFrame(self.centralWidget)
-        self.line_22.setGeometry(QtCore.QRect(230, 410, 421, 20))
+        self.line_22.setGeometry(QtCore.QRect(160, 410, 491, 20))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -3514,7 +3514,7 @@ class Ui_MainWindow(object):
         self.line_22.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_22.setObjectName("line_22")
         self.line_23 = QtWidgets.QFrame(self.centralWidget)
-        self.line_23.setGeometry(QtCore.QRect(220, 400, 20, 20))
+        self.line_23.setGeometry(QtCore.QRect(150, 400, 20, 20))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -6922,7 +6922,7 @@ class Ui_MainWindow(object):
         self.line_46.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_46.setObjectName("line_46")
         self.line_47 = QtWidgets.QFrame(self.centralWidget)
-        self.line_47.setGeometry(QtCore.QRect(270, 380, 101, 20))
+        self.line_47.setGeometry(QtCore.QRect(200, 380, 171, 20))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -7234,8 +7234,8 @@ class Ui_MainWindow(object):
 
         self.pushButtonSetValueMantas.setText(_translate("MainWindow", "SV:"))
         self.pushButtonPresentValueMantas.setText(_translate("MainWindow", "PV:"))
-        self.pushButtonStart_StopMantas.setText(_translate("MainWindow","Start"))
-        self.pushButton_startStop_bomba.setText(_translate("MainWindow", "Start"))
+        self.pushButtonStart_StopMantas.setText(_translate("MainWindow","ON"))
+        self.pushButton_startStop_bomba.setText(_translate("MainWindow", "ON"))
         self.pushButton_setUp_bomba.setText(_translate("MainWindow", "Set up"))
 
         self.label_31.setText(_translate("MainWindow", "6-way valve"))
@@ -7271,7 +7271,7 @@ class Ui_MainWindow(object):
         self.pushButton_PV_flujo6.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_SV_flujo6.setText(_translate("MainWindow", "0000.0"))
 
-        self.pushButtonSolenoide.setText(_translate("MainWindow", "OFF"))
+        self.pushButtonSolenoide.setText(_translate("MainWindow", "ON"))
         self.pushButtonLoadSolenoide.setText(_translate("MainWindow","0000.0"))
         self.pushButtonInjectionSolenoide.setText(_translate("MainWindow","0000.0"))
 
@@ -7377,6 +7377,8 @@ class Ui_MainWindow(object):
         print("play Solenoide")
 
     def setLoadSolenoide(self, variable, equipoSeleccionado):
+        self.variableSeleccionada = variable
+        self.equipoSeleccionado = equipoSeleccionado
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()
@@ -7385,6 +7387,8 @@ class Ui_MainWindow(object):
         print("set load solenoide")
 
     def setInjectionSolenoide(self, variable, equipoSeleccionado):
+        self.variableSeleccionada = variable
+        self.equipoSeleccionado = equipoSeleccionado
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()
@@ -7394,6 +7398,9 @@ class Ui_MainWindow(object):
 
     # Mantas functions
     def setValueMantas(self, variable, equipoSeleccionado):
+
+        self.variableSeleccionada = variable
+        self.equipoSeleccionado = equipoSeleccionado
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.calculadora = calculadora2.Ui_MainWindow()

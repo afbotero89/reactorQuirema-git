@@ -197,7 +197,8 @@ class modbus:
 			self.start_Horno3_Reactor = False
 			self.start_Horno4_Reactor = False
 
-			self.startValveReactor_flag = False
+			self.startSolenoideReactor_flag = False
+			self.startMantasReactor_flag = False
 
 
 	def readRegister_Reactor(self):
@@ -235,7 +236,7 @@ class modbus:
 
 			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 			
-			for i in range(62):
+			for i in range(68):
 				self.registrosHorno.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
 
 			# Agrupo lista en grupos de cuatro
@@ -372,6 +373,7 @@ class modbus:
 	###################################################		
 	def writeValuesPID(self, valorPID, variablePID, horno_mantaSeleccionada):
 		global s
+		print("escritura!!!!!",variablePID, horno_mantaSeleccionada)
 		try:
 			
 			if (horno_mantaSeleccionada=='horno1'):
@@ -752,32 +754,60 @@ class modbus:
 
 		# Por defecto el registro correponde al solenoide
 		registro = '081A'
-
+		print("start solenoide o manta", solenoideOrManta)
 		if(solenoideOrManta == 'Solenoide'):
 			registro = '081A'
-		elif(solenoideOrManta == 'Manta'):
+
+			flag_start = False
+			if (self.startSolenoideReactor_flag == False):
+				checkSum = self.checkSumCalculation('0105' + registro + 'FF00')
+				comando = bytes(':0105'+ registro +'FF00'+ checkSum + '\r\n','UTF-8')
+				s.write(comando)
+				time.sleep(0.1)
+				lectura = s.readline()
+				if (lectura==comando):
+					self.startSolenoideReactor_flag = True
+					flag_start = True
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("OFF")
+			elif(self.startSolenoideReactor_flag == True and flag_start == False):
+				checkSum = self.checkSumCalculation('0105'+ registro +'0000')
+				comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
+				s.write(comando)
+				time.sleep(0.1)
+				lectura = s.readline()
+				if (lectura==comando):
+					self.startSolenoideReactor_flag = False
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("ON")
+
+		elif(solenoideOrManta == 'Mantas'):
 			registro = '0813'
 
-		flag_start = False
-		if (self.startValveReactor_flag == False):
-			checkSum = self.checkSumCalculation('0105' + registro + 'FF00')
-			comando = bytes(':0105'+ registro +'FF00'+ checkSum + '\r\n','UTF-8')
-			s.write(comando)
-			time.sleep(0.1)
-			lectura = s.readline()
-			if (lectura==comando):
-				self.startValveReactor_flag = True
-				flag_start = True
-				playButtonSelected.setStyleSheet('background:red;color:white')
-		elif(self.startValveReactor_flag == True and flag_start == False):
-			checkSum = self.checkSumCalculation('0105'+ registro +'0000')
-			comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
-			s.write(comando)
-			time.sleep(0.1)
-			lectura = s.readline()
-			if (lectura==comando):
-				self.startValveReactor_flag = False
-				playButtonSelected.setStyleSheet('background:green;color:white')
+			flag_start = False
+			if (self.startMantasReactor_flag == False):
+				checkSum = self.checkSumCalculation('0105' + registro + 'FF00')
+				comando = bytes(':0105'+ registro +'FF00'+ checkSum + '\r\n','UTF-8')
+				s.write(comando)
+				time.sleep(0.1)
+				lectura = s.readline()
+				if (lectura==comando):
+					self.startMantasReactor_flag = True
+					flag_start = True
+					playButtonSelected.setStyleSheet('background:red;color:white')
+					playButtonSelected.setText("OFF")
+			elif(self.startMantasReactor_flag == True and flag_start == False):
+				checkSum = self.checkSumCalculation('0105'+ registro +'0000')
+				comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
+				s.write(comando)
+				time.sleep(0.1)
+				lectura = s.readline()
+				if (lectura==comando):
+					self.startMantasReactor_flag = False
+					playButtonSelected.setStyleSheet('background:green;color:white')
+					playButtonSelected.setText("ON")			
+
+
 	
 				
 	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):
