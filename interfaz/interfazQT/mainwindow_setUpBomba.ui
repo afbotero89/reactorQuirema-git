@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>370</width>
-    <height>305</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="palette">
@@ -540,11 +540,11 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QLabel" name="label_diametro">
+   <widget class="QLabel" name="label_Units">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>70</y>
+      <x>70</x>
+      <y>90</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -555,15 +555,15 @@ font: 25 18pt &quot;Helvetica&quot;;
 background:none;</string>
     </property>
     <property name="text">
-     <string>Diametro:</string>
+     <string>Units:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_Flujo">
+   <widget class="QLabel" name="label_Diameter">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>60</width>
+      <x>70</x>
+      <y>120</y>
+      <width>81</width>
       <height>16</height>
      </rect>
     </property>
@@ -573,15 +573,15 @@ font: 25 18pt &quot;Helvetica&quot;;
 background:none;</string>
     </property>
     <property name="text">
-     <string>Flujo:</string>
+     <string>Diameter:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_Variable1">
+   <widget class="QLabel" name="label_Rate">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>130</y>
-      <width>91</width>
+      <x>70</x>
+      <y>150</y>
+      <width>81</width>
       <height>16</height>
      </rect>
     </property>
@@ -591,15 +591,15 @@ font: 25 18pt &quot;Helvetica&quot;;
 background:none;</string>
     </property>
     <property name="text">
-     <string>Variable 1:</string>
+     <string>Rate:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_Variable2">
+   <widget class="QLabel" name="label_Volume">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>160</y>
-      <width>91</width>
+      <x>70</x>
+      <y>180</y>
+      <width>81</width>
       <height>16</height>
      </rect>
     </property>
@@ -609,14 +609,14 @@ font: 25 18pt &quot;Helvetica&quot;;
 background:none;</string>
     </property>
     <property name="text">
-     <string>Variable 2:</string>
+     <string>Volume:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_title">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>20</y>
+      <x>130</x>
+      <y>30</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -633,165 +633,12 @@ background:none;</string>
      <string>Set Up Bomba</string>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider_Diametro">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>70</y>
-      <width>181</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #999999;
-border-top-right-radius: 9px;
-border-bottom-right-radius: 9px;
-border-top-left-radius: 0px;
-border-bottom-left-radius: 0px;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_ValDiametro">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>70</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;
-font: 25 18pt &quot;Helvetica&quot;;
-background:none;</string>
-    </property>
-    <property name="text">
-     <string>0.0</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="horizontalSlider_Flujo">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>100</y>
-      <width>181</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #999999;
-border-top-right-radius: 9px;
-border-bottom-right-radius: 9px;
-border-top-left-radius: 0px;
-border-bottom-left-radius: 0px;
-</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_ValFlujo">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>100</y>
-      <width>31</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;
-font: 25 18pt &quot;Helvetica&quot;;
-background:none;</string>
-    </property>
-    <property name="text">
-     <string>0.0</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="horizontalSlider_Variable1">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>130</y>
-      <width>181</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #999999;
-border-top-right-radius: 9px;
-border-bottom-right-radius: 9px;
-border-top-left-radius: 0px;
-border-bottom-left-radius: 0px;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="horizontalSlider_Variable2">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>160</y>
-      <width>181</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #999999;
-border-top-right-radius: 9px;
-border-bottom-right-radius: 9px;
-border-top-left-radius: 0px;
-border-bottom-left-radius: 0px;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_ValVariable1">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>130</y>
-      <width>31</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;
-font: 25 18pt &quot;Helvetica&quot;;
-background:none;</string>
-    </property>
-    <property name="text">
-     <string>0.0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_ValVariable2">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>160</y>
-      <width>31</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;
-font: 25 18pt &quot;Helvetica&quot;;
-background:none;</string>
-    </property>
-    <property name="text">
-     <string>0.0</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_ok">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>200</y>
-      <width>113</width>
+      <x>50</x>
+      <y>290</y>
+      <width>71</width>
       <height>32</height>
      </rect>
     </property>
@@ -799,79 +646,295 @@ background:none;</string>
      <string notr="true">background:none</string>
     </property>
     <property name="text">
-     <string>OK</string>
+     <string>Start</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_UnitsDiametro">
+   <widget class="QPushButton" name="stopButton">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>70</y>
-      <width>41</width>
+      <x>120</x>
+      <y>290</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pauseButton">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>290</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>Pause</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="restartButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>290</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>Restart</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Delay">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>210</y>
+      <width>81</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 18pt &quot;Helvetica&quot;;
-background:none;
-color:white;</string>
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
+    </property>
+    <property name="text">
+     <string>Delay:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Time">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>240</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
+    </property>
+    <property name="text">
+     <string>Time:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="UnitsButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>80</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DiameterButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>110</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rateButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>140</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="VolumeButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>170</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DelayButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>200</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="TimeButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>230</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:none</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_unitsUnits">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>90</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
+    </property>
+    <property name="text">
+     <string>mL/min</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_UnitsDiameter">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>120</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
     </property>
     <property name="text">
      <string>mm</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_UnitsFlujo">
+   <widget class="QLabel" name="label_UnitsRate">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>100</y>
-      <width>41</width>
+      <x>260</x>
+      <y>150</y>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 18pt &quot;Helvetica&quot;;
-background:none;
-color:white;</string>
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
+    </property>
+    <property name="text">
+     <string>mL/min</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_UnitsVolume">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>180</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
     </property>
     <property name="text">
      <string>mm</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_UnitsVariable1">
+   <widget class="QLabel" name="label_UnitsDelay">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>130</y>
-      <width>41</width>
+      <x>260</x>
+      <y>210</y>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 18pt &quot;Helvetica&quot;;
-background:none;
-color:white;</string>
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
     </property>
     <property name="text">
-     <string>mm</string>
+     <string>min</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_UnitsVariable2">
+   <widget class="QLabel" name="label_UnitsTime">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>160</y>
-      <width>41</width>
+      <x>260</x>
+      <y>240</y>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 18pt &quot;Helvetica&quot;;
-background:none;
-color:white;</string>
+     <string notr="true">color:white;
+font: 25 18pt &quot;Helvetica&quot;;
+background:none;</string>
     </property>
     <property name="text">
-     <string>mm</string>
+     <string>min</string>
     </property>
    </widget>
   </widget>
