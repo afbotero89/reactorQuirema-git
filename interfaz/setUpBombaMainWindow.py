@@ -7,11 +7,18 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import calculadora2
+from PyQt5.QtCore import QPoint
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(336, 407)
+        
+        qPoint = QPoint(280,60)
+        MainWindow.move(qPoint)
+
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -351,6 +358,23 @@ class Ui_MainWindow(object):
         self.label_UnitsVolume.setText(_translate("MainWindow", "mm"))
         self.label_UnitsDelay.setText(_translate("MainWindow", "min"))
         self.label_UnitsTime.setText(_translate("MainWindow", "min"))
+
+        self.addActionButtons()
+
+    def addActionButtons(self):
+        self.UnitsButton.clicked.connect(lambda: self.displayCalculadora("Units"))
+        self.DiameterButton.clicked.connect(lambda: self.displayCalculadora("Diameter"))
+        self.rateButton.clicked.connect(lambda: self.displayCalculadora("Rate"))
+        self.VolumeButton.clicked.connect(lambda: self.displayCalculadora("Volume"))
+        self.DelayButton.clicked.connect(lambda: self.displayCalculadora("Delay"))
+        self.TimeButton.clicked.connect(lambda: self.displayCalculadora("Time"))
+
+    def displayCalculadora(self, variableBomba):
+        sectionVector = [False,False,False,False,False,True]
+        self.calculadora = calculadora2.Ui_MainWindow()
+        socketBomba = "socketBomba"
+        self.calculadora.setUp_Bomba(self.MainWindow, sectionVector, variableBomba, socketBomba)
+        print("variable=", variableBomba)
 
 if __name__ == "__main__":
     import sys

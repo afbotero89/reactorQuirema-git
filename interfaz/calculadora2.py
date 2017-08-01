@@ -56,6 +56,10 @@ class Ui_MainWindow(object):
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("  Controlador de flujo" + ": " + controladorFlujo + "\n" + "  " + IN_OUT + " " + X_Y)
 
+    def setUp_Bomba(self, MainWindow, sectionVector, variable, socketBomba):
+        self.init_Interface(MainWindow, sectionVector)
+        self.label_2.setText("   " + "Variable Bomba" + "\n" + "   " + variable)
+
     def init_Interface(self, MainWindow, sectionVector):
         self.setValueString = ""
         MainWindow.setStyleSheet('QMainWindow{background-color: white; border:2px solid black;}')
