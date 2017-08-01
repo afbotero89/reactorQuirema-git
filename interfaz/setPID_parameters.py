@@ -21,10 +21,12 @@ import serialClass
 
 class Ui_MainWindow(object):
     
-    def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector, socket):
+    def setupUi(self, MainWindow, horno_manta_seleccionada, sectionVector, socket, socketBomba):
 
         global valorVariableAModificar, setValueFromCalculadora
         self.s = socket
+        self.sBomba = socketBomba
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -347,14 +349,14 @@ class Ui_MainWindow(object):
         self.flag_DesactivaVista = True
         #self.instanciaModbus.closePort()
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
-        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def home(self):
         #self.t.cancel()
         self.flag_DesactivaVista = True
         #self.instanciaModbus.closePort()        
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow, self.s)
+        self.home.setupUi(self.MainWindow, self.s, self.sBomba)
 
     def playHornos(self, playButtonSelected):
         self.playHornos_flag = True 

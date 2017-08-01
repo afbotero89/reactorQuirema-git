@@ -14,8 +14,11 @@ sys.path.append('../DB_SQL')
 import dbSQLClass
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector, socket):
+    def setupUi(self, MainWindow, sectionVector, socket, socketBomba):
+
         self.s = socket
+        self.sBomba = socketBomba
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -349,4 +352,4 @@ class Ui_MainWindow(object):
 
     def home(self):
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow, self.s)
+        self.home.setupUi(self.MainWindow, self.s, self.sBomba)

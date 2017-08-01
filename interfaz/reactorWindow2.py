@@ -19,10 +19,12 @@ import time
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector, socket):
+    def setupUi(self, MainWindow, sectionVector, socket, socketBomba):
         global valorVariableAModificar, setValueFromCalculadora
         self.contadorAlmacenaDatos = 0
         self.s = socket
+        self.sBomba = socketBomba
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -7348,7 +7350,7 @@ class Ui_MainWindow(object):
     def home(self):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow, self.s)
+        self.home.setupUi(self.MainWindow, self.s, self.sBomba)
         #self.t.cancel()
 
     #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
@@ -7423,7 +7425,7 @@ class Ui_MainWindow(object):
         print("set up bomba")
         MainWindow = QtWidgets.QMainWindow()
         self.ui = setUpBombaMainWindow.Ui_MainWindow()
-        self.ui.setupUi(MainWindow)
+        self.ui.setupUi(MainWindow, self.sBomba)
         MainWindow.show()
 
     def actualizaValoresPIDTimer(self):

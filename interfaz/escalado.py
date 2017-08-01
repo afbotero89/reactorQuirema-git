@@ -14,9 +14,11 @@ import threading
 import time
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector, socket):
+    def setupUi(self, MainWindow, sectionVector, socket, socketBomba):
         global valorVariableAModificar, setValueFromCalculadora
         self.s = socket
+        self.sBomba = socketBomba
+
         self.MainWindow = MainWindow
         self.sectionVector = sectionVector
         self.flag_DesactivaVista = False
@@ -593,7 +595,7 @@ class Ui_MainWindow(object):
     def home(self):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow, self.s)
+        self.home.setupUi(self.MainWindow, self.s, self.sBomba)
         #self.t.cancel()
 
     def displayCalculadora(self, MFC, IN_OUT, X_Y):

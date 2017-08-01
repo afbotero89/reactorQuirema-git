@@ -12,9 +12,10 @@ import recetas1
 import calculadora2
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, sectionVector, socket):
+    def setupUi(self, MainWindow, sectionVector, socket, sockeBomba):
         self.MainWindow = MainWindow
         self.s = socket
+        self.sBomba = sockeBomba
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -623,12 +624,12 @@ class Ui_MainWindow(object):
 
     def home(self):
         self.home = Home.Ui_MainWindow()
-        self.home.setupUi(self.MainWindow, self.s)
+        self.home.setupUi(self.MainWindow, self.s, self.sBomba)
 
     def back(self):
         self.sectionVector = [False,False,False,True,False,False]
         self.recetas1_Window = recetas1.Ui_MainWindow()
-        self.recetas1_Window.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.recetas1_Window.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def displayCalculadora(self):
         self.MainWindow.setEnabled(False)

@@ -11,13 +11,15 @@ import calculadora2
 from PyQt5.QtCore import QPoint
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, socketBomba):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(336, 407)
         
         qPoint = QPoint(280,60)
         MainWindow.move(qPoint)
+
+        self.sBomba = socketBomba
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -369,12 +371,54 @@ class Ui_MainWindow(object):
         self.DelayButton.clicked.connect(lambda: self.displayCalculadora("Delay"))
         self.TimeButton.clicked.connect(lambda: self.displayCalculadora("Time"))
 
+        self.startButton.clicked.connect(self.startBomba)
+        self.stopButton.clicked.connect(self.stopBomba)
+        self.pauseButton.clicked.connect(self.pauseBomba)
+        self.restartButton.clicked.connect(self.restartBomba)
+
     def displayCalculadora(self, variableBomba):
         sectionVector = [False,False,False,False,False,True]
         self.calculadora = calculadora2.Ui_MainWindow()
         socketBomba = "socketBomba"
         self.calculadora.setUp_Bomba(self.MainWindow, sectionVector, variableBomba, socketBomba)
         print("variable=", variableBomba)
+
+    def startBomba(self):
+
+        try:
+            comando = bytes('start\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
+    def stopBomba(self):
+        try:
+            comando = bytes('stop\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
+    def pauseBomba(self):
+        try:
+            comando = bytes('pause\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
+    def restartBomba(self):
+        try:
+            comando = bytes('restart\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
 
 if __name__ == "__main__":
     import sys

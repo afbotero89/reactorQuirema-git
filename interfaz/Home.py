@@ -18,8 +18,11 @@ import psutil, os
 
 class Ui_MainWindow(object):
     
-    def setupUi(self, MainWindow, socket):
-        self.s = socket
+    def setupUi(self, MainWindow, socketPLC, socketBomba):
+        
+        self.s = socketPLC
+        self.sBomba = socketBomba
+
         self.MainWindow = MainWindow
         p = psutil.Process(os.getpid())
         files = p.open_files()
@@ -119,57 +122,75 @@ class Ui_MainWindow(object):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [True,False,False,False,False,False]
         self.pidInterface = PID_parameters.Ui_MainWindow_PIDParameters()
-        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.pidInterface.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def alarms(self):
         self.sectionVector = [False,False,True,False,False,False]
         self.alarms = alarmsMainWindow.Ui_MainWindow()
-        self.alarms.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.alarms.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def recetas(self):
         self.sectionVector = [False,False,False,True,False,False]
         self.recetas = recetas1.Ui_MainWindow()
-        self.recetas.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.recetas.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def rectorMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,False,False,False,False,True]
         self.reactor = reactorWindow2.Ui_MainWindow()
-        self.reactor.setupUi(self.MainWindow, self.sectionVector, self.s)
+        self.reactor.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
     def escaladoMainWindow(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor
         self.sectionVector = [False,True,False,False,False,False]
         self.escalado = escalado.Ui_MainWindow()
-        self.escalado.setupUi(self.MainWindow, self.sectionVector, self.s)       
+        self.escalado.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)       
        
         
 if __name__ == "__main__":
     import sys
 
-    socket = serial.Serial()
+    # Socket PLC
+    socketPLC = serial.Serial()
     #socket.port = '/dev/tty.SLAB_USBtoUART'
-    socket.port = '/dev/tty.SLAB_USBtoUART'
-    socket.baudrate = 9600
-    socket.bytesize = 7
-    socket.parity = serial.PARITY_EVEN
-    socket.stopbits = 1
-    socket.timeout = 0.1
+    socketPLC.port = '/dev/tty.SLAB_USBtoUART'
+    socketPLC.baudrate = 9600
+    socketPLC.bytesize = 7
+    socketPLC.parity = serial.PARITY_EVEN
+    socketPLC.stopbits = 1
+    socketPLC.timeout = 0.1
+
+    # Socket bomba
+    socketBomba = serial.Serial()
+
+    socketBomba.port = '/dev/tty.SLAB_USBtoUART1'
+    socketBomba.baudrate = 38400
+    socketBomba.bytesize = 7
+    socketBomba.parity = serial.PARITY_EVEN
+    socketBomba.stopbits = 1
+    socketBomba.timeout = 0.1
 
     #p = psutil.Process(os.getpid())
     #files = p.open_files()
     #files.clear()
     
-    #if socket.is_open == False:
+    # Try socket PLC
     try:
-        socket.open()
+        socketPLC.open()
     except:
-        pass    
+        pass
+
+    # Try socket Bomba
+    try:
+        socketBomba.open()
+    except:
+        pass
+
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow, socket)
+    ui.setupUi(MainWindow, socketPLC, socketBomba)
     qPoint = QPoint(0,-5)
     MainWindow.move(qPoint)
     MainWindow.show()
