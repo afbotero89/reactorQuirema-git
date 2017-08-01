@@ -7420,9 +7420,10 @@ class Ui_MainWindow(object):
 
     def setUpBomba(self):
         #self.MainWindow.setEnabled(False)
+        print("set up bomba")
         MainWindow = QtWidgets.QMainWindow()
-        ui = setUpBombaMainWindow.Ui_MainWindow()
-        ui.setupUi(MainWindow)
+        self.ui = setUpBombaMainWindow.Ui_MainWindow()
+        self.ui.setupUi(MainWindow)
         MainWindow.show()
 
     def actualizaValoresPIDTimer(self):
@@ -7629,7 +7630,7 @@ class Ui_MainWindow(object):
 
             # Injection solenoide vista reactor
             try:
-                injectionSolenoideString = self.decimalString(str(int(variablesReactor[62],16)))
+                injectionSolenoideString = self.decimalString(str(int(variablesReactor[23],16)))
                 self.pushButtonInjectionSolenoide.setText(injectionSolenoideString)
             except:
                 pass
@@ -7638,7 +7639,7 @@ class Ui_MainWindow(object):
 
             # Load solenoide vista reactor
             try:
-                loadSolenoideString = self.decimalString(str(int(variablesReactor[63],16))) 
+                loadSolenoideString = self.decimalString(str(int(variablesReactor[24],16))) 
                 self.pushButtonLoadSolenoide.setText(loadSolenoideString) 
             except:
                 pass

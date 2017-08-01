@@ -7,13 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QPoint
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(370, 305)
+        MainWindow.resize(336, 407)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -193,129 +191,128 @@ class Ui_MainWindow(object):
         self.centralWidget.setAutoFillBackground(False)
         self.centralWidget.setStyleSheet("")
         self.centralWidget.setObjectName("centralWidget")
-        self.label_diametro = QtWidgets.QLabel(self.centralWidget)
-        self.label_diametro.setGeometry(QtCore.QRect(10, 70, 81, 16))
-        self.label_diametro.setStyleSheet("color:white;\n"
+        self.label_Units = QtWidgets.QLabel(self.centralWidget)
+        self.label_Units.setGeometry(QtCore.QRect(40, 90, 81, 16))
+        self.label_Units.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_diametro.setObjectName("label_diametro")
-        self.label_Flujo = QtWidgets.QLabel(self.centralWidget)
-        self.label_Flujo.setGeometry(QtCore.QRect(10, 100, 60, 16))
-        self.label_Flujo.setStyleSheet("color:white;\n"
+        self.label_Units.setObjectName("label_Units")
+        self.label_Diameter = QtWidgets.QLabel(self.centralWidget)
+        self.label_Diameter.setGeometry(QtCore.QRect(40, 120, 81, 16))
+        self.label_Diameter.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_Flujo.setObjectName("label_Flujo")
-        self.label_Variable1 = QtWidgets.QLabel(self.centralWidget)
-        self.label_Variable1.setGeometry(QtCore.QRect(10, 130, 91, 16))
-        self.label_Variable1.setStyleSheet("color:white;\n"
+        self.label_Diameter.setObjectName("label_Diameter")
+        self.label_Rate = QtWidgets.QLabel(self.centralWidget)
+        self.label_Rate.setGeometry(QtCore.QRect(40, 150, 81, 16))
+        self.label_Rate.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_Variable1.setObjectName("label_Variable1")
-        self.label_Variable2 = QtWidgets.QLabel(self.centralWidget)
-        self.label_Variable2.setGeometry(QtCore.QRect(10, 160, 91, 16))
-        self.label_Variable2.setStyleSheet("color:white;\n"
+        self.label_Rate.setObjectName("label_Rate")
+        self.label_Volume = QtWidgets.QLabel(self.centralWidget)
+        self.label_Volume.setGeometry(QtCore.QRect(40, 180, 81, 16))
+        self.label_Volume.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_Variable2.setObjectName("label_Variable2")
+        self.label_Volume.setObjectName("label_Volume")
         self.label_title = QtWidgets.QLabel(self.centralWidget)
-        self.label_title.setGeometry(QtCore.QRect(120, 20, 131, 31))
+        self.label_title.setGeometry(QtCore.QRect(100, 30, 131, 31))
         self.label_title.setAutoFillBackground(False)
         self.label_title.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
         self.label_title.setObjectName("label_title")
-        self.horizontalSlider_Diametro = QtWidgets.QSlider(self.centralWidget)
-        self.horizontalSlider_Diametro.setGeometry(QtCore.QRect(100, 70, 181, 22))
-        self.horizontalSlider_Diametro.setStyleSheet("background: #999999;\n"
-"border-top-right-radius: 9px;\n"
-"border-bottom-right-radius: 9px;\n"
-"border-top-left-radius: 0px;\n"
-"border-bottom-left-radius: 0px;")
-        self.horizontalSlider_Diametro.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider_Diametro.setObjectName("horizontalSlider_Diametro")
-        self.label_ValDiametro = QtWidgets.QLabel(self.centralWidget)
-        self.label_ValDiametro.setGeometry(QtCore.QRect(290, 70, 31, 21))
-        self.label_ValDiametro.setStyleSheet("color:white;\n"
+        self.startButton = QtWidgets.QPushButton(self.centralWidget)
+        self.startButton.setGeometry(QtCore.QRect(20, 290, 71, 32))
+        self.startButton.setStyleSheet("background:none")
+        self.startButton.setObjectName("startButton")
+        self.stopButton = QtWidgets.QPushButton(self.centralWidget)
+        self.stopButton.setGeometry(QtCore.QRect(90, 290, 71, 32))
+        self.stopButton.setStyleSheet("background:none")
+        self.stopButton.setObjectName("stopButton")
+        self.pauseButton = QtWidgets.QPushButton(self.centralWidget)
+        self.pauseButton.setGeometry(QtCore.QRect(160, 290, 71, 32))
+        self.pauseButton.setStyleSheet("background:none")
+        self.pauseButton.setObjectName("pauseButton")
+        self.restartButton = QtWidgets.QPushButton(self.centralWidget)
+        self.restartButton.setGeometry(QtCore.QRect(230, 290, 71, 32))
+        self.restartButton.setStyleSheet("background:none")
+        self.restartButton.setObjectName("restartButton")
+        self.label_Delay = QtWidgets.QLabel(self.centralWidget)
+        self.label_Delay.setGeometry(QtCore.QRect(40, 210, 81, 16))
+        self.label_Delay.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_ValDiametro.setObjectName("label_ValDiametro")
-        self.horizontalSlider_Flujo = QtWidgets.QSlider(self.centralWidget)
-        self.horizontalSlider_Flujo.setGeometry(QtCore.QRect(100, 100, 181, 22))
-        self.horizontalSlider_Flujo.setStyleSheet("background: #999999;\n"
-"border-top-right-radius: 9px;\n"
-"border-bottom-right-radius: 9px;\n"
-"border-top-left-radius: 0px;\n"
-"border-bottom-left-radius: 0px;\n"
-"")
-        self.horizontalSlider_Flujo.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider_Flujo.setObjectName("horizontalSlider_Flujo")
-        self.label_ValFlujo = QtWidgets.QLabel(self.centralWidget)
-        self.label_ValFlujo.setGeometry(QtCore.QRect(290, 100, 31, 16))
-        self.label_ValFlujo.setStyleSheet("color:white;\n"
+        self.label_Delay.setObjectName("label_Delay")
+        self.label_Time = QtWidgets.QLabel(self.centralWidget)
+        self.label_Time.setGeometry(QtCore.QRect(40, 240, 81, 16))
+        self.label_Time.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_ValFlujo.setObjectName("label_ValFlujo")
-        self.horizontalSlider_Variable1 = QtWidgets.QSlider(self.centralWidget)
-        self.horizontalSlider_Variable1.setGeometry(QtCore.QRect(100, 130, 181, 22))
-        self.horizontalSlider_Variable1.setStyleSheet("background: #999999;\n"
-"border-top-right-radius: 9px;\n"
-"border-bottom-right-radius: 9px;\n"
-"border-top-left-radius: 0px;\n"
-"border-bottom-left-radius: 0px;")
-        self.horizontalSlider_Variable1.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider_Variable1.setObjectName("horizontalSlider_Variable1")
-        self.horizontalSlider_Variable2 = QtWidgets.QSlider(self.centralWidget)
-        self.horizontalSlider_Variable2.setGeometry(QtCore.QRect(100, 160, 181, 22))
-        self.horizontalSlider_Variable2.setStyleSheet("background: #999999;\n"
-"border-top-right-radius: 9px;\n"
-"border-bottom-right-radius: 9px;\n"
-"border-top-left-radius: 0px;\n"
-"border-bottom-left-radius: 0px;")
-        self.horizontalSlider_Variable2.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider_Variable2.setObjectName("horizontalSlider_Variable2")
-        self.label_ValVariable1 = QtWidgets.QLabel(self.centralWidget)
-        self.label_ValVariable1.setGeometry(QtCore.QRect(290, 130, 31, 16))
-        self.label_ValVariable1.setStyleSheet("color:white;\n"
+        self.label_Time.setObjectName("label_Time")
+        self.UnitsButton = QtWidgets.QPushButton(self.centralWidget)
+        self.UnitsButton.setGeometry(QtCore.QRect(150, 80, 71, 32))
+        self.UnitsButton.setStyleSheet("background:none")
+        self.UnitsButton.setObjectName("UnitsButton")
+        self.DiameterButton = QtWidgets.QPushButton(self.centralWidget)
+        self.DiameterButton.setGeometry(QtCore.QRect(150, 110, 71, 32))
+        self.DiameterButton.setStyleSheet("background:none")
+        self.DiameterButton.setObjectName("DiameterButton")
+        self.rateButton = QtWidgets.QPushButton(self.centralWidget)
+        self.rateButton.setGeometry(QtCore.QRect(150, 140, 71, 32))
+        self.rateButton.setStyleSheet("background:none")
+        self.rateButton.setObjectName("rateButton")
+        self.VolumeButton = QtWidgets.QPushButton(self.centralWidget)
+        self.VolumeButton.setGeometry(QtCore.QRect(150, 170, 71, 32))
+        self.VolumeButton.setStyleSheet("background:none")
+        self.VolumeButton.setObjectName("VolumeButton")
+        self.DelayButton = QtWidgets.QPushButton(self.centralWidget)
+        self.DelayButton.setGeometry(QtCore.QRect(150, 200, 71, 32))
+        self.DelayButton.setStyleSheet("background:none")
+        self.DelayButton.setObjectName("DelayButton")
+        self.TimeButton = QtWidgets.QPushButton(self.centralWidget)
+        self.TimeButton.setGeometry(QtCore.QRect(150, 230, 71, 32))
+        self.TimeButton.setStyleSheet("background:none")
+        self.TimeButton.setObjectName("TimeButton")
+        self.label_unitsUnits = QtWidgets.QLabel(self.centralWidget)
+        self.label_unitsUnits.setGeometry(QtCore.QRect(230, 90, 61, 16))
+        self.label_unitsUnits.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_ValVariable1.setObjectName("label_ValVariable1")
-        self.label_ValVariable2 = QtWidgets.QLabel(self.centralWidget)
-        self.label_ValVariable2.setGeometry(QtCore.QRect(290, 160, 31, 16))
-        self.label_ValVariable2.setStyleSheet("color:white;\n"
+        self.label_unitsUnits.setObjectName("label_unitsUnits")
+        self.label_UnitsDiameter = QtWidgets.QLabel(self.centralWidget)
+        self.label_UnitsDiameter.setGeometry(QtCore.QRect(230, 120, 61, 16))
+        self.label_UnitsDiameter.setStyleSheet("color:white;\n"
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
-        self.label_ValVariable2.setObjectName("label_ValVariable2")
-        self.pushButton_ok = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_ok.setGeometry(QtCore.QRect(130, 200, 113, 32))
-        self.pushButton_ok.setStyleSheet("background:none")
-        self.pushButton_ok.setObjectName("pushButton_ok")
-        self.label_UnitsDiametro = QtWidgets.QLabel(self.centralWidget)
-        self.label_UnitsDiametro.setGeometry(QtCore.QRect(320, 70, 41, 16))
-        self.label_UnitsDiametro.setStyleSheet("font: 25 18pt \"Helvetica\";\n"
-"background:none;\n"
-"color:white;")
-        self.label_UnitsDiametro.setObjectName("label_UnitsDiametro")
-        self.label_UnitsFlujo = QtWidgets.QLabel(self.centralWidget)
-        self.label_UnitsFlujo.setGeometry(QtCore.QRect(320, 100, 41, 16))
-        self.label_UnitsFlujo.setStyleSheet("font: 25 18pt \"Helvetica\";\n"
-"background:none;\n"
-"color:white;")
-        self.label_UnitsFlujo.setObjectName("label_UnitsFlujo")
-        self.label_UnitsVariable1 = QtWidgets.QLabel(self.centralWidget)
-        self.label_UnitsVariable1.setGeometry(QtCore.QRect(320, 130, 41, 16))
-        self.label_UnitsVariable1.setStyleSheet("font: 25 18pt \"Helvetica\";\n"
-"background:none;\n"
-"color:white;")
-        self.label_UnitsVariable1.setObjectName("label_UnitsVariable1")
-        self.label_UnitsVariable2 = QtWidgets.QLabel(self.centralWidget)
-        self.label_UnitsVariable2.setGeometry(QtCore.QRect(320, 160, 41, 16))
-        self.label_UnitsVariable2.setStyleSheet("font: 25 18pt \"Helvetica\";\n"
-"background:none;\n"
-"color:white;")
-        self.label_UnitsVariable2.setObjectName("label_UnitsVariable2")
+        self.label_UnitsDiameter.setObjectName("label_UnitsDiameter")
+        self.label_UnitsRate = QtWidgets.QLabel(self.centralWidget)
+        self.label_UnitsRate.setGeometry(QtCore.QRect(230, 150, 61, 16))
+        self.label_UnitsRate.setStyleSheet("color:white;\n"
+"font: 25 18pt \"Helvetica\";\n"
+"background:none;")
+        self.label_UnitsRate.setObjectName("label_UnitsRate")
+        self.label_UnitsVolume = QtWidgets.QLabel(self.centralWidget)
+        self.label_UnitsVolume.setGeometry(QtCore.QRect(230, 180, 61, 16))
+        self.label_UnitsVolume.setStyleSheet("color:white;\n"
+"font: 25 18pt \"Helvetica\";\n"
+"background:none;")
+        self.label_UnitsVolume.setObjectName("label_UnitsVolume")
+        self.label_UnitsDelay = QtWidgets.QLabel(self.centralWidget)
+        self.label_UnitsDelay.setGeometry(QtCore.QRect(230, 210, 61, 16))
+        self.label_UnitsDelay.setStyleSheet("color:white;\n"
+"font: 25 18pt \"Helvetica\";\n"
+"background:none;")
+        self.label_UnitsDelay.setObjectName("label_UnitsDelay")
+        self.label_UnitsTime = QtWidgets.QLabel(self.centralWidget)
+        self.label_UnitsTime.setGeometry(QtCore.QRect(230, 240, 61, 16))
+        self.label_UnitsTime.setStyleSheet("color:white;\n"
+"font: 25 18pt \"Helvetica\";\n"
+"background:none;")
+        self.label_UnitsTime.setObjectName("label_UnitsTime")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 370, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 336, 22))
         self.menuBar.setObjectName("menuBar")
         MainWindow.setMenuBar(self.menuBar)
         self.mainToolBar = QtWidgets.QToolBar(MainWindow)
@@ -329,34 +326,37 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quirema"))
-        self.label_diametro.setText(_translate("MainWindow", "Diametro:"))
-        self.label_Flujo.setText(_translate("MainWindow", "Flujo:"))
-        self.label_Variable1.setText(_translate("MainWindow", "Variable 1:"))
-        self.label_Variable2.setText(_translate("MainWindow", "Variable 2:"))
+        self.label_Units.setText(_translate("MainWindow", "Units:"))
+        self.label_Diameter.setText(_translate("MainWindow", "Diameter:"))
+        self.label_Rate.setText(_translate("MainWindow", "Rate:"))
+        self.label_Volume.setText(_translate("MainWindow", "Volume:"))
         self.label_title.setText(_translate("MainWindow", "Set Up Bomba"))
-        self.label_ValDiametro.setText(_translate("MainWindow", "0.0"))
-        self.label_ValFlujo.setText(_translate("MainWindow", "0.0"))
-        self.label_ValVariable1.setText(_translate("MainWindow", "0.0"))
-        self.label_ValVariable2.setText(_translate("MainWindow", "0.0"))
-        self.pushButton_ok.setText(_translate("MainWindow", "OK"))
-        self.label_UnitsDiametro.setText(_translate("MainWindow", "mm"))
-        self.label_UnitsFlujo.setText(_translate("MainWindow", "mm"))
-        self.label_UnitsVariable1.setText(_translate("MainWindow", "mm"))
-        self.label_UnitsVariable2.setText(_translate("MainWindow", "mm"))
-        print("set up bomba !!!!!!! XXXX")
+        self.startButton.setText(_translate("MainWindow", "Start"))
+        self.stopButton.setText(_translate("MainWindow", "Stop"))
+        self.pauseButton.setText(_translate("MainWindow", "Pause"))
+        self.restartButton.setText(_translate("MainWindow", "Restart"))
+        self.label_Delay.setText(_translate("MainWindow", "Delay:"))
+        self.label_Time.setText(_translate("MainWindow", "Time:"))
+        self.UnitsButton.setText(_translate("MainWindow", "0.0"))
+        self.DiameterButton.setText(_translate("MainWindow", "0.0"))
+        self.rateButton.setText(_translate("MainWindow", "0.0"))
+        self.VolumeButton.setText(_translate("MainWindow", "0.0"))
+        self.DelayButton.setText(_translate("MainWindow", "0.0"))
+        self.TimeButton.setText(_translate("MainWindow", "0.0"))
+        self.label_unitsUnits.setText(_translate("MainWindow", "mL/min"))
+        self.label_UnitsDiameter.setText(_translate("MainWindow", "mm"))
+        self.label_UnitsRate.setText(_translate("MainWindow", "mL/min"))
+        self.label_UnitsVolume.setText(_translate("MainWindow", "mm"))
+        self.label_UnitsDelay.setText(_translate("MainWindow", "min"))
+        self.label_UnitsTime.setText(_translate("MainWindow", "min"))
 
 if __name__ == "__main__":
     import sys
-    
     app = QtWidgets.QApplication(sys.argv)
-    app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    qPoint = QPoint(0,-5)
-    MainWindow.move(qPoint)
     MainWindow.show()
     sys.exit(app.exec_())
