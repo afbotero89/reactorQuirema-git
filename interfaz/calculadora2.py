@@ -18,9 +18,11 @@ import serialClass
 sys.path.append('../DB_SQL')
 import dbSQLClass
 import time
+import setUpBombaMainWindow
 
 class Ui_MainWindow(object):
     def setupUi_PID_reactor(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow, socket):
+        self.setUpBomba = False
         self.pidWindow = pidWindow
         self.variablePIDSeleccionada = variablePIDSeleccionada
         self.horno_manta_seleccionada = horno_manta_seleccionada
@@ -28,6 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.closeEvent = self.closeEvent_PID_reactor
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("  " + horno_manta_seleccionada + "\n" + "  " + "Variable PID: " + variablePIDSeleccionada)
+        MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
 
     def setupUi_Alarmas(self, MainWindow, alarmaSeleccionada, buttonSelected, sectionVector, alarmWindow):
         self.alarmWindow = alarmWindow
@@ -37,11 +40,13 @@ class Ui_MainWindow(object):
         self.init_Interface(MainWindow, sectionVector)
         self.instanciaBD_alarmas = dbSQLClass.DataBaseQueries()
         self.label_2.setText("  " + alarmaSeleccionada)
+        MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
 
     def setupUi_recetas(self, MainWindow, sectionVector, resetasMainWindow):
         self.resetasMainWindow = resetasMainWindow
         MainWindow.closeEvent = self.closeEvent_recetas
         self.init_Interface(MainWindow, sectionVector)
+        MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
         #self.label_2.setText("  Controlador de flujo" + ": " + controladorFlujo + "\n" + "  " + IN_OUT + " " + X_Y)
 
     def setupUI_escalado(self, MainWindow, sectionVector, controladorFlujo, IN_OUT, X_Y, escaladoMainWindow, socket):
@@ -55,10 +60,18 @@ class Ui_MainWindow(object):
         MainWindow.closeEvent = self.closeEvent_escalado
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("  Controlador de flujo" + ": " + controladorFlujo + "\n" + "  " + IN_OUT + " " + X_Y)
+        MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
 
-    def setUp_Bomba(self, MainWindow, sectionVector, variable, socketBomba):
+    def setUp_Bomba(self, MainWindow, sectionVector, variable, reactorWindow ,socketBomba):
+        self.setUpBomba = True
+        self.reactorWindow = reactorWindow
+        self.sBomba = socketBomba
+        self.variableBomba = variable
+        MainWindow.closeEvent = self.closeEvent_bomba
+
         self.init_Interface(MainWindow, sectionVector)
         self.label_2.setText("   " + "Variable Bomba" + "\n" + "   " + variable)
+        MainWindow.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 0))")
 
     def init_Interface(self, MainWindow, sectionVector):
         self.setValueString = ""
@@ -244,7 +257,7 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
         MainWindow.setPalette(palette)
-        MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
+        
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.label = QtWidgets.QLabel(self.centralWidget)
@@ -448,21 +461,25 @@ class Ui_MainWindow(object):
         elif(self.sectionVector[5] == True):
 
             if (id_button=="OK"):
-                lenSplitStringValue = self.setValueString.split(".")
-                if(len(lenSplitStringValue)==1):
-                    reactorWindow2.valorVariableAModificar = self.setValueString + "0"
-                elif(len(lenSplitStringValue)==2):
-                    reactorWindow2.valorVariableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
+                if(self.setUpBomba == False):
+                    print("set up bomba false")
+                    lenSplitStringValue = self.setValueString.split(".")
+                    if(len(lenSplitStringValue)==1):
+                        reactorWindow2.valorVariableAModificar = self.setValueString + "0"
+                    elif(len(lenSplitStringValue)==2):
+                        reactorWindow2.valorVariableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
 
-                reactorWindow2.setValueFromCalculadora = True
-                try:
-                    pass
-                    #self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
-                except:
-                    print("error escritura reactor")
-                hornoSeleccionado = self.horno_manta_seleccionada
-                self.MainWindow.close()
-                self.pidWindow.setEnabled(True)
+                    reactorWindow2.setValueFromCalculadora = True
+                    try:
+                        pass
+                        #self.instanciaModbus.writeValuesPID(float(self.setValueString),self.variablePIDSeleccionada,self.horno_manta_seleccionada)
+                    except:
+                        print("error escritura reactor")
+                    hornoSeleccionado = self.horno_manta_seleccionada
+                    self.MainWindow.close()
+                    self.pidWindow.setEnabled(True)
+                elif(self.setUpBomba== True):
+                    self.setUpVariableBomba(self.variableBomba)
                 
         # Si el usuario selecciona configuracion de alarmas
         elif(self.sectionVector[2] == True):
@@ -498,6 +515,37 @@ class Ui_MainWindow(object):
                 #self.instanciaModbus.writeValues_Escalado(float(self.setValueString), self.controladorFlujo, self.IN_OUT, self.X_Y)
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
 
+    def setUpVariableBomba(self, variable):
+
+        lenSplitStringValue = self.setValueString.split(".")
+        valor = ""
+        if(len(lenSplitStringValue)==1):
+            valor = self.setValueString + "0"
+        elif(len(lenSplitStringValue)==2):
+            valor = lenSplitStringValue[0] + lenSplitStringValue[1]
+
+        comando = bytes('start\r\n','UTF-8')
+        if(variable == "Units"):
+            comando = bytes('start\r\n','UTF-8')
+        elif(variable == "Diameter"):
+            comando = bytes('start\r\n','UTF-8')
+        elif(variable == "Rate"):
+            comando = bytes('start\r\n','UTF-8')
+        elif(variable== "Volume"):
+            comando = bytes('start\r\n','UTF-8')
+        elif(variable == "Delay"):
+            comando = bytes('start\r\n','UTF-8')
+        elif(variable == "Time"):
+            comando = bytes('start\r\n','UTF-8')
+        print("variable =", variable , valor)
+        try:
+            comando = bytes('start\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
     def closeEvent_PID_reactor(self, event):
         self.MainWindow.close()
         self.pidWindow.setEnabled(True)
@@ -513,6 +561,13 @@ class Ui_MainWindow(object):
     def closeEvent_escalado(self, event):
         self.MainWindow.close()
         self.escaladoMainWindow.setEnabled(True) 
+
+    def closeEvent_bomba(self, event):
+        MainWindow = QtWidgets.QMainWindow()
+        self.ui = setUpBombaMainWindow.Ui_MainWindow()
+        self.ui.setupUi(MainWindow, self.sBomba, self.reactorWindow)
+        MainWindow.show()
+
         
 if __name__ == "__main__":
     import sys

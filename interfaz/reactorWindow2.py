@@ -7423,9 +7423,10 @@ class Ui_MainWindow(object):
     def setUpBomba(self):
         #self.MainWindow.setEnabled(False)
         print("set up bomba")
+        self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
         self.ui = setUpBombaMainWindow.Ui_MainWindow()
-        self.ui.setupUi(MainWindow, self.sBomba)
+        self.ui.setupUi(MainWindow, self.sBomba, self.MainWindow)
         MainWindow.show()
 
     def actualizaValoresPIDTimer(self):

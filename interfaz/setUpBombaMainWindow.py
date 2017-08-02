@@ -11,8 +11,9 @@ import calculadora2
 from PyQt5.QtCore import QPoint
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, socketBomba):
+    def setupUi(self, MainWindow, socketBomba, reactorWindow):
         self.MainWindow = MainWindow
+        self.reactorWindow = reactorWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(336, 407)
         
@@ -20,6 +21,7 @@ class Ui_MainWindow(object):
         MainWindow.move(qPoint)
 
         self.sBomba = socketBomba
+        MainWindow.closeEvent = self.closeEvent_Bomba
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -379,8 +381,7 @@ class Ui_MainWindow(object):
     def displayCalculadora(self, variableBomba):
         sectionVector = [False,False,False,False,False,True]
         self.calculadora = calculadora2.Ui_MainWindow()
-        socketBomba = "socketBomba"
-        self.calculadora.setUp_Bomba(self.MainWindow, sectionVector, variableBomba, socketBomba)
+        self.calculadora.setUp_Bomba(self.MainWindow, sectionVector, variableBomba, self.reactorWindow, self.sBomba)
         print("variable=", variableBomba)
 
     def startBomba(self):
@@ -419,7 +420,9 @@ class Ui_MainWindow(object):
             print("leido start", lectura)
         except:
             pass
-
+    def closeEvent_Bomba(self, event):
+        self.MainWindow.close()
+        self.reactorWindow.setEnabled(True)
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
