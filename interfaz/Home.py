@@ -153,7 +153,7 @@ if __name__ == "__main__":
     # Socket PLC
     socketPLC = serial.Serial()
     #socket.port = '/dev/tty.SLAB_USBtoUART'
-    socketPLC.port = '/dev/tty.SLAB_USBtoUART'
+    socketPLC.port = '/dev/ttyUSB0'
     socketPLC.baudrate = 9600
     socketPLC.bytesize = 7
     socketPLC.parity = serial.PARITY_EVEN
@@ -163,12 +163,9 @@ if __name__ == "__main__":
     # Socket bomba
     socketBomba = serial.Serial()
 
-    socketBomba.port = '/dev/tty.SLAB_USBtoUART1'
+    socketBomba.port = '/dev/ttyUSB1'
     socketBomba.baudrate = 38400
-    socketBomba.bytesize = 7
-    socketBomba.parity = serial.PARITY_EVEN
-    socketBomba.stopbits = 1
-    socketBomba.timeout = 0.1
+
 
     #p = psutil.Process(os.getpid())
     #files = p.open_files()
