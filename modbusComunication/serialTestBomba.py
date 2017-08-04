@@ -3,10 +3,11 @@
 
 import serial
 
-s = serial.Serial('/dev/tty.usbserial-AL013DE4',38400)
+s = serial.Serial('/dev/ttyUSB1',38400)
 
-comando = bytes('help\r\n','UTF-8')
+comando = bytes('set units 2\r\n')
 s.write(comando)
 lectura = s.readline()
-print("valor leido", lectura)
+lectura1 = s.readline()
+print("valor leido", lectura, lectura1)
 

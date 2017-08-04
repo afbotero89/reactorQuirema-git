@@ -77,7 +77,7 @@ class modbus:
 			self.presentValue_setValue_onOff_Mantas = ['1044', '1045','0813']
 
 			# Registros solenoide para escribir
-			self.injection_load_onOff_solenoide = ['1010','101A','081A']
+			self.injection_load_onOff_solenoide = ['1019','101A','081A']
 
 
 			# Rampas valores en decimal: 4129, 4139, 4149, 4159
