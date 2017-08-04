@@ -526,20 +526,20 @@ class Ui_MainWindow(object):
 
         comando = bytes('start\r\n','UTF-8')
         if(variable == "Units"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set units' + ' ' + str(valor) + '\r\n','UTF-8')
         elif(variable == "Diameter"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set diameter' + ' ' + str(valor) + '\r\n','UTF-8')
         elif(variable == "Rate"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set rate' + ' ' + str(valor) + '\r\n','UTF-8')
         elif(variable== "Volume"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set volume' + ' ' + str(valor) + '\r\n','UTF-8')
         elif(variable == "Delay"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set delay' + ' ' + str(valor) + '\r\n','UTF-8')
         elif(variable == "Time"):
-            comando = bytes('start\r\n','UTF-8')
+            comando = bytes('set time' + ' ' + str(valor) + '\r\n','UTF-8')
         print("variable =", variable , valor)
         try:
-            comando = bytes('start\r\n','UTF-8')
+            #comando = bytes('start\r\n','UTF-8')
             self.sBomba.write(comando)
             lectura = self.sBomba.readline()
             print("leido start", lectura)
