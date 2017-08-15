@@ -1554,13 +1554,23 @@ class Ui_MainWindow(object):
         self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
         self.pushButtonStart_StopMantas.setObjectName("pushButtonStart_StopMantas")
 
-        self.pushButton_startStop_bomba = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_startStop_bomba.setGeometry(QtCore.QRect(20, 390, 51, 20))
-        self.pushButton_startStop_bomba.setStyleSheet("color:white;background-color:green")
-        self.pushButton_startStop_bomba.setObjectName("pushButton_startStop_bomba")
+        self.pushButton_start_bomba = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_start_bomba.setGeometry(QtCore.QRect(20, 374, 51, 20))
+        self.pushButton_start_bomba.setStyleSheet("color:white;background-color:green")
+        self.pushButton_start_bomba.setObjectName("pushButton_start_bomba")
+
+        self.pushButton_stop_bomba = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_stop_bomba.setGeometry(QtCore.QRect(20, 396, 51, 20))
+        self.pushButton_stop_bomba.setStyleSheet("color:white;background-color:green")
+        self.pushButton_stop_bomba.setObjectName("pushButton_stop_bomba")
+
+        self.pushButton_pause_bomba = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_pause_bomba.setGeometry(QtCore.QRect(20, 418, 51, 20))
+        self.pushButton_pause_bomba.setStyleSheet("color:white;background-color:green")
+        self.pushButton_pause_bomba.setObjectName("pushButton_pause_bomba")
 
         self.pushButton_setUp_bomba = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_setUp_bomba.setGeometry(QtCore.QRect(20, 360, 51, 20))
+        self.pushButton_setUp_bomba.setGeometry(QtCore.QRect(20, 350, 51, 20))
         self.pushButton_setUp_bomba.setStyleSheet("color:black;")
         self.pushButton_setUp_bomba.setObjectName("pushButton_PV_bomba")
 
@@ -7237,7 +7247,9 @@ class Ui_MainWindow(object):
         self.pushButtonSetValueMantas.setText(_translate("MainWindow", "SV:"))
         self.pushButtonPresentValueMantas.setText(_translate("MainWindow", "PV:"))
         self.pushButtonStart_StopMantas.setText(_translate("MainWindow","ON"))
-        self.pushButton_startStop_bomba.setText(_translate("MainWindow", "ON"))
+        self.pushButton_start_bomba.setText(_translate("MainWindow", "Start"))
+        self.pushButton_stop_bomba.setText(_translate("MainWindow", "Stop"))
+        self.pushButton_pause_bomba.setText(_translate("MainWindow", "Pause"))
         self.pushButton_setUp_bomba.setText(_translate("MainWindow", "Set up"))
 
         self.label_31.setText(_translate("MainWindow", "6-way valve"))
@@ -7345,7 +7357,9 @@ class Ui_MainWindow(object):
 
         # Actions buttons Bomba
         self.pushButton_setUp_bomba.clicked.connect(self.setUpBomba)
-        self.pushButton_startStop_bomba.clicked.connect(self.starStopBomba)
+        self.pushButton_start_bomba.clicked.connect(self.startBomba)
+        self.pushButton_stop_bomba.clicked.connect(self.stopBomba)
+        self.pushButton_pause_bomba.clicked.connect(self.pauseBomba)
 
     def home(self):
         self.flag_DesactivaVista = True
@@ -7417,8 +7431,32 @@ class Ui_MainWindow(object):
         print("Start stop mantas")
 
     # Bomba functions
-    def starStopBomba(self):
-        print("start stop bombas")
+    def startBomba(self):
+        try:
+            comando = bytes('start\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
+    def stopBomba(self):
+        try:
+            comando = bytes('stop\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
+
+    def pauseBomba(self):
+        try:
+            comando = bytes('pause\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            print("leido start", lectura)
+        except:
+            pass
 
     def setUpBomba(self):
         #self.MainWindow.setEnabled(False)

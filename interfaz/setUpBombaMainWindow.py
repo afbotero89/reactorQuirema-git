@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         self.MainWindow = MainWindow
         self.reactorWindow = reactorWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(336, 407)
+        MainWindow.resize(336, 350)
         
         qPoint = QPoint(280,60)
         MainWindow.move(qPoint)
@@ -233,22 +233,6 @@ class Ui_MainWindow(object):
 "font: 25 18pt \"Helvetica\";\n"
 "background:none;")
         self.label_title.setObjectName("label_title")
-        self.startButton = QtWidgets.QPushButton(self.centralWidget)
-        self.startButton.setGeometry(QtCore.QRect(20, 290, 71, 32))
-        self.startButton.setStyleSheet("background:none")
-        self.startButton.setObjectName("startButton")
-        self.stopButton = QtWidgets.QPushButton(self.centralWidget)
-        self.stopButton.setGeometry(QtCore.QRect(90, 290, 71, 32))
-        self.stopButton.setStyleSheet("background:none")
-        self.stopButton.setObjectName("stopButton")
-        self.pauseButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pauseButton.setGeometry(QtCore.QRect(160, 290, 71, 32))
-        self.pauseButton.setStyleSheet("background:none")
-        self.pauseButton.setObjectName("pauseButton")
-        self.restartButton = QtWidgets.QPushButton(self.centralWidget)
-        self.restartButton.setGeometry(QtCore.QRect(230, 290, 71, 32))
-        self.restartButton.setStyleSheet("background:none")
-        self.restartButton.setObjectName("restartButton")
         self.label_Delay = QtWidgets.QLabel(self.centralWidget)
         self.label_Delay.setGeometry(QtCore.QRect(40, 210, 81, 16))
         self.label_Delay.setStyleSheet("color:white;\n"
@@ -344,10 +328,6 @@ class Ui_MainWindow(object):
         self.label_Rate.setText(_translate("MainWindow", "Rate:"))
         self.label_Volume.setText(_translate("MainWindow", "Volume:"))
         self.label_title.setText(_translate("MainWindow", "Set Up Bomba"))
-        self.startButton.setText(_translate("MainWindow", "Start"))
-        self.stopButton.setText(_translate("MainWindow", "Stop"))
-        self.pauseButton.setText(_translate("MainWindow", "Pause"))
-        self.restartButton.setText(_translate("MainWindow", "Restart"))
         self.label_Delay.setText(_translate("MainWindow", "Delay:"))
         self.label_Time.setText(_translate("MainWindow", "Time:"))
         self.UnitsButton.setText(_translate("MainWindow", "0.0"))
@@ -373,10 +353,6 @@ class Ui_MainWindow(object):
         self.DelayButton.clicked.connect(lambda: self.displayCalculadora("Delay"))
         self.TimeButton.clicked.connect(lambda: self.displayCalculadora("Time"))
 
-        self.startButton.clicked.connect(self.startBomba)
-        self.stopButton.clicked.connect(self.stopBomba)
-        self.pauseButton.clicked.connect(self.pauseBomba)
-        self.restartButton.clicked.connect(self.restartBomba)
 
     def displayCalculadora(self, variableBomba):
         sectionVector = [False,False,False,False,False,True]
@@ -384,42 +360,7 @@ class Ui_MainWindow(object):
         self.calculadora.setUp_Bomba(self.MainWindow, sectionVector, variableBomba, self.reactorWindow, self.sBomba)
         print("variable=", variableBomba)
 
-    def startBomba(self):
 
-        try:
-            comando = bytes('start\r\n','UTF-8')
-            self.sBomba.write(comando)
-            lectura = self.sBomba.readline()
-            print("leido start", lectura)
-        except:
-            pass
-
-    def stopBomba(self):
-        try:
-            comando = bytes('stop\r\n','UTF-8')
-            self.sBomba.write(comando)
-            lectura = self.sBomba.readline()
-            print("leido start", lectura)
-        except:
-            pass
-
-    def pauseBomba(self):
-        try:
-            comando = bytes('pause\r\n','UTF-8')
-            self.sBomba.write(comando)
-            lectura = self.sBomba.readline()
-            print("leido start", lectura)
-        except:
-            pass
-
-    def restartBomba(self):
-        try:
-            comando = bytes('restart\r\n','UTF-8')
-            self.sBomba.write(comando)
-            lectura = self.sBomba.readline()
-            print("leido start", lectura)
-        except:
-            pass
     def closeEvent_Bomba(self, event):
         self.MainWindow.close()
         self.reactorWindow.setEnabled(True)

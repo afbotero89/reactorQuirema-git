@@ -153,7 +153,7 @@ if __name__ == "__main__":
     # Socket PLC
     socketPLC = serial.Serial()
     #socket.port = '/dev/tty.SLAB_USBtoUART'
-    socketPLC.port = '/dev/ttyUSB0'
+    socketPLC.port = '/dev/tty.SLAB_USBtoUART'
     socketPLC.baudrate = 9600
     socketPLC.bytesize = 7
     socketPLC.parity = serial.PARITY_EVEN
