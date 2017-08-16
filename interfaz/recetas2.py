@@ -10,12 +10,22 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import Home
 import recetas1
 import calculadora2
+import serialClass
+import threading
+import time
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, sectionVector, socket, sockeBomba):
+        global variableAModificar, setValueFromCalculadora
+
         self.MainWindow = MainWindow
         self.s = socket
         self.sBomba = sockeBomba
+        time.sleep(0.5)
+        self.instanciaModbus = serialClass.modbus(self.s)
+        self.flag_DesactivaVista = False
+        variableAModificar = "0"
+        setValueFromCalculadora = False
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -560,84 +570,311 @@ class Ui_MainWindow(object):
 
         self.addActionButtons()
 
+        self.t = threading.Thread(target = self.actualizaValoresTimer)
+        self.t.IsBackground = True;
+        self.t.start()
+
     def addActionButtons(self):
         self.pushButton_Home.clicked.connect(self.home)
         self.pushButton_Back.clicked.connect(self.back)
 
-        self.pushButton_H1R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_H2R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_H3R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_H4R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_H4R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_H1R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_H3R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_H2R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_H4R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_H1R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_H3R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_H2R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_H4R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_H1R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_H3R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_H2R4.clicked.connect(self.displayCalculadora)
+        # Elementos receta 1
+        self.pushButton_H1R1.clicked.connect(lambda: self.displayCalculadora("5","horno1"))
+        self.pushButton_H2R1.clicked.connect(lambda: self.displayCalculadora("5","horno2"))
+        self.pushButton_H3R1.clicked.connect(lambda: self.displayCalculadora("5","horno3"))
+        self.pushButton_H4R1.clicked.connect(lambda: self.displayCalculadora("5","horno4"))
 
-        self.pushButton_MFC1_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC4_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC2_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC4_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC2_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC3_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC2_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC1_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC4_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC2_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC4_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC3_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC1_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC3_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC3_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC1_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_TiempoR1.clicked.connect(self.displayCalculadora)
-        self.pushButton_TempMantasR2.clicked.connect(self.displayCalculadora)
-        self.pushButton_TempMantasR4.clicked.connect(self.displayCalculadora)
-        self.pushButton_TiempoR4.clicked.connect(self.displayCalculadora)
-        self.pushButton_TempMantasR3.clicked.connect(self.displayCalculadora)
-        self.pushButton_TempMantasR1.clicked.connect(self.displayCalculadora)
-        self.pushButton_TiempoR3.clicked.connect(self.displayCalculadora)
-        self.pushButton_TiempoR2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC5_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC5_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC6_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC5_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC6_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC5_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC6_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_MFC6_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_Solenoide_R4.clicked.connect(self.displayCalculadora)
-        self.pushButton_Solenoide_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_Bomba_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_Bomba_R1.clicked.connect(self.displayCalculadora)
-        self.pushButton_Bomba_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_Solenoide_R2.clicked.connect(self.displayCalculadora)
-        self.pushButton_Solenoide_R3.clicked.connect(self.displayCalculadora)
-        self.pushButton_Bomba_R4.clicked.connect(self.displayCalculadora)
+        self.pushButton_MFC1_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC1"))
+        self.pushButton_MFC2_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC2"))
+        self.pushButton_MFC3_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC3"))
+        self.pushButton_MFC4_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC4"))
+        self.pushButton_MFC5_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC5"))
+        self.pushButton_MFC6_R1.clicked.connect(lambda: self.displayCalculadora("5","MFC6"))
+
+        self.pushButton_Solenoide_R1.clicked.connect(lambda: self.displayCalculadora("5","Solenoide"))
+        self.pushButton_Bomba_R1.clicked.connect(lambda: self.displayCalculadora("5","Bomba"))
+        self.pushButton_TempMantasR1.clicked.connect(lambda: self.displayCalculadora("5","TempMantas"))
+        self.pushButton_TiempoR1.clicked.connect(lambda: self.displayCalculadora("5","Tiempo"))
+
+        # Elementos receta 2
+        self.pushButton_H1R2.clicked.connect(lambda: self.displayCalculadora("6","horno1"))
+        self.pushButton_H2R2.clicked.connect(lambda: self.displayCalculadora("6","horno2"))
+        self.pushButton_H3R2.clicked.connect(lambda: self.displayCalculadora("6","horno3"))
+        self.pushButton_H4R2.clicked.connect(lambda: self.displayCalculadora("6","horno4"))
+        
+        self.pushButton_MFC1_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC1"))
+        self.pushButton_MFC2_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC2"))
+        self.pushButton_MFC3_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC3"))
+        self.pushButton_MFC4_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC4"))
+        self.pushButton_MFC5_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC5"))
+        self.pushButton_MFC6_R2.clicked.connect(lambda: self.displayCalculadora("6","MFC6"))
+
+        self.pushButton_Solenoide_R2.clicked.connect(lambda: self.displayCalculadora("6","Solenoide"))
+        self.pushButton_Bomba_R2.clicked.connect(lambda: self.displayCalculadora("6","Bomba"))
+        self.pushButton_TempMantasR2.clicked.connect(lambda: self.displayCalculadora("6","TempMantas"))
+        self.pushButton_TiempoR2.clicked.connect(lambda: self.displayCalculadora("6","Tiempo"))
+
+
+        # Elementos receta 3
+        self.pushButton_H1R3.clicked.connect(lambda: self.displayCalculadora("7","horno1"))
+        self.pushButton_H2R3.clicked.connect(lambda: self.displayCalculadora("7","horno2"))
+        self.pushButton_H3R3.clicked.connect(lambda: self.displayCalculadora("7","horno3"))
+        self.pushButton_H4R3.clicked.connect(lambda: self.displayCalculadora("7","horno4"))
+        
+        self.pushButton_MFC1_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC1"))
+        self.pushButton_MFC2_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC2"))
+        self.pushButton_MFC3_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC3"))
+        self.pushButton_MFC4_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC4"))
+        self.pushButton_MFC5_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC5"))
+        self.pushButton_MFC6_R3.clicked.connect(lambda: self.displayCalculadora("7","MFC6"))
+
+        self.pushButton_Solenoide_R3.clicked.connect(lambda: self.displayCalculadora("7","Solenoide"))
+        self.pushButton_Bomba_R3.clicked.connect(lambda: self.displayCalculadora("7","Bomba"))
+        self.pushButton_TempMantasR3.clicked.connect(lambda: self.displayCalculadora("7","TempMantas"))
+        self.pushButton_TiempoR3.clicked.connect(lambda: self.displayCalculadora("7","Tiempo"))
+        
+        
+        # Elementos receta 4
+        self.pushButton_H1R4.clicked.connect(lambda: self.displayCalculadora("8","horno1"))
+        self.pushButton_H2R4.clicked.connect(lambda: self.displayCalculadora("8","horno2"))
+        self.pushButton_H3R4.clicked.connect(lambda: self.displayCalculadora("8","horno3"))
+        self.pushButton_H4R4.clicked.connect(lambda: self.displayCalculadora("8","horno4"))
+        
+        self.pushButton_MFC1_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC1"))
+        self.pushButton_MFC2_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC2"))
+        self.pushButton_MFC3_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC3"))
+        self.pushButton_MFC4_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC4"))
+        self.pushButton_MFC5_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC5"))
+        self.pushButton_MFC6_R4.clicked.connect(lambda: self.displayCalculadora("8","MFC6"))
+        
+        self.pushButton_Solenoide_R4.clicked.connect(lambda: self.displayCalculadora("8","Solenoide"))
+        self.pushButton_Bomba_R4.clicked.connect(lambda: self.displayCalculadora("8","Bomba"))
+        self.pushButton_TempMantasR4.clicked.connect(lambda: self.displayCalculadora("8","TempMantas"))
+        self.pushButton_TiempoR4.clicked.connect(lambda: self.displayCalculadora("8","Tiempo"))
 
     def home(self):
+        self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow, self.s, self.sBomba)
 
     def back(self):
+        self.flag_DesactivaVista = True
         self.sectionVector = [False,False,False,True,False,False]
         self.recetas1_Window = recetas1.Ui_MainWindow()
         self.recetas1_Window.setupUi(self.MainWindow, self.sectionVector, self.s, self.sBomba)
 
-    def displayCalculadora(self):
+    def displayCalculadora(self, receta, equipoSeleccionado):
         self.MainWindow.setEnabled(False)
         MainWindow = QtWidgets.QMainWindow()
+        self.equipoSeleccionado = equipoSeleccionado
+        self.receta = receta
+
         self.calculadora = calculadora2.Ui_MainWindow()
         self.sectionVector = [False,False,False,True,False,False]
-        self.calculadora.setupUi_recetas(MainWindow, self.sectionVector, self.MainWindow)
-        MainWindow.show() 
+        self.calculadora.setupUi_recetas(MainWindow, receta, equipoSeleccionado, self.sectionVector, self.MainWindow, 'hoja2')
+        MainWindow.show()
+
+    def actualizaValoresTimer(self):
+        global variableAModificar, setValueFromCalculadora
+
+        while True:
+            
+            if(self.flag_DesactivaVista == True):
+                break
+            recetas = self.instanciaModbus.readRegister_Recetas('hoja2')         
+
+            print(recetas)
+
+            # Elementos receta 1
+            h1r1String = self.decimalString(str(int(recetas[0],16))) 
+            self.pushButton_H1R1.setText(h1r1String)
+
+            h2r1String = self.decimalString(str(int(recetas[1],16))) 
+            self.pushButton_H2R1.setText(h2r1String)
+
+            h3r1String = self.decimalString(str(int(recetas[2],16))) 
+            self.pushButton_H3R1.setText(h3r1String)
+
+            h4r1String = self.decimalString(str(int(recetas[3],16))) 
+            self.pushButton_H4R1.setText(h4r1String)
+
+            MFC1_R1String = self.decimalString(str(int(recetas[4],16))) 
+            self.pushButton_MFC1_R1.setText(MFC1_R1String)
+
+            MFC2_R1String = self.decimalString(str(int(recetas[5],16))) 
+            self.pushButton_MFC2_R1.setText(MFC2_R1String)
+
+            MFC3_R1String = self.decimalString(str(int(recetas[6],16))) 
+            self.pushButton_MFC3_R1.setText(MFC3_R1String)
+
+            MFC4_R1String = self.decimalString(str(int(recetas[7],16))) 
+            self.pushButton_MFC4_R1.setText(MFC4_R1String)
+
+            MFC5_R1String = self.decimalString(str(int(recetas[8],16))) 
+            self.pushButton_MFC5_R1.setText(MFC5_R1String)
+
+            MFC6_R1String = self.decimalString(str(int(recetas[9],16))) 
+            self.pushButton_MFC6_R1.setText(MFC6_R1String)
+
+            Solenoide_R1String = self.decimalString(str(int(recetas[10],16))) 
+            self.pushButton_Solenoide_R1.setText(Solenoide_R1String)
+
+            bomba_R1String = self.decimalString(str(int(recetas[11],16)))
+            self.pushButton_Bomba_R1.setText(bomba_R1String)
+
+            tempMantas_R1String = self.decimalString(str(int(recetas[12],16)))
+            self.pushButton_TempMantasR1.setText(tempMantas_R1String)
+
+            tiempos_R1String = self.decimalString(str(int(recetas[13],16)))
+            self.pushButton_TiempoR1.setText(tiempos_R1String)
+
+
+            # Elementos receta 2
+            h1r2String = self.decimalString(str(int(recetas[14],16))) 
+            self.pushButton_H1R2.setText(h1r2String)
+
+            h2r2String = self.decimalString(str(int(recetas[15],16))) 
+            self.pushButton_H2R2.setText(h2r2String)
+
+            h3r2String = self.decimalString(str(int(recetas[16],16))) 
+            self.pushButton_H3R2.setText(h3r2String)
+
+            h4r2String = self.decimalString(str(int(recetas[17],16))) 
+            self.pushButton_H4R2.setText(h4r2String)
+            
+            MFC1_R2String = self.decimalString(str(int(recetas[18],16))) 
+            self.pushButton_MFC1_R2.setText(MFC1_R2String)
+
+            MFC2_R2String = self.decimalString(str(int(recetas[19],16))) 
+            self.pushButton_MFC2_R2.setText(MFC2_R2String)
+
+            MFC3_R2String = self.decimalString(str(int(recetas[20],16))) 
+            self.pushButton_MFC3_R2.setText(MFC3_R2String)
+
+            MFC4_R2String = self.decimalString(str(int(recetas[21],16))) 
+            self.pushButton_MFC4_R2.setText(MFC4_R2String)
+
+            MFC5_R2String = self.decimalString(str(int(recetas[22],16))) 
+            self.pushButton_MFC5_R2.setText(MFC5_R2String)
+
+            MFC6_R2String = self.decimalString(str(int(recetas[23],16))) 
+            self.pushButton_MFC6_R2.setText(MFC6_R2String)
+
+            solenoide_R2String = self.decimalString(str(int(recetas[24],16))) 
+            self.pushButton_Solenoide_R2.setText(solenoide_R2String)
+
+            bomba_R2String = self.decimalString(str(int(recetas[25],16))) 
+            self.pushButton_Bomba_R2.setText(bomba_R2String)
+
+            tempMantas_R2String = self.decimalString(str(int(recetas[26],16)))
+            self.pushButton_TempMantasR2.setText(tempMantas_R2String)
+
+            tiempo_R2String = self.decimalString(str(int(recetas[27],16)))
+            self.pushButton_TiempoR2.setText(tiempo_R2String)
+
+
+            # Elementos receta 3
+            h1r3String = self.decimalString(str(int(recetas[28],16))) 
+            self.pushButton_H1R3.setText(h1r3String)
+
+            h2r3String = self.decimalString(str(int(recetas[29],16)))
+            self.pushButton_H2R3.setText(h2r3String)
+
+            h3r3String = self.decimalString(str(int(recetas[30],16)))
+            self.pushButton_H3R3.setText(h3r3String)
+
+            h4r3String = self.decimalString(str(int(recetas[31],16)))
+            self.pushButton_H4R3.setText(h4r3String)
+            
+            MFC1_R3String = self.decimalString(str(int(recetas[32],16)))
+            self.pushButton_MFC1_R3.setText(MFC1_R3String)
+
+            MFC2_R3String = self.decimalString(str(int(recetas[33],16)))
+            self.pushButton_MFC2_R3.setText(MFC2_R3String)
+
+            MFC3_R3String = self.decimalString(str(int(recetas[34],16)))
+            self.pushButton_MFC3_R3.setText(MFC3_R3String)
+
+            MFC4_R3String = self.decimalString(str(int(recetas[35],16)))
+            self.pushButton_MFC4_R3.setText(MFC4_R3String)
+
+            MFC5_R3String = self.decimalString(str(int(recetas[36],16)))
+            self.pushButton_MFC5_R3.setText(MFC5_R3String)
+
+            MFC6_R3String = self.decimalString(str(int(recetas[37],16)))
+            self.pushButton_MFC6_R3.setText(MFC6_R3String)
+
+            solenoide_R3String = self.decimalString(str(int(recetas[38],16)))
+            self.pushButton_Solenoide_R3.setText(solenoide_R3String)
+
+            bomba_R3String = self.decimalString(str(int(recetas[39],16)))
+            self.pushButton_Bomba_R3.setText(bomba_R3String)
+
+            tempMantas_R3String = self.decimalString(str(int(recetas[40],16)))
+            self.pushButton_TempMantasR3.setText(tempMantas_R3String)
+
+            tiempo_R3String = self.decimalString(str(int(recetas[41],16)))
+            self.pushButton_TiempoR3.setText(tiempo_R3String)
+            
+            
+            # Elementos receta 4
+            h1r4String = self.decimalString(str(int(recetas[42],16))) 
+            self.pushButton_H1R4.setText(h1r4String)
+
+            h2r4String = self.decimalString(str(int(recetas[43],16))) 
+            self.pushButton_H2R4.setText(h2r4String)
+
+            h3r4String = self.decimalString(str(int(recetas[44],16))) 
+            self.pushButton_H3R4.setText(h3r4String)
+
+            h4r4String = self.decimalString(str(int(recetas[45],16))) 
+            self.pushButton_H4R4.setText(h4r4String)
+            
+            MFC1_R4String = self.decimalString(str(int(recetas[46],16)))
+            self.pushButton_MFC1_R4.setText(MFC1_R4String)
+
+            MFC2_R4String = self.decimalString(str(int(recetas[47],16)))
+            self.pushButton_MFC2_R4.setText(MFC2_R4String)
+
+            MFC3_R4String = self.decimalString(str(int(recetas[48],16)))
+            self.pushButton_MFC3_R4.setText(MFC3_R4String)
+
+            MFC4_R4String = self.decimalString(str(int(recetas[49],16)))
+            self.pushButton_MFC4_R4.setText(MFC4_R4String)
+
+            MFC5_R4String = self.decimalString(str(int(recetas[50],16)))
+            self.pushButton_MFC5_R4.setText(MFC5_R4String)
+
+            MFC6_R4String = self.decimalString(str(int(recetas[51],16)))
+            self.pushButton_MFC6_R4.setText(MFC6_R4String)
+            
+            solenoide_R4String = self.decimalString(str(int(recetas[52],16)))
+            self.pushButton_Solenoide_R4.setText(solenoide_R4String)
+
+            bomba_R4String = self.decimalString(str(int(recetas[53],16)))
+            self.pushButton_Bomba_R4.setText(bomba_R4String)
+
+            tempMantas_R4String = self.decimalString(str(int(recetas[54],16)))
+            self.pushButton_TempMantasR4.setText(tempMantas_R4String)
+
+            tiempo_R4String = self.decimalString(str(int(recetas[55],16)))
+            self.pushButton_TiempoR4.setText(tiempo_R4String)
+
+            if (setValueFromCalculadora == True):
+                setValueFromCalculadora = False
+                try:
+                    self.instanciaModbus.writeValuesRecetas(self.receta, self.equipoSeleccionado, float(variableAModificar))    
+                except:
+                    pass            
+            time.sleep(0.1)
+
+    def decimalString(self, stringValue):
+        stringValueReturn = stringValue
+        if len(stringValueReturn)==1:
+            stringValueReturn = '0.' + stringValueReturn
+        else:   
+            stringValueReturn = stringValueReturn[0:(len(stringValueReturn)-1)] + '.' + stringValueReturn[len(stringValueReturn)-1]
+        return stringValueReturn
 
 if __name__ == "__main__":
     import sys

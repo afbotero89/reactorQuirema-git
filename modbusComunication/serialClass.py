@@ -177,12 +177,23 @@ class modbus:
 											  hex(self.vectorRegistrosHorno4[13]),
 											  hex(self.vectorRegistrosHorno4[14])]
 
+			self.vectorReceta1 = ['1898','1899','189A','189B','189C','189D','189E','189F','18A0','18A1','18A2','18A3','18A4','18A5']
+			self.vectorReceta2 = ['18A6','18A7','18A8','18A9','18AA','18AB','18AC','18AD','18AE','18AF','18B0','18B1','18B2','18B3']
+			self.vectorReceta3 = ['18B4','18B5','18B6','18B7','18B8','18B9','18BA','18BB','18BC','18BD','18BE','18BF','18C0','18C1']
+			self.vectorReceta4 = ['18C2','18C3','18C4','18C5','18C6','18C7','18C8','18C9','18CA','18CB','18CC','18CD','18CE','18CF']
+
+			self.vectorReceta5 = ['18D0','18D1','18D2','18D3','18D4','18D5','18D6','18D7','18D8','18D9','18DA','18DB','18DC','18DD']
+			self.vectorReceta6 = ['18DE','18DF','18E0','18E1','18E2','18E3','18E4','18E5','18E6','18E7','18E8','18E9','18EA','18EB']
+			self.vectorReceta7 = ['18EC','18ED','18EE','18EF','18F0','18F1','18F2','18F3','18F4','18F5','18F6','18F7','18F8','18F9']
+			self.vectorReceta8 = ['18FA','18FB','18FC','18FD','18FE','18FF','1900','1901','1902','1903','1904','1905','1906','1907']
+
 			self.registrosPIDHornosLectura = []
 			self.registrosHorno = []
 			self.registros_SetPresent_Value_Hornos = []
 			self.registros_SetPresent_Value_Hornos_rampa = []
 			self.registrosEscalado_IN = []
 			self.registrosEscalado_OUT = []
+			self.registrosRecetas = []
 			self.startBit = ':'
 			self.prefijo_lectura = '0103' #01: direccion, 03:operacion lectura (06 es para escritura)
 			self.stopbits = '\r\n' #Bis de stop
@@ -368,6 +379,56 @@ class modbus:
 			return (int(presentValueHorno,16),int(setValueHorno,16),int(registros_GPWM,16))
 		except:
 			pass
+
+	def readRegister_Recetas(self, recetas):
+		global s
+		#print("horno=",horno_manta_seleccionada)
+
+		self.registrosRecetas = []
+
+		try:
+
+			sufijo = '0038' #Numero de registros a leer, 56 en este caso
+			###### leyendo 56 registros 0038 registros #######
+			#vectorRegistros[0] -> vamos a leer 56 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
+			registro = '1898'
+			if(recetas == "hoja1"):
+				registro = '1898'  
+			elif(recetas == "hoja2"):  
+				registro = '18D0'
+			
+			modbusCommand = self.prefijo_lectura + registro + sufijo
+
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
+
+			s.write(bytes(comandoModbus,'UTF-8'))	
+			
+			time.sleep(0.1)
+			
+			#print(self.startBit + modbusCommand + checkSum)
+
+			variablesPID_4506_4518 = s.readline()   # lee serial
+			#print(variablesPID_4506_4518)
+			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
+
+			variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
+
+			registros = list(variablesPID_4506_4518)
+
+			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+
+			for i in range(56):
+				self.registrosRecetas.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
+
+			# Agrupo lista en grupos de cuatro
+			return self.registrosRecetas
+		
+		except:
+			pass
+
 	###################################################
 	### Hornos Escritura de datos, vista variables PID
 	###################################################		
@@ -484,6 +545,95 @@ class modbus:
 			#print("error de escritura")
 			pass
 	
+	#######################################################
+	### Recetas Escritura de datos, vista variables recetas
+	#######################################################		
+	def writeValuesRecetas(self, receta, equipoSeleccionado, valor):
+		global s
+		print("escritura receta",receta, equipoSeleccionado)
+		try:
+			
+			if (receta=='1'):
+				vectorRegistros = self.vectorReceta1
+			elif(receta=='2'):
+				vectorRegistros = self.vectorReceta2
+			elif(receta=='3'):
+				vectorRegistros = self.vectorReceta3
+			elif(receta=='4'):
+				vectorRegistros = self.vectorReceta4
+			elif(receta=='5'):
+				vectorRegistros = self.vectorReceta5
+			elif(receta=='6'):
+				vectorRegistros = self.vectorReceta6
+			elif(receta=='7'):
+				vectorRegistros = self.vectorReceta7
+			elif(receta=='8'):
+				vectorRegistros = self.vectorReceta8
+
+			if equipoSeleccionado == 'horno1':
+			        registro = vectorRegistros[0]
+			elif equipoSeleccionado == 'horno2':
+			        registro = vectorRegistros[1]
+			elif equipoSeleccionado == 'horno3':
+			        registro = vectorRegistros[2]
+			elif equipoSeleccionado == 'horno4':
+			        registro = vectorRegistros[3]
+			elif equipoSeleccionado == 'MFC1':
+			        registro = vectorRegistros[4]
+			elif equipoSeleccionado == 'MFC2':
+			        registro = vectorRegistros[5]
+			elif equipoSeleccionado == 'MFC3':
+			        registro = vectorRegistros[6]
+			elif equipoSeleccionado == 'MFC4':
+			        registro = vectorRegistros[7]
+			elif equipoSeleccionado == 'MFC5':
+			        registro = vectorRegistros[8]
+			elif equipoSeleccionado == 'MFC6':
+			        registro = vectorRegistros[9]
+			elif equipoSeleccionado == 'Solenoide':
+			        registro = vectorRegistros[10]	
+			elif equipoSeleccionado == 'Bomba':
+			        registro = vectorRegistros[11]
+			elif equipoSeleccionado == 'TempMantas':
+			        registro = vectorRegistros[12]
+			elif equipoSeleccionado == 'Tiempo':
+			        registro = vectorRegistros[13]
+
+
+			prefijo = '0106'   
+			setValue = hex(int(valor)).split('x')[1].upper()
+			if len(setValue) == 1:
+				setValue = '000' + setValue
+			elif len(setValue) == 2:
+				setValue = '00' + setValue
+			elif len(setValue) == 3:
+				setValue = '0' + setValue
+
+			modbusCommand = prefijo + registro + setValue 
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			modbusCommand = bytes(self.startBit + modbusCommand + checkSum + self.stopbits, 'UTF-8')
+			
+			s.write(modbusCommand)
+			time.sleep(0.1)
+			respuestaPLC = s.readline()
+			
+			if (modbusCommand == respuestaPLC):
+				pass  # Si la respuesta del plc es el mismo comando modbus que se escribio, fue existosa la modificacion del registro
+			else:
+				s.write(modbusCommand)
+				time.sleep(0.1)
+				
+			print('escrito',modbusCommand)
+			print('respuestaPLC', respuestaPLC)
+			
+			#self.instrument.write_register(registro,valorPID,1)
+		except:
+			#time.sleep(0.2)
+			#s.write(modbusCommand)
+			#print("error de escritura")
+			pass
 	######################################################
 	### Hornos Escritura de datos, vista variables PID ###
 	######################################################	

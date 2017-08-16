@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         self.MainWindow = MainWindow
         self.reactorWindow = reactorWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(336, 350)
+        MainWindow.resize(336, 345)
         
         qPoint = QPoint(280,60)
         MainWindow.move(qPoint)

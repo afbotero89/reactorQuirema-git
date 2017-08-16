@@ -19,6 +19,8 @@ sys.path.append('../DB_SQL')
 import dbSQLClass
 import time
 import setUpBombaMainWindow
+import recetas1
+import recetas2
 
 class Ui_MainWindow(object):
     def setupUi_PID_reactor(self, MainWindow, variablePIDSeleccionada, horno_manta_seleccionada, sectionVector, pidWindow, socket):
@@ -42,10 +44,12 @@ class Ui_MainWindow(object):
         self.label_2.setText("  " + alarmaSeleccionada)
         MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
 
-    def setupUi_recetas(self, MainWindow, sectionVector, resetasMainWindow):
+    def setupUi_recetas(self, MainWindow, recetas, equipoSeleccionado, sectionVector, resetasMainWindow, hojaSeleccionada):
+        self.hojaSeleccionada = hojaSeleccionada   #Indica la hoja seleccionada por el usuario, hoja1(recetas 1-4), hoja2 (recetas 5-8)
         self.resetasMainWindow = resetasMainWindow
         MainWindow.closeEvent = self.closeEvent_recetas
         self.init_Interface(MainWindow, sectionVector)
+        self.label_2.setText(" Receta:" + recetas + "\n" + " " + equipoSeleccionado)
         MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));")
         #self.label_2.setText("  Controlador de flujo" + ": " + controladorFlujo + "\n" + "  " + IN_OUT + " " + X_Y)
 
@@ -492,8 +496,23 @@ class Ui_MainWindow(object):
 
         # Si el usuario selecciona configuracion de resetas
         elif(self.sectionVector[3] == True):
+            print("recetas!!! ok", self.hojaSeleccionada)
+            recetas = recetas1
+            
+            if(self.hojaSeleccionada == "hoja1"):
+                recetas = recetas1
+            elif(self.hojaSeleccionada == "hoja2"):
+                recetas = recetas2
 
             if (id_button=="OK"):
+                lenSplitStringValue = self.setValueString.split(".")
+                if(len(lenSplitStringValue)==1):
+                    recetas.variableAModificar = self.setValueString + "0"
+                elif(len(lenSplitStringValue)==2):
+                    recetas.variableAModificar = lenSplitStringValue[0] + lenSplitStringValue[1]
+
+                recetas.setValueFromCalculadora = True
+
                 self.MainWindow.close()
                 self.resetasMainWindow.setEnabled(True)
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
