@@ -27,6 +27,24 @@ class Ui_MainWindow(object):
         self.s = socket
         self.sBomba = socketBomba
 
+        self.statusHorno1PID = 'False'
+        self.conn = sqlite3.connect('statusButtonsStart.db')
+        self.c = self.conn.cursor()
+        print("horno manta seleccionada", horno_manta_seleccionada)
+        idSensor = 1
+        if(horno_manta_seleccionada == 'horno1'):
+            idSensor = 1
+        elif(horno_manta_seleccionada == 'horno2'):
+            idSensor = 2
+        elif(horno_manta_seleccionada == 'horno3'):
+            idSensor = 3
+        elif(horno_manta_seleccionada == 'horno4'):
+            idSensor = 4
+
+        for row in self.c.execute("SELECT * FROM dispositivos WHERE 1"):
+            if row[0] == "1":
+                self.statusHorno1PID = row[idSensor]
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 480)
         self.MainWindow = MainWindow
@@ -188,7 +206,14 @@ class Ui_MainWindow(object):
         self.playButton.setGeometry(QtCore.QRect(640, 300, 80, 80))
         self.playButton.setObjectName("playButton")
         self.playButton.setStyleSheet("background-color: black; color:white; font-size: 22pt; border-radius: 40px;")
-        self.playButton.setIcon(QtGui.QIcon('../images/play-button.png'))
+
+        print("estatus!!!!!!",self.statusHorno1PID)
+        if(self.statusHorno1PID == 'True'):
+            self.playButton.setIcon(QtGui.QIcon('../images/pause-button.png'))
+        else:
+            self.playButton.setIcon(QtGui.QIcon('../images/play-button.png'))
+        
+
         self.playButton.setIconSize(QtCore.QSize(72,72))
 
         self.label_4 = QtWidgets.QLabel(self.centralWidget)
@@ -254,7 +279,6 @@ class Ui_MainWindow(object):
 
         self.t = threading.Thread(target=self.actualizaValoresTimer)
         self.t.IsBackground = True;
-        print(self.t)
         self.t.start()
 
     def retranslateUi(self, MainWindow):
@@ -454,7 +478,6 @@ class Ui_MainWindow(object):
                     self.buttonPVAnterior.setText(PVAnteriorString)
                     
                     time.sleep(0.005)
-                    print(self.datosPID_PLC)
             except:
                 pass
 
@@ -476,13 +499,16 @@ class Ui_MainWindow(object):
                     self.buttonGPWM.setText(gpwmString)
 
                     time.sleep(0.005)
-                    print(setValueString, presentValueString, gpwmString)
+
             except:
                 pass   
 
-            hora = time.strftime("%H:%M:%S")
-            #print(hora)
-            self.buttonTime.setText(hora)
+            try:
+                hora = time.strftime("%H:%M:%S")
+                print(hora)
+                self.buttonTime.setText(hora)
+            except:
+                pass
 
             if (self.playHornos_flag==True):
                 self.playHornos_flag = False

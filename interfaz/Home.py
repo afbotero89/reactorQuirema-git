@@ -15,6 +15,7 @@ import recetas1
 import escalado
 import serial
 import psutil, os
+import sqlite3
 
 class Ui_MainWindow(object):
     
@@ -182,6 +183,22 @@ if __name__ == "__main__":
         socketBomba.open()
     except:
         pass
+
+    campoSensor1Creado = False
+    conn = sqlite3.connect('statusButtonsStart.db')
+    c = conn.cursor()
+    #self.c.execute("DELETE FROM `sensorSuperior` WHERE 1")
+    # Create table
+    c.execute('''CREATE TABLE IF NOT EXISTS dispositivos (id text, Horno1PID text, Horno2PID text, Horno3PID text, Horno4PID text, Solenoide text, Mantas text, Horno1Reactor text, Horno2Reactor text, Horno3Reactor text, Horno4Reactor text)''')
+
+    for row in c.execute("SELECT * FROM dispositivos WHERE '%s'" % 1):
+        if row[0] == "1":
+            campoSensor1Creado = True
+
+    if campoSensor1Creado == False:
+        campoSensor1Creado = True
+        c.execute("INSERT INTO dispositivos VALUES ('1','False','False','False','False', 'False','False','False','False','False','False')")
+    conn.commit()
 
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet('QMainWindow{background-color: qlineargradient(spread:reflect, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(0, 64, 128, 255), stop:1 rgba(0, 0, 0, 255)); border:2px solid black;}')

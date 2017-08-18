@@ -6,6 +6,7 @@ import time
 import threading
 import psutil, os
 import Home 
+import sqlite3
 
 class modbus:
 	def __init__(self, socket):
@@ -212,6 +213,7 @@ class modbus:
 			self.startMantasReactor_flag = False
 
 
+
 	def readRegister_Reactor(self):
 		global s
 		#print("horno=",horno_manta_seleccionada)
@@ -301,7 +303,7 @@ class modbus:
 			variablesPID_4506_4518 = str(variablesPID_4506_4518).split(':')[1]
 
 			registros = list(variablesPID_4506_4518)
-			print("valores evaluar",comandoModbus, variablesPID_4506_4518)
+			
 			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
 			
 			# Agrupo lista en grupos de cuatro
@@ -797,7 +799,17 @@ class modbus:
 
 	def startHorno_reactor(self, hornoSeleccionado, playButtonSelected):
 		print("escalado", hornoSeleccionado)
-		global s		
+		global s
+		self.conn = sqlite3.connect('statusButtonsStart.db')
+		
+		self.c = self.conn.cursor()
+
+		for row in self.c.execute("SELECT * FROM dispositivos WHERE 1"):
+		    self.start_Horno1_Reactor = self.stringToBoolean(row[7])
+		    self.start_Horno2_Reactor = self.stringToBoolean(row[8])
+		    self.start_Horno3_Reactor = self.stringToBoolean(row[9])
+		    self.start_Horno4_Reactor = self.stringToBoolean(row[10])
+
 		try:
 			flag_start = False
 			if(hornoSeleccionado=='horno1' and self.start_Horno1_Reactor == False):
@@ -813,6 +825,8 @@ class modbus:
 					self.start_Horno1_Reactor = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("Stop 1")
+					self.c.execute("UPDATE `dispositivos` SET `Horno1Reactor`= 'True' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080DFF00')
 				comando = bytes(':0105080DFF00'+ checkSum + '\r\n','UTF-8')
@@ -825,6 +839,8 @@ class modbus:
 					self.start_Horno2_Reactor = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("Stop 2")
+					self.c.execute("UPDATE `dispositivos` SET `Horno2Reactor`= 'True' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == False):
 				checkSum = self.checkSumCalculation('0105080FFF00')
 				comando = bytes(':0105080FFF00'+ checkSum + '\r\n','UTF-8')
@@ -837,6 +853,8 @@ class modbus:
 					self.start_Horno3_Reactor = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("Stop 3")
+					self.c.execute("UPDATE `dispositivos` SET `Horno3Reactor`= 'True' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == False):
 				checkSum = self.checkSumCalculation('01050811FF00')
 				comando = bytes(':01050811FF00'+ checkSum + '\r\n','UTF-8')
@@ -849,6 +867,8 @@ class modbus:
 					self.start_Horno4_Reactor = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("Stop 4")
+					self.c.execute("UPDATE `dispositivos` SET `Horno4Reactor`= 'True' WHERE `id`='1'")
+
 			playButtonSelected.enabled = False
 
 
@@ -864,6 +884,8 @@ class modbus:
 					self.start_Horno1_Reactor = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					playButtonSelected.setText("Play 1")
+					self.c.execute("UPDATE `dispositivos` SET `Horno1Reactor`= 'False' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080D0000')
 				comando = bytes(':0105080D0000'+ checkSum + '\r\n','UTF-8')
@@ -875,6 +897,8 @@ class modbus:
 					self.start_Horno2_Reactor = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					playButtonSelected.setText("Play 2")
+					self.c.execute("UPDATE `dispositivos` SET `Horno2Reactor`= 'False' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080F0000')
 				comando = bytes(':0105080F0000'+ checkSum + '\r\n','UTF-8')
@@ -886,6 +910,8 @@ class modbus:
 					self.start_Horno3_Reactor = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					playButtonSelected.setText("Play 3")
+					self.c.execute("UPDATE `dispositivos` SET `Horno3Reactor`= 'False' WHERE `id`='1'")
+
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_Reactor == True and flag_start == False):
 				checkSum = self.checkSumCalculation('010508110000')
 				comando = bytes(':010508110000'+ checkSum + '\r\n','UTF-8')
@@ -897,14 +923,26 @@ class modbus:
 					self.start_Horno4_Reactor = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					playButtonSelected.setText("Play 4")
+					self.c.execute("UPDATE `dispositivos` SET `Horno4Reactor`= 'False' WHERE `id`='1'")
+
 		except:
-			pass		
+			pass
+
+		self.conn.commit()			
 	
 	def start_Valve_reactor(self,solenoideOrManta, playButtonSelected):
 
 		# Por defecto el registro correponde al solenoide
 		registro = '081A'
-		print("start solenoide o manta", solenoideOrManta)
+		
+		self.conn = sqlite3.connect('statusButtonsStart.db')
+		
+		self.c = self.conn.cursor()
+
+		for row in self.c.execute("SELECT * FROM dispositivos WHERE 1"):
+		    self.startSolenoideReactor_flag = self.stringToBoolean(row[5])
+		    self.startMantasReactor_flag = self.stringToBoolean(row[6])
+
 		if(solenoideOrManta == 'Solenoide'):
 			registro = '081A'
 
@@ -920,6 +958,8 @@ class modbus:
 					flag_start = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("OFF")
+					self.c.execute("UPDATE `dispositivos` SET `Solenoide`= 'True' WHERE `id`='1'")
+
 			elif(self.startSolenoideReactor_flag == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105'+ registro +'0000')
 				comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
@@ -930,6 +970,7 @@ class modbus:
 					self.startSolenoideReactor_flag = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
 					playButtonSelected.setText("ON")
+					self.c.execute("UPDATE `dispositivos` SET `Solenoide`= 'False' WHERE `id`='1'")
 
 		elif(solenoideOrManta == 'Mantas'):
 			registro = '0813'
@@ -946,6 +987,8 @@ class modbus:
 					flag_start = True
 					playButtonSelected.setStyleSheet('background:red;color:white')
 					playButtonSelected.setText("OFF")
+					self.c.execute("UPDATE `dispositivos` SET `Mantas`= 'True' WHERE `id`='1'")
+
 			elif(self.startMantasReactor_flag == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105'+ registro +'0000')
 				comando = bytes(':0105' + registro + '0000'+ checkSum + '\r\n','UTF-8')
@@ -955,13 +998,26 @@ class modbus:
 				if (lectura==comando):
 					self.startMantasReactor_flag = False
 					playButtonSelected.setStyleSheet('background:green;color:white')
-					playButtonSelected.setText("ON")			
-
-
-	
+					playButtonSelected.setText("ON")
+					self.c.execute("UPDATE `dispositivos` SET `Mantas`= 'False' WHERE `id`='1'")			
+		self.conn.commit()			
 				
 	def startHorno_vistaPID(self, hornoSeleccionado, playButtonSelected):
 		global s		
+
+		self.conn = sqlite3.connect('statusButtonsStart.db')
+
+		self.c = self.conn.cursor()
+
+		for row in self.c.execute("SELECT * FROM dispositivos WHERE 1"):
+		    if hornoSeleccionado == "horno1":
+		    	self.start_Horno1_PIDWindow = self.stringToBoolean(row[1])
+		    if hornoSeleccionado == "horno2":
+		    	self.start_Horno2_PIDWindow = self.stringToBoolean(row[2])
+		    if hornoSeleccionado == "horno3":
+		    	self.start_Horno3_PIDWindow = self.stringToBoolean(row[3])
+		    if hornoSeleccionado == "horno4":
+		    	self.start_Horno4_PIDWindow = self.stringToBoolean(row[4])	  		    			    	
 		try:
 			flag_start = False
 			if(hornoSeleccionado=='horno1' and self.start_Horno1_PIDWindow == False):		
@@ -974,6 +1030,7 @@ class modbus:
 					flag_start = True
 					self.start_Horno1_PIDWindow = True
 					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno1PID`= 'True' WHERE `id`='1'")
 					print('start 1')
 					
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == False):
@@ -986,6 +1043,8 @@ class modbus:
 					flag_start = True
 					self.start_Horno2_PIDWindow = True
 					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno2PID`= 'True' WHERE `id`='1'")
+
 					print('start 2')
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == False):
 				checkSum = self.checkSumCalculation('0105080EFF00')
@@ -997,6 +1056,7 @@ class modbus:
 					flag_start = True
 					self.start_Horno3_PIDWindow = True
 					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno3PID`= 'True' WHERE `id`='1'")
 					print('start 3')
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == False):
 				checkSum = self.checkSumCalculation('01050810FF00')
@@ -1008,6 +1068,7 @@ class modbus:
 					flag_start = True
 					self.start_Horno4_PIDWindow = True
 					playButtonSelected.setIcon(QtGui.QIcon('../images/pause-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno4PID`= 'True' WHERE `id`='1'")
 					print('start 4')
 
 
@@ -1020,6 +1081,8 @@ class modbus:
 				if (lectura==comando):
 					self.start_Horno1_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno1PID`= 'False' WHERE `id`='1'")
+					self.conn.commit()
 					print('stop 1')
 			elif(hornoSeleccionado=='horno2' and self.start_Horno2_PIDWindow == True  and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080C0000')
@@ -1030,6 +1093,8 @@ class modbus:
 				if (lectura==comando):
 					self.start_Horno2_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno2PID`= 'False' WHERE `id`='1'")
+					self.conn.commit()
 					print('stop 2')
 			elif(hornoSeleccionado=='horno3' and self.start_Horno3_PIDWindow == True and flag_start == False):
 				checkSum = self.checkSumCalculation('0105080E0000')
@@ -1040,6 +1105,7 @@ class modbus:
 				if (lectura==comando):
 					self.start_Horno3_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno3PID`= 'False' WHERE `id`='1'")
 					print('stop 3')
 			elif(hornoSeleccionado=='horno4' and self.start_Horno4_PIDWindow == True and flag_start == False):
 				checkSum = self.checkSumCalculation('010508100000')
@@ -1050,7 +1116,9 @@ class modbus:
 				if (lectura==comando):
 					self.start_Horno4_PIDWindow = False
 					playButtonSelected.setIcon(QtGui.QIcon('../images/play-button.png'))
+					self.c.execute("UPDATE `dispositivos` SET `Horno4PID`= 'False' WHERE `id`='1'")
 					print('stop 4')
+			self.conn.commit()
 		except:
 			pass
 
@@ -1076,3 +1144,10 @@ class modbus:
 		#Cuando el numero hexadecimal contiene letras ej: 0x0A, python retorna 0a, se debe volver mayuscula
 		
 		return checkSum.upper() 
+
+	def stringToBoolean(self, stringData):
+		if(stringData == 'False'):
+			stringData = False
+		else:
+			stringData = True
+		return stringData

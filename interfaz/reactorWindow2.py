@@ -16,6 +16,7 @@ import serialClass
 import threading
 import serialClass
 import time
+import sqlite3
 
 
 class Ui_MainWindow(object):
@@ -36,6 +37,24 @@ class Ui_MainWindow(object):
 
         valorVariableAModificar = "0"
         setValueFromCalculadora = False
+
+        # Evalua estatus de de los botones para almacenamiento
+        self.statusHorno1Reactor = 'False'
+        self.statusHorno2Reactor = 'False'
+        self.statusHorno3Reactor = 'False'
+        self.statusHorno4Reactor = 'False'
+
+        self.conn = sqlite3.connect('statusButtonsStart.db')
+        self.c = self.conn.cursor()
+
+        for row in self.c.execute("SELECT * FROM dispositivos WHERE 1"):
+            if row[0] == "1":
+                self.statusSolenoide = row[5]
+                self.statusMantas = row[6]
+                self.statusHorno1Reactor = row[7]
+                self.statusHorno2Reactor = row[8]
+                self.statusHorno3Reactor = row[9]
+                self.statusHorno4Reactor = row[10]
 
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -1551,7 +1570,12 @@ class Ui_MainWindow(object):
 
         self.pushButtonStart_StopMantas = QtWidgets.QPushButton(self.centralWidget)
         self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(480, 130, 51, 20))
-        self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
+
+        if(self.statusMantas == "True"):
+            self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:red")
+        else:
+            self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
+            
         self.pushButtonStart_StopMantas.setObjectName("pushButtonStart_StopMantas")
 
         self.pushButton_start_bomba = QtWidgets.QPushButton(self.centralWidget)
@@ -1583,7 +1607,11 @@ class Ui_MainWindow(object):
 
         self.pushButtonSolenoide = QtWidgets.QPushButton(self.centralWidget)
         self.pushButtonSolenoide.setGeometry(QtCore.QRect(210, 295, 50, 20))
-        self.pushButtonSolenoide.setStyleSheet("color:white;background-color:green")
+        if(self.statusSolenoide == 'True'):
+            self.pushButtonSolenoide.setStyleSheet("color:white;background-color:red")
+        else:
+            self.pushButtonSolenoide.setStyleSheet("color:white;background-color:green")
+
         self.pushButtonSolenoide.setObjectName("pushButton_PV_flujo2")
 
         self.label_LoadSolenoide = QtWidgets.QLabel(self.centralWidget)
@@ -7105,24 +7133,48 @@ class Ui_MainWindow(object):
         self.label_50.setPixmap(QtGui.QPixmap("../../images/cruceLineaVertical.png"))
         self.label_50.setScaledContents(True)
         self.label_50.setObjectName("label_50")
+        
         self.playButton = QtWidgets.QPushButton(self.centralWidget)
         self.playButton.setGeometry(QtCore.QRect(670, 290, 41, 32))
-        self.playButton.setStyleSheet("color:white;background-color:green")
+
+        if(self.statusHorno1Reactor == 'True'):
+            self.playButton.setStyleSheet("color:white;background-color:red")
+        else:
+            self.playButton.setStyleSheet("color:white;background-color:green")
+
         self.playButton.setObjectName("playButton")
+
 
         self.playButton1 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton1.setGeometry(QtCore.QRect(670, 324, 41, 32))
-        self.playButton1.setStyleSheet("color:white;background-color:green")
+
+        if(self.statusHorno2Reactor == 'True'):
+            self.playButton1.setStyleSheet("color:white;background-color:red")
+        else:
+            self.playButton1.setStyleSheet("color:white;background-color:green")
+
         self.playButton1.setObjectName("playButton")
+
 
         self.playButton2 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton2.setGeometry(QtCore.QRect(670, 358, 41, 32))
-        self.playButton2.setStyleSheet("color:white;background-color:green")
+
+        if(self.statusHorno3Reactor == 'True'):
+            self.playButton2.setStyleSheet("color:white;background-color:red")
+        else:
+            self.playButton2.setStyleSheet("color:white;background-color:green")
+
         self.playButton2.setObjectName("playButton")
+
 
         self.playButton3 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton3.setGeometry(QtCore.QRect(670, 392, 41, 32))
-        self.playButton3.setStyleSheet("color:white;background-color:green")
+
+        if(self.statusHorno4Reactor == 'True'):
+            self.playButton3.setStyleSheet("color:white;background-color:red")
+        else:
+            self.playButton3.setStyleSheet("color:white;background-color:green")
+
         self.playButton3.setObjectName("playButton")        
 
         self.label_51 = QtWidgets.QLabel(self.centralWidget)
