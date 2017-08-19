@@ -434,7 +434,6 @@ class Ui_MainWindow(object):
         self.pushButton_Bomba_R4.setObjectName("pushButton_Bomba_R4")
         self.pushButton_Receta4_2 = QtWidgets.QPushButton(self.centralWidget)
         self.pushButton_Receta4_2.setGeometry(QtCore.QRect(670, 90, 68, 25))
-        self.pushButton_Receta4_2.setStyleSheet("")
         self.pushButton_Receta4_2.setObjectName("pushButton_Receta4_2")
         self.pushButton_Receta1_2 = QtWidgets.QPushButton(self.centralWidget)
         self.pushButton_Receta1_2.setGeometry(QtCore.QRect(460, 90, 68, 25))
@@ -486,9 +485,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Quirema"))
         self.label.setText(_translate("MainWindow", "               Quirema                                   Recetas hoja 1"))
         self.pushButton_Receta1.setText(_translate("MainWindow", "1"))
+        self.pushButton_Receta1.setStyleSheet("background-color:black;color:white")
         self.pushButton_Receta2.setText(_translate("MainWindow", "2"))
+        self.pushButton_Receta2.setStyleSheet("background-color:black;color:white")
         self.pushButton_Receta3.setText(_translate("MainWindow", "3"))
+        self.pushButton_Receta3.setStyleSheet("background-color:black;color:white")
         self.pushButton_Receta4.setText(_translate("MainWindow", "4"))
+        self.pushButton_Receta4.setStyleSheet("background-color:black;color:white")
+        
         self.label_Horno1.setText(_translate("MainWindow", "Horno 1"))
         self.label_Horno2.setText(_translate("MainWindow", "Horno 2"))
         self.label_Horno3.setText(_translate("MainWindow", "Horno 3"))
@@ -560,11 +564,19 @@ class Ui_MainWindow(object):
         self.pushButton_Solenoide_R2.setText(_translate("MainWindow", "0.0"))
         self.pushButton_Solenoide_R3.setText(_translate("MainWindow", "0.0"))
         self.pushButton_Bomba_R4.setText(_translate("MainWindow", "0.0"))
+        
         self.pushButton_Receta4_2.setText(_translate("MainWindow", "4"))
+        self.pushButton_Receta4_2.setStyleSheet("background-color:black;color:white")
+
         self.pushButton_Receta1_2.setText(_translate("MainWindow", "1"))
+        self.pushButton_Receta1_2.setStyleSheet("background-color:black;color:white")
+
         self.pushButton_Receta3_2.setText(_translate("MainWindow", "3"))
+        self.pushButton_Receta3_2.setStyleSheet("background-color:black;color:white")
+
         self.label_Recetas_2.setText(_translate("MainWindow", "Recetas"))
         self.pushButton_Receta2_2.setText(_translate("MainWindow", "2"))
+        self.pushButton_Receta2_2.setStyleSheet("background-color:black;color:white")
 
         self.addActionButtons()
 

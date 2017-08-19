@@ -1573,8 +1573,10 @@ class Ui_MainWindow(object):
 
         if(self.statusMantas == "True"):
             self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:red")
+            self.pushButtonStart_StopMantas.setText("OFF")
         else:
             self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:green")
+            self.pushButtonStart_StopMantas.setText("ON")
             
         self.pushButtonStart_StopMantas.setObjectName("pushButtonStart_StopMantas")
 
@@ -1609,8 +1611,10 @@ class Ui_MainWindow(object):
         self.pushButtonSolenoide.setGeometry(QtCore.QRect(210, 295, 50, 20))
         if(self.statusSolenoide == 'True'):
             self.pushButtonSolenoide.setStyleSheet("color:white;background-color:red")
+            self.pushButtonSolenoide.setText("OFF")
         else:
             self.pushButtonSolenoide.setStyleSheet("color:white;background-color:green")
+            self.pushButtonSolenoide.setText("ON")
 
         self.pushButtonSolenoide.setObjectName("pushButton_PV_flujo2")
 
@@ -7139,8 +7143,10 @@ class Ui_MainWindow(object):
 
         if(self.statusHorno1Reactor == 'True'):
             self.playButton.setStyleSheet("color:white;background-color:red")
+            self.playButton.setText("Stop 1")
         else:
             self.playButton.setStyleSheet("color:white;background-color:green")
+            self.playButton.setText("Play 1")
 
         self.playButton.setObjectName("playButton")
 
@@ -7150,8 +7156,10 @@ class Ui_MainWindow(object):
 
         if(self.statusHorno2Reactor == 'True'):
             self.playButton1.setStyleSheet("color:white;background-color:red")
+            self.playButton1.setText("Stop 2")
         else:
             self.playButton1.setStyleSheet("color:white;background-color:green")
+            self.playButton1.setText("Play 2")
 
         self.playButton1.setObjectName("playButton")
 
@@ -7161,8 +7169,10 @@ class Ui_MainWindow(object):
 
         if(self.statusHorno3Reactor == 'True'):
             self.playButton2.setStyleSheet("color:white;background-color:red")
+            self.playButton2.setText("Stop 3")
         else:
             self.playButton2.setStyleSheet("color:white;background-color:green")
+            self.playButton2.setText("Play 3")
 
         self.playButton2.setObjectName("playButton")
 
@@ -7172,8 +7182,10 @@ class Ui_MainWindow(object):
 
         if(self.statusHorno4Reactor == 'True'):
             self.playButton3.setStyleSheet("color:white;background-color:red")
+            self.playButton3.setText("Stop 4")
         else:
             self.playButton3.setStyleSheet("color:white;background-color:green")
+            self.playButton3.setText("Play 4")
 
         self.playButton3.setObjectName("playButton")        
 
@@ -7298,7 +7310,7 @@ class Ui_MainWindow(object):
 
         self.pushButtonSetValueMantas.setText(_translate("MainWindow", "SV:"))
         self.pushButtonPresentValueMantas.setText(_translate("MainWindow", "PV:"))
-        self.pushButtonStart_StopMantas.setText(_translate("MainWindow","ON"))
+        #self.pushButtonStart_StopMantas.setText(_translate("MainWindow","ON"))
         self.pushButton_start_bomba.setText(_translate("MainWindow", "Start"))
         self.pushButton_stop_bomba.setText(_translate("MainWindow", "Stop"))
         self.pushButton_pause_bomba.setText(_translate("MainWindow", "Pause"))
@@ -7320,10 +7332,10 @@ class Ui_MainWindow(object):
         self.label_44.setText(_translate("MainWindow", "Ar"))
         self.pushButton_SV_flujo1.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_PV_flujo1.setText(_translate("MainWindow", "0000.0"))
-        self.playButton.setText(_translate("MainWindow", "Play 1"))
-        self.playButton1.setText(_translate("MainWindow", "Play 2"))
-        self.playButton2.setText(_translate("MainWindow", "Play 3"))
-        self.playButton3.setText(_translate("MainWindow", "Play 4"))
+        #self.playButton.setText(_translate("MainWindow", "Play 1"))
+        #self.playButton1.setText(_translate("MainWindow", "Play 2"))
+        #self.playButton2.setText(_translate("MainWindow", "Play 3"))
+        #self.playButton3.setText(_translate("MainWindow", "Play 4"))
         self.label_51.setText(_translate("MainWindow", "SV:"))
         self.label_52.setText(_translate("MainWindow", "PV:"))
         self.pushButton_PV_flujo2.setText(_translate("MainWindow", "0000.0"))
@@ -7337,7 +7349,7 @@ class Ui_MainWindow(object):
         self.pushButton_PV_flujo6.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_SV_flujo6.setText(_translate("MainWindow", "0000.0"))
 
-        self.pushButtonSolenoide.setText(_translate("MainWindow", "ON"))
+        #self.pushButtonSolenoide.setText(_translate("MainWindow", "ON"))
         self.pushButtonLoadSolenoide.setText(_translate("MainWindow","0000.0"))
         self.pushButtonInjectionSolenoide.setText(_translate("MainWindow","0000.0"))
 
