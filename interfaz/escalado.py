@@ -439,6 +439,11 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
 
+        self.buttonTime= QtWidgets.QPushButton(self.centralWidget)
+        self.buttonTime.setGeometry(QtCore.QRect(500, 25, 90, 30))
+        self.buttonTime.setObjectName("pushButtonTime")
+        self.buttonTime.setStyleSheet("background-color:#2F4F4F; color: white")
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -1008,6 +1013,13 @@ class Ui_MainWindow(object):
                 self.instanciaModbus.writeValues_Escalado(float(valorVariableAModificar), self.controladorFlujo, self.IN_OUT, self.X_Y)
 
             time.sleep(0.2)
+
+            hora = time.strftime("%H:%M:%S")
+
+            try:
+                self.buttonTime.setText(hora)
+            except:
+                pass
 
     def decimalString(self, stringValue):
         stringValueReturn = stringValue

@@ -207,13 +207,11 @@ class Ui_MainWindow(object):
         self.playButton.setObjectName("playButton")
         self.playButton.setStyleSheet("background-color: black; color:white; font-size: 22pt; border-radius: 40px;")
 
-        print("estatus!!!!!!",self.statusHorno1PID)
         if(self.statusHorno1PID == 'True'):
             self.playButton.setIcon(QtGui.QIcon('../images/pause-button.png'))
         else:
             self.playButton.setIcon(QtGui.QIcon('../images/play-button.png'))
         
-
         self.playButton.setIconSize(QtCore.QSize(72,72))
 
         self.label_4 = QtWidgets.QLabel(self.centralWidget)
@@ -299,24 +297,6 @@ class Ui_MainWindow(object):
         self.labelLimInferiorSalida.setText(_translate("MainWindow", "Limite inferior de salida"))
         self.labelLimSuperiorIntegral.setText(_translate("MainWindow", "Limite superior integral"))
         self.labelGPWM.setText(_translate("MainWindow", "GPWM"))
-
-        #Buttons
-
-        #self.buttonTiempoMuestreo.setText(_translate("MainWindow", str(self.datosPID_PLC[0])))
-        #self.buttonGanProporcional.setText(_translate("MainWindow", str(self.datosPID_PLC[1])))
-        #self.buttonGanIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[2])))
-        #self.buttonGanDerivativa.setText(_translate("MainWindow", str(self.datosPID_PLC[3])))
-        #self.buttonDireccionControl.setText(_translate("MainWindow", str(self.datosPID_PLC[4])))
-        #self.buttonRangoToleranciaError.setText(_translate("MainWindow", str(self.datosPID_PLC[5])))
-        #self.buttonLimiteSuperiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[6])))
-        #self.buttonLimiteInferiorSalida.setText(_translate("MainWindow", str(self.datosPID_PLC[7])))
-        #self.buttonLimiteSuperiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[8])))
-        #self.buttonLimiteInferiorIntegral.setText(_translate("MainWindow", str(self.datosPID_PLC[9])))
-        #self.buttonValIntegralAcumulado.setText(_translate("MainWindow", str(self.datosPID_PLC[10])))
-        #self.buttonPVAnterior.setText(_translate("MainWindow", str(self.datosPID_PLC[11])))
-        #self.buttonSetValue.setText(_translate("MainWindow", str(self.datosPID_PLC[12])))
-        #self.buttonPresentValue.setText(_translate("MainWindow", str(self.datosPID_PLC[13])))
-        #self.buttonGPWM.setText(_translate("MainWindow", str(self.datosPID_PLC[14])))
 
         self.label_4.setText(_translate("MainWindow", "Auto ajuste PID"))
         self.label_6.setText(_translate("MainWindow", "SV:"))

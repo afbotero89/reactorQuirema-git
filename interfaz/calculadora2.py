@@ -535,36 +535,37 @@ class Ui_MainWindow(object):
                 #self.instanciaBD_alarmas.update_alarma(self.setValueString, self.alarmaSeleccionada)
 
     def setUpVariableBomba(self, variable):
+        try:
+            lenSplitStringValue = self.setValueString.split(".")
+            valor = ""
+            if(len(lenSplitStringValue)==1):
+                valor = self.setValueString 
+            elif(len(lenSplitStringValue)==2):
+                valor = lenSplitStringValue[0] + lenSplitStringValue[1]
 
-        lenSplitStringValue = self.setValueString.split(".")
-        valor = ""
-        if(len(lenSplitStringValue)==1):
-            valor = self.setValueString 
-        elif(len(lenSplitStringValue)==2):
-            valor = lenSplitStringValue[0] + lenSplitStringValue[1]
+            comando = bytes('start\r\n','UTF-8')
+            if(variable == "Units"):
+                comando = bytes('set units' + ' ' + str(valor) + '\r\n','UTF-8')
+            elif(variable == "Diameter"):
+                comando = bytes('set diameter' + ' ' + str(valor) + '\r\n','UTF-8')
+            elif(variable == "Rate"):
+                comando = bytes('set rate' + ' ' + str(valor) + '\r\n','UTF-8')
+            elif(variable== "Volume"):
+                comando = bytes('set volume' + ' ' + str(valor) + '\r\n','UTF-8')
+            elif(variable == "Delay"):
+                comando = bytes('set delay' + ' ' + str(valor) + '\r\n','UTF-8')
+            elif(variable == "Time"):
+                comando = bytes('set time' + ' ' + str(valor) + '\r\n','UTF-8')
+            print("variable =", variable , valor)
+            #try:
+                #comando = bytes('start\r\n','UTF-8')
+            self.sBomba.write(comando)
+            lectura = self.sBomba.readline()
+            lectura1 = self.sBomba.readline()
+            print("leido start", lectura, lectura1)
 
-        comando = bytes('start\r\n','UTF-8')
-        if(variable == "Units"):
-            comando = bytes('set units' + ' ' + str(valor) + '\r\n','UTF-8')
-        elif(variable == "Diameter"):
-            comando = bytes('set diameter' + ' ' + str(valor) + '\r\n','UTF-8')
-        elif(variable == "Rate"):
-            comando = bytes('set rate' + ' ' + str(valor) + '\r\n','UTF-8')
-        elif(variable== "Volume"):
-            comando = bytes('set volume' + ' ' + str(valor) + '\r\n','UTF-8')
-        elif(variable == "Delay"):
-            comando = bytes('set delay' + ' ' + str(valor) + '\r\n','UTF-8')
-        elif(variable == "Time"):
-            comando = bytes('set time' + ' ' + str(valor) + '\r\n','UTF-8')
-        print("variable =", variable , valor)
-        #try:
-            #comando = bytes('start\r\n','UTF-8')
-        self.sBomba.write(comando)
-        lectura = self.sBomba.readline()
-        lectura1 = self.sBomba.readline()
-        print("leido start", lectura, lectura1)
-        #except:
-            #pass
+        except:
+            pass
 
     def closeEvent_PID_reactor(self, event):
         self.MainWindow.close()

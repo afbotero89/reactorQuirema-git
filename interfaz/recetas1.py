@@ -477,6 +477,11 @@ class Ui_MainWindow(object):
         self.pushButton_Home.setIcon(QtGui.QIcon('../images/home.png'))
         self.pushButton_Home.setIconSize(QtCore.QSize(31,31))
 
+        self.buttonTime= QtWidgets.QPushButton(self.centralWidget)
+        self.buttonTime.setGeometry(QtCore.QRect(550, 25, 90, 30))
+        self.buttonTime.setObjectName("pushButtonTime")
+        self.buttonTime.setStyleSheet("background-color:#2F4F4F; color: white")
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -925,6 +930,14 @@ class Ui_MainWindow(object):
                 tiempo_R4String = self.decimalString(str(int(recetas[55],16)))
                 self.pushButton_TiempoR4.setText(tiempo_R4String)
                 time.sleep(0.005)
+            except:
+                pass
+
+
+            hora = time.strftime("%H:%M:%S")
+
+            try:
+                self.buttonTime.setText(hora)
             except:
                 pass
 
