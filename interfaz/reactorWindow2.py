@@ -56,6 +56,8 @@ class Ui_MainWindow(object):
                 self.statusHorno3Reactor = row[9]
                 self.statusHorno4Reactor = row[10]
 
+        self.allVisibleMantas = False
+
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1542,34 +1544,73 @@ class Ui_MainWindow(object):
 "qproperty-alignment: AlignCenter;")
         self.label_30.setObjectName("label_Mantas")
 
-        self.label_Mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_Mantas.setGeometry(QtCore.QRect(450, 40, 61, 21))
-        self.label_Mantas.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 51, 51, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"qproperty-alignment: AlignCenter;")
-        self.label_Mantas.setObjectName("label_Mantas")
+        self.pushButtonAllMantas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonAllMantas.setGeometry(QtCore.QRect(450, 60, 61, 21))
+        self.pushButtonAllMantas.setStyleSheet("color:black;")
+        self.pushButtonAllMantas.setObjectName("pushButtonPresentValueMantas")
+
+        self.pushButtonManta1 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta1.setGeometry(QtCore.QRect(210, 30, 71, 32))
+        self.pushButtonManta1.setStyleSheet("color:black;")
+        self.pushButtonManta1.setObjectName("pushButtonManta1")
+
+        self.pushButtonManta2 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta2.setGeometry(QtCore.QRect(270, 30, 71, 32))
+        self.pushButtonManta2.setStyleSheet("color:black;")
+        self.pushButtonManta2.setObjectName("pushButtonManta2")
+
+        self.pushButtonManta3 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta3.setGeometry(QtCore.QRect(330, 30, 71, 32))
+        self.pushButtonManta3.setStyleSheet("color:black;")
+        self.pushButtonManta3.setObjectName("pushButtonManta3")
+
+        self.pushButtonManta4 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta4.setGeometry(QtCore.QRect(390, 30, 71, 32))
+        self.pushButtonManta4.setStyleSheet("color:black;")
+        self.pushButtonManta4.setObjectName("pushButtonManta4")
+
+        self.pushButtonManta5 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta5.setGeometry(QtCore.QRect(450, 30, 71, 32))
+        self.pushButtonManta5.setStyleSheet("color:black;")
+        self.pushButtonManta5.setObjectName("pushButtonManta5")
+
+        self.pushButtonManta6 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta6.setGeometry(QtCore.QRect(510, 30, 71, 32))
+        self.pushButtonManta6.setStyleSheet("color:black;")
+        self.pushButtonManta6.setObjectName("pushButtonManta6")
+
+        self.pushButtonManta7 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta7.setGeometry(QtCore.QRect(580, 30, 71, 32))
+        self.pushButtonManta7.setStyleSheet("color:black;")
+        self.pushButtonManta7.setObjectName("pushButtonManta7")
+
+        self.pushButtonManta8 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonManta8.setGeometry(QtCore.QRect(650, 30, 71, 32))
+        self.pushButtonManta8.setStyleSheet("color:black;")
+        self.pushButtonManta8.setObjectName("pushButtonManta8")
 
         self.label_SV_mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_SV_mantas.setGeometry(QtCore.QRect(450, 70, 41, 26))
+        self.label_SV_mantas.setGeometry(QtCore.QRect(450, 90, 41, 26))
         self.label_SV_mantas.setStyleSheet("color:white;")
         self.label_SV_mantas.setObjectName("label_SV_mantas")
 
         self.pushButtonSetValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(480, 70, 51, 20))
+        self.pushButtonSetValueMantas.setGeometry(QtCore.QRect(480, 90, 51, 20))
         self.pushButtonSetValueMantas.setStyleSheet("color:black;")
         self.pushButtonSetValueMantas.setObjectName("setValueMantas")
 
         self.label_PV_mantas = QtWidgets.QLabel(self.centralWidget)
-        self.label_PV_mantas.setGeometry(QtCore.QRect(450, 100, 41, 26))
+        self.label_PV_mantas.setGeometry(QtCore.QRect(450, 120, 41, 26))
         self.label_PV_mantas.setStyleSheet("color:white;")
         self.label_PV_mantas.setObjectName("label_PV_mantas")
 
         self.pushButtonPresentValueMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(480, 100, 51, 20))
+        self.pushButtonPresentValueMantas.setGeometry(QtCore.QRect(480, 120, 51, 20))
         self.pushButtonPresentValueMantas.setStyleSheet("color:black;")
         self.pushButtonPresentValueMantas.setObjectName("pushButtonPresentValueMantas")
 
         self.pushButtonStart_StopMantas = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(480, 130, 51, 20))
+        self.pushButtonStart_StopMantas.setGeometry(QtCore.QRect(480, 150, 51, 20))
 
         if(self.statusMantas == "True"):
             self.pushButtonStart_StopMantas.setStyleSheet("color:white;background-color:red")
@@ -7264,6 +7305,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Quirema"))
         self.label.setText(_translate("MainWindow", "                   Quirema                                     Reactor"))
         #self.label_7.setText(_translate("MainWindow", "P"))
+        self.pushButtonAllMantas.setText(_translate("MainWindow", "Mantas"))
+        self.pushButtonAllMantas.setStyleSheet("background-color:green; color:white")
+
         self.pushButton_SV1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_PV1.setText(_translate("MainWindow", "000.0"))
         self.pushButton_R1.setText(_translate("MainWindow", "000.0"))
@@ -7306,7 +7350,6 @@ class Ui_MainWindow(object):
         self.label_27.setText(_translate("MainWindow", " Analizador vent"))
         self.label_28.setText(_translate("MainWindow", "4-way valve"))
         self.label_30.setText(_translate("MainWindow", "Bomba"))
-        self.label_Mantas.setText(_translate("MainWindow","Mantas"))
 
         self.pushButtonSetValueMantas.setText(_translate("MainWindow", "SV:"))
         self.pushButtonPresentValueMantas.setText(_translate("MainWindow", "PV:"))
@@ -7348,6 +7391,16 @@ class Ui_MainWindow(object):
         self.pushButton_SV_flujo5.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_PV_flujo6.setText(_translate("MainWindow", "0000.0"))
         self.pushButton_SV_flujo6.setText(_translate("MainWindow", "0000.0"))
+
+
+        self.pushButtonManta1.setVisible(False)
+        self.pushButtonManta2.setVisible(False)
+        self.pushButtonManta3.setVisible(False)
+        self.pushButtonManta4.setVisible(False)
+        self.pushButtonManta5.setVisible(False)
+        self.pushButtonManta6.setVisible(False)
+        self.pushButtonManta7.setVisible(False)
+        self.pushButtonManta8.setVisible(False)
 
         #self.pushButtonSolenoide.setText(_translate("MainWindow", "ON"))
         self.pushButtonLoadSolenoide.setText(_translate("MainWindow","0000.0"))
@@ -7425,11 +7478,35 @@ class Ui_MainWindow(object):
         self.pushButton_stop_bomba.clicked.connect(self.stopBomba)
         self.pushButton_pause_bomba.clicked.connect(self.pauseBomba)
 
+        self.pushButtonAllMantas.clicked.connect(self.seeAllMantas)
+
     def home(self):
         self.flag_DesactivaVista = True
         self.home = Home.Ui_MainWindow()
         self.home.setupUi(self.MainWindow, self.s, self.sBomba)
         #self.t.cancel()
+
+    def seeAllMantas(self):
+        if(self.allVisibleMantas == False):
+            self.allVisibleMantas = True
+            self.pushButtonManta1.setVisible(True)
+            self.pushButtonManta2.setVisible(True)
+            self.pushButtonManta3.setVisible(True)
+            self.pushButtonManta4.setVisible(True)
+            self.pushButtonManta5.setVisible(True)
+            self.pushButtonManta6.setVisible(True)
+            self.pushButtonManta7.setVisible(True)
+            self.pushButtonManta8.setVisible(True)
+        else:
+            self.allVisibleMantas = False
+            self.pushButtonManta1.setVisible(False)
+            self.pushButtonManta2.setVisible(False)
+            self.pushButtonManta3.setVisible(False)
+            self.pushButtonManta4.setVisible(False)
+            self.pushButtonManta5.setVisible(False)
+            self.pushButtonManta6.setVisible(False)
+            self.pushButtonManta7.setVisible(False)
+            self.pushButtonManta8.setVisible(False)
 
     #Variable del horno o controlador de flujo (MFC) (variable): SV: set value, PV: present Value, R: rampa, X: por definir     
     # Equipo seleccionado: Se refiere que selecciono el usuario para modificar (hornos o controladores de flujo(MFC))
@@ -7766,6 +7843,53 @@ class Ui_MainWindow(object):
                 self.pushButtonSetValueMantas.setText(setValueMantasString)
             except:
                 pass
+
+            # Visualiza el valor de las mantas
+
+            if(self.allVisibleMantas == True):
+                variablesMantas = self.instanciaModbus.readRegister_ReactorMantas()
+
+                setValueManta1String = self.decimalString(str(int(variablesMantas[0],16)))
+                self.pushButtonManta1.setText(setValueManta1String)
+
+                time.sleep(0.005)
+
+                setValueManta2String = self.decimalString(str(int(variablesMantas[1],16)))
+                self.pushButtonManta2.setText(setValueManta2String)
+
+                time.sleep(0.005)
+
+                setValueManta3String = self.decimalString(str(int(variablesMantas[2],16)))
+                self.pushButtonManta3.setText(setValueManta3String)
+
+                time.sleep(0.005)
+
+                setValueManta4String = self.decimalString(str(int(variablesMantas[3],16)))
+                self.pushButtonManta4.setText(setValueManta4String)
+
+                time.sleep(0.005)
+
+                setValueManta5String = self.decimalString(str(int(variablesMantas[4],16)))
+                self.pushButtonManta5.setText(setValueManta5String)
+
+                time.sleep(0.005)
+
+                setValueManta6String = self.decimalString(str(int(variablesMantas[5],16)))
+                self.pushButtonManta6.setText(setValueManta6String)
+
+                time.sleep(0.005)
+
+                setValueManta7String = self.decimalString(str(int(variablesMantas[6],16)))
+                self.pushButtonManta7.setText(setValueManta7String)
+
+                time.sleep(0.005)
+
+                setValueManta8String = self.decimalString(str(int(variablesMantas[7],16)))
+                self.pushButtonManta8.setText(setValueManta8String)
+
+                time.sleep(0.005)
+
+
 
             hora = time.strftime("%H:%M:%S")
             date = time.strftime("%d-%m-%Y")

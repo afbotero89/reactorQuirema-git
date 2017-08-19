@@ -257,6 +257,48 @@ class modbus:
 		except:
 			pass
 
+	def readRegister_ReactorMantas(self):
+		global s
+		#print("horno=",horno_manta_seleccionada)
+		try:
+			self.registrosHorno = []
+
+			sufijo = '0008' #Numero de registros a leer, 68 en este caso
+			###### leyendo 11 registros 000B registros #######
+			#vectorRegistros[0] -> vamos a leer 11 registros a partir del primero, split('x')-> porque el retorno es con formato 0x0A, pos[1]-> el split retorna (0,0a), upper() para volverlo mayuscula
+			registro = '108C'    
+			
+			modbusCommand = self.prefijo_lectura + registro + sufijo
+
+			#Calculo del chec sum: FF - (suma de todos los bits por pares) + 1
+			checkSum = self.checkSumCalculation(modbusCommand)
+
+			comandoModbus = self.startBit + modbusCommand + checkSum + '\r\n'
+
+			s.write(bytes(comandoModbus,'UTF-8'))	
+			
+			time.sleep(0.1)
+			
+			#print(self.startBit + modbusCommand + checkSum)
+
+			variables = s.readline()   # lee serial
+
+			#print(variablesPID_4506_4518)
+			# ej retorno plc(plc -> pc) =  ':01 03 0C = numero de bytes 00 0A 00 14 00 1E 00 28 00 32 00 3C 1E'
+
+			variables = str(variables).split(':')[1]
+
+			registros = list(variables)
+
+			registros = registros[6::] #Se discriminan los primeros 6 bits (01 direccion, 03 lectura escritura, 0C contador bits)
+			
+			for i in range(8):
+				self.registrosHorno.append(registros[i*4] + registros[(i*4) + 1] + registros[(i*4) + 2] + registros[(i*4) + 3])
+
+			# Agrupo lista en grupos de cuatro
+			return self.registrosHorno
+		except:
+			pass
 	################################################
 	### Hornos lecturas de datos, vista variables PID
 	################################################
