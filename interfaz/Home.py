@@ -43,38 +43,32 @@ class Ui_MainWindow(object):
 
         buttonStyle = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); border-style: outset; border-width: 1px; border-radius: 20px; border-color: #AFAFAF; padding: 6px; font-size: 25pt;"
 
-        self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(100, 100, 271, 80))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(buttonStyle)
+        self.pushButtonPID = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonPID.setGeometry(QtCore.QRect(100, 100, 271, 80))
+        self.pushButtonPID.setObjectName("pushButtonPID")
+        self.pushButtonPID.setStyleSheet(buttonStyle)
 
-        #self.pushButtonIcon = QtWidgets.QPushButton(self.centralWidget)
-        #self.pushButtonIcon.setGeometry(QtCore.QRect(130, 105, 100, 70))
-        #self.pushButtonIcon.setObjectName("pushButton")
+        self.pushButtonEscalado = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonEscalado.setGeometry(QtCore.QRect(410, 185, 271, 80))
+        self.pushButtonEscalado.setObjectName("pushButtonEscalado")
+        self.pushButtonEscalado.setStyleSheet(buttonStyle)
 
-        #rMyIcon = QtGui.QPixmap("../images/quirema.png")
-        #self.pushButtonIcon.setIconSize(QtCore.QSize(70,70))
-        #self.pushButtonIcon.setIcon(QtGui.QIcon(rMyIcon))
+        self.pushButtonAlarmas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonAlarmas.setGeometry(QtCore.QRect(100, 320, 271, 80))
+        self.pushButtonAlarmas.setObjectName("pushButtonAlarmas")
+        self.pushButtonAlarmas.setStyleSheet(buttonStyle)
+        self.pushButtonAlarmas.setEnabled(False)
+        self.pushButtonAlarmas.setVisible(False)
 
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(410, 100, 271, 80))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(buttonStyle)
+        self.pushButtonRecetas = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonRecetas.setGeometry(QtCore.QRect(410, 320, 271, 80))
+        self.pushButtonRecetas.setObjectName("pushButtonRecetas")
+        self.pushButtonRecetas.setStyleSheet(buttonStyle)
 
-        self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(100, 320, 271, 80))
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(buttonStyle)
-
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(410, 320, 271, 80))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.setStyleSheet(buttonStyle)
-
-        self.pushButton_6 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(260, 210, 271, 80))
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.pushButton_6.setStyleSheet(buttonStyle)
+        self.pushButtonReactor = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonReactor.setGeometry(QtCore.QRect(100, 240, 271, 80))
+        self.pushButtonReactor.setObjectName("pushButtonReactor")
+        self.pushButtonReactor.setStyleSheet(buttonStyle)
 
         self.label0 = QtWidgets.QLabel(self.centralWidget)
         self.label0.setGeometry(QtCore.QRect(0, 0, 800, 71))
@@ -107,17 +101,17 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("Control PLC", "Control PLC"))
-        self.pushButton.setText(_translate("MainWindow", "PID"))
-        self.pushButton_2.setText(_translate("MainWindow", "Escalado"))
-        self.pushButton_3.setText(_translate("MainWindow", "Alarmas"))
-        self.pushButton_4.setText(_translate("MainWindow", "Recetas"))
-        self.pushButton_6.setText(_translate("MainWindow", "Reactor"))
+        self.pushButtonPID.setText(_translate("MainWindow", "PID"))
+        self.pushButtonEscalado.setText(_translate("MainWindow", "Escalado"))
+        self.pushButtonAlarmas.setText(_translate("MainWindow", "Alarmas"))
+        self.pushButtonRecetas.setText(_translate("MainWindow", "Recetas"))
+        self.pushButtonReactor.setText(_translate("MainWindow", "Reactor"))
 
-        self.pushButton.clicked.connect(self.PIDInterface)
-        self.pushButton_2.clicked.connect(self.escaladoMainWindow)
-        self.pushButton_3.clicked.connect(self.alarms)
-        self.pushButton_4.clicked.connect(self.recetas)
-        self.pushButton_6.clicked.connect(self.rectorMainWindow)
+        self.pushButtonPID.clicked.connect(self.PIDInterface)
+        self.pushButtonEscalado.clicked.connect(self.escaladoMainWindow)
+        self.pushButtonAlarmas.clicked.connect(self.alarms)
+        self.pushButtonRecetas.clicked.connect(self.recetas)
+        self.pushButtonReactor.clicked.connect(self.rectorMainWindow)
         
     def PIDInterface(self):
         # Indica en que seccion se encuentra el usuario: PID, Escalado, Alarmas, Recetas, Graficos, Reactor

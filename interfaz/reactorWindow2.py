@@ -7191,7 +7191,6 @@ class Ui_MainWindow(object):
 
         self.playButton.setObjectName("playButton")
 
-
         self.playButton1 = QtWidgets.QPushButton(self.centralWidget)
         self.playButton1.setGeometry(QtCore.QRect(670, 324, 41, 32))
 
@@ -7845,50 +7844,51 @@ class Ui_MainWindow(object):
                 pass
 
             # Visualiza el valor de las mantas
+            try:
+                if(self.allVisibleMantas == True):
+                    variablesMantas = self.instanciaModbus.readRegister_ReactorMantas()
 
-            if(self.allVisibleMantas == True):
-                variablesMantas = self.instanciaModbus.readRegister_ReactorMantas()
+                    setValueManta1String = "1:  " + self.decimalString(str(int(variablesMantas[0],16)))
+                    self.pushButtonManta1.setText(setValueManta1String)
 
-                setValueManta1String = self.decimalString(str(int(variablesMantas[0],16)))
-                self.pushButtonManta1.setText(setValueManta1String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta2String = "2:  " + self.decimalString(str(int(variablesMantas[1],16)))
+                    self.pushButtonManta2.setText(setValueManta2String)
 
-                setValueManta2String = self.decimalString(str(int(variablesMantas[1],16)))
-                self.pushButtonManta2.setText(setValueManta2String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta3String = "3:  " + self.decimalString(str(int(variablesMantas[2],16)))
+                    self.pushButtonManta3.setText(setValueManta3String)
 
-                setValueManta3String = self.decimalString(str(int(variablesMantas[2],16)))
-                self.pushButtonManta3.setText(setValueManta3String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta4String = "4:  " + self.decimalString(str(int(variablesMantas[3],16)))
+                    self.pushButtonManta4.setText(setValueManta4String)
 
-                setValueManta4String = self.decimalString(str(int(variablesMantas[3],16)))
-                self.pushButtonManta4.setText(setValueManta4String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta5String = "5:  " + self.decimalString(str(int(variablesMantas[4],16)))
+                    self.pushButtonManta5.setText(setValueManta5String)
 
-                setValueManta5String = self.decimalString(str(int(variablesMantas[4],16)))
-                self.pushButtonManta5.setText(setValueManta5String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta6String = "6:  " + self.decimalString(str(int(variablesMantas[5],16)))
+                    self.pushButtonManta6.setText(setValueManta6String)
 
-                setValueManta6String = self.decimalString(str(int(variablesMantas[5],16)))
-                self.pushButtonManta6.setText(setValueManta6String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta7String = "7:  " + self.decimalString(str(int(variablesMantas[6],16)))
+                    self.pushButtonManta7.setText(setValueManta7String)
 
-                setValueManta7String = self.decimalString(str(int(variablesMantas[6],16)))
-                self.pushButtonManta7.setText(setValueManta7String)
+                    time.sleep(0.005)
 
-                time.sleep(0.005)
+                    setValueManta8String = "8:  " + self.decimalString(str(int(variablesMantas[7],16)))
+                    self.pushButtonManta8.setText(setValueManta8String)
 
-                setValueManta8String = self.decimalString(str(int(variablesMantas[7],16)))
-                self.pushButtonManta8.setText(setValueManta8String)
-
-                time.sleep(0.005)
-
+                    time.sleep(0.005)
+            except:
+                pass        
 
 
             hora = time.strftime("%H:%M:%S")
