@@ -23,39 +23,28 @@ class Ui_MainWindow_PIDParameters(object):
 
         self.centralWidget = QtWidgets.QWidget(MainWindow1)
         self.centralWidget.setObjectName("centralWidget")
-        self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(5, 160, 190, 81))
-        self.pushButton.setObjectName("pushButton")
+        self.pushButtonHorno1 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonHorno1.setGeometry(QtCore.QRect(130, 150, 190, 81))
+        self.pushButtonHorno1.setObjectName("pushButtonHorno1")
+
         self.pushButtonHorno2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonHorno2.setGeometry(QtCore.QRect(205, 160, 190, 81))
+        self.pushButtonHorno2.setGeometry(QtCore.QRect(440, 150, 190, 81))
         self.pushButtonHorno2.setObjectName("pushButtonHorno2")
+
         self.pushButtonHorno3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonHorno3.setGeometry(QtCore.QRect(405, 160, 190, 81))
+        self.pushButtonHorno3.setGeometry(QtCore.QRect(130, 290, 190, 81))
         self.pushButtonHorno3.setObjectName("pushButtonHorno3")
+
         self.pushButtonHorno4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonHorno4.setGeometry(QtCore.QRect(605, 160, 190, 81))
+        self.pushButtonHorno4.setGeometry(QtCore.QRect(440, 290, 190, 81))
         self.pushButtonHorno4.setObjectName("pushButtonHorno4")
-        self.pushButtonManta1 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonManta1.setGeometry(QtCore.QRect(150, 270, 121, 51))
-        self.pushButtonManta1.setObjectName("pushButtonManta1")
-        self.pushButtonManta2 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonManta2.setGeometry(QtCore.QRect(350, 270, 121, 51))
-        self.pushButtonManta2.setObjectName("pushButtonManta2")
+
         self.label = QtWidgets.QLabel(self.centralWidget)
         self.label.setGeometry(QtCore.QRect(280, 100, 261, 25))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.pushButtonManta3 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonManta3.setGeometry(QtCore.QRect(560, 270, 121, 51))
-        self.pushButtonManta3.setObjectName("pushButtonManta3")
-        self.pushButtonManta4 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonManta4.setGeometry(QtCore.QRect(240, 340,  121, 51))
-        self.pushButtonManta4.setObjectName("pushButtonManta4")
-        self.pushButtonManta5 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButtonManta5.setGeometry(QtCore.QRect(440, 340, 121, 51))
-        self.pushButtonManta5.setObjectName("pushButtonManta5")
 
         self.label0 = QtWidgets.QLabel(self.centralWidget)
         self.label0.setGeometry(QtCore.QRect(0, 0, 800, 71))
@@ -64,11 +53,11 @@ class Ui_MainWindow_PIDParameters(object):
         self.label0.setScaledContents(True)
 
 
-        self.pushButton0 = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton0.setGeometry(QtCore.QRect(0, 0, 71, 71))
-        self.pushButton0.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
-        self.pushButton0.setIcon(QtGui.QIcon('../images/home.png'))
-        self.pushButton0.setIconSize(QtCore.QSize(31,31))
+        self.pushButtonHome = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButtonHome.setGeometry(QtCore.QRect(0, 0, 71, 71))
+        self.pushButtonHome.setStyleSheet("background-color: #222222; color:white; font-size: 22pt;")
+        self.pushButtonHome.setIcon(QtGui.QIcon('../images/home.png'))
+        self.pushButtonHome.setIconSize(QtCore.QSize(31,31))
 
         self.label1 = QtWidgets.QLabel(self.centralWidget)
         self.label1.setGeometry(QtCore.QRect(644, 0, 120, 71))
@@ -95,42 +84,30 @@ class Ui_MainWindow_PIDParameters(object):
     def retranslateUi(self, MainWindow1):
         _translate = QtCore.QCoreApplication.translate
         MainWindow1.setWindowTitle(_translate("Parametros PID", "Parametros PID"))
-        self.pushButton.setText(_translate("MainWindow1", "Horno 1"))
+        self.pushButtonHorno1.setText(_translate("MainWindow1", "Horno 1"))
         self.pushButtonHorno2.setText(_translate("MainWindow1", "Horno 2"))
         self.pushButtonHorno3.setText(_translate("MainWindow1", "Horno 3"))
         self.pushButtonHorno4.setText(_translate("MainWindow1", "Horno 4"))
-        self.pushButtonManta1.setText(_translate("MainWindow1", "Manta 1"))
-        self.pushButtonManta2.setText(_translate("MainWindow1", "Manta 2"))
+
         self.label.setText(_translate("MainWindow1", "Modificar parametros PID"))
-        self.pushButtonManta3.setText(_translate("MainWindow1", "Manta 3"))
-        self.pushButtonManta4.setText(_translate("MainWindow1", "Manta 4"))
-        self.pushButtonManta5.setText(_translate("MainWindow1", "Manta 5"))
         self.addAdditionalAttributes()
 
 
         self.label.setStyleSheet("color: white; font-size: 18pt;")
-        self.pushButton.clicked.connect(lambda: self.setPID_parameters('horno1'))
+        self.pushButtonHorno1.clicked.connect(lambda: self.setPID_parameters('horno1'))
         self.pushButtonHorno2.clicked.connect(lambda: self.setPID_parameters('horno2'))
         self.pushButtonHorno3.clicked.connect(lambda: self.setPID_parameters('horno3'))
         self.pushButtonHorno4.clicked.connect(lambda: self.setPID_parameters('horno4'))
-        self.pushButtonManta1.clicked.connect(lambda: self.setPID_parameters('manta1'))
-        self.pushButtonManta2.clicked.connect(lambda: self.setPID_parameters('manta2'))
-        self.pushButtonManta3.clicked.connect(lambda: self.setPID_parameters('manta3'))
-        self.pushButtonManta4.clicked.connect(lambda: self.setPID_parameters('manta4'))
-        self.pushButtonManta5.clicked.connect(lambda: self.setPID_parameters('manta5'))
-        self.pushButton0.clicked.connect(self.home)
+        
+        self.pushButtonHome.clicked.connect(self.home)
 
     def addAdditionalAttributes(self):
         buttonStyle = "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255)); border-style: outset; border-width: 1px; border-radius: 10px; border-color: white; padding: 6px; font-size: 25pt;"
-        self.pushButton.setStyleSheet(buttonStyle)
+        self.pushButtonHorno1.setStyleSheet(buttonStyle)
         self.pushButtonHorno2.setStyleSheet(buttonStyle)
         self.pushButtonHorno3.setStyleSheet(buttonStyle)
         self.pushButtonHorno4.setStyleSheet(buttonStyle)
-        self.pushButtonManta1.setStyleSheet(buttonStyle)
-        self.pushButtonManta2.setStyleSheet(buttonStyle)
-        self.pushButtonManta3.setStyleSheet(buttonStyle)
-        self.pushButtonManta4.setStyleSheet(buttonStyle)
-        self.pushButtonManta5.setStyleSheet(buttonStyle)
+        
 
     def setPID_parameters(self, horno_manta_seleccionada):
         self.pidInterface = setPID_parameters.Ui_MainWindow()
